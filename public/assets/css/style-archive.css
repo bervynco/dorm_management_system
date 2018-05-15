@@ -1,0 +1,1397 @@
+
+
+.scrollbar-rail > .scroll-element {
+    background-color: transparent;
+}
+
+    .scrollbar-rail > .scroll-element .scroll-bar:hover {
+        background-color: rgba(50,50,50, 0.9);
+    }
+
+    .scrollbar-rail > .scroll-element .scroll-bar {
+        background-color: rgba(50,50,50, .9);
+        transition: background-color 1s;
+        will-change: background-color;
+    }
+
+    .scrollbar-rail > .scroll-element.scroll-y .scroll-element_size {
+        background-color: rgba(50,50,50,0.7);
+    }
+/* latin */
+
+.grid-layer {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 0 !important;
+    /*background: url(/assets/images/bg/grid-light-block.png) repeat center center fixed;*/
+    background: url(/sapphire/assets/images/bg/grid-light-block.png) repeat center center fixed;
+    opacity: .08;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Box Container */
+
+.box-container {
+    border: 1px solid rgba(0,0,0, 0.8);
+    background-color: rgba(50,50,50, 0.05);
+}
+
+    .box-container > div.head {
+        border-top: 1px solid rgba(212,228,239, .6);
+        border-left: 1px solid rgba(212,228,239, .6);
+        border-right: 1px solid rgba(212,228,239, .6);
+        background-color: rgba(50,50,50, .8);
+        padding-left: 10px !important;
+        padding-right: 5px;
+    }
+
+        .box-container > div.head span.title {
+            /*font-size: 100%;*/
+            font-size: 1vw;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: rgba(255,255,255, 1);
+        }
+
+        .box-container > div.head span.subtitle {
+            font-size: 80%;
+            color: rgba(255,255,255, 0.5);
+        }
+/* End of Box Container */
+
+
+
+md-divider {
+    margin: 5px 3px;
+}
+
+
+/* MAP CLASS */
+hud-map {
+    will-change: opacity;
+}
+
+    hud-map.fadein {
+        animation: fadein 1s;
+        opacity: 1;
+    }
+
+    hud-map.fadeout {
+        animation: fadeout 1s;
+        opacity: 0;
+    }
+
+button.map-back-button {
+    z-index: 2;
+    position: absolute;
+    top: 2%;
+    left: 1%;
+    border: 1px solid rgba(41,56,66,0.3);
+    background-color: rgba(41,56,66,0.1);
+    color: rgba(255,255,255,0.8);
+    animation: mapBackButtonEnter 1s;
+    will-change: opacity, left, color, background-color,border;
+    padding: 10px 15px 15px 15px;
+    transition: color 1s, background-color 1s, border 1s;
+}
+
+    button.map-back-button:hover {
+        background-color: rgba(41,56,66,0.5);
+        color: rgba(50,50,50, 0.75);
+        border: 1px solid rgba(50,50,50, 0.75);
+    }
+
+
+
+/* AO PAGE */
+div.cbp-panel.horizontal {
+    will-change: height;
+    padding: 10px;
+    position: absolute;
+    height: 35%;
+    width: 100%;
+    bottom: 0;
+    overflow: hidden;
+    transition: height 1s;
+}
+
+    div.cbp-panel.horizontal div.cbp-item {
+        background-color: rgba(96, 128, 149, .3);
+        margin: 3px;
+        padding-left: 10px;
+        border: 1px solid rgba(96, 128, 149, .1);
+        transition: color 1s, background-color 1s, border 1s;
+        cursor: pointer;
+    }
+
+        div.cbp-panel.horizontal div.cbp-item:hover {
+            background-color: rgba(41,56,66,0.5);
+            color: rgba(50,50,50, 0.75);
+            border: 1px solid rgba(50,50,50, 0.75);
+        }
+
+        div.cbp-panel.horizontal div.cbp-item svg {
+            will-change: fill;
+            fill: rgba(96, 128, 149, .4);
+            transition: fill 1s;
+        }
+
+        div.cbp-panel.horizontal div.cbp-item:hover svg {
+            fill: rgba(50,50,50, 0.75);
+        }
+
+        div.cbp-panel.horizontal div.cbp-item > span {
+            font-size: 90%;
+            margin-top: -4px;
+        }
+
+    div.cbp-panel.horizontal > div.box-container {
+        background-color: rgba(212,228,239, .8);
+        overflow: hidden;
+        height: 85%;
+        will-change: height;
+        opacity: 1;
+        transition: height 1s,opacity 1s;
+    }
+
+    div.cbp-panel.horizontal.min > div.box-container {
+        height: 0%;
+        opacity: 0;
+    }
+
+    div.cbp-panel.horizontal.min {
+        height: 8%;
+    }
+
+
+hud-map, hud-map * {
+    will-change: width;
+}
+
+div.cbp-panel.vertical {
+    will-change: height;
+    padding: 10px;
+    height: 90%;
+    width: 20%;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    transition: width 0.5s;
+}
+
+    div.cbp-panel.vertical div.cbp-item {
+        background-color: rgba(96, 128, 149, .3);
+        margin: 3px;
+        padding-left: 10px;
+        border: 1px solid rgba(96, 128, 149, .1);
+        transition: color 1s, background-color 1s, border 1s;
+        cursor: pointer;
+    }
+
+        div.cbp-panel.vertical div.cbp-item:hover {
+            background-color: rgba(41,56,66,0.5);
+            color: rgba(50,50,50, 0.75);
+            border: 1px solid rgba(50,50,50, 0.75);
+        }
+
+        div.cbp-panel.vertical div.cbp-item svg {
+            will-change: fill;
+            fill: rgba(96, 128, 149, .4);
+            transition: fill 1s;
+        }
+
+        div.cbp-panel.vertical div.cbp-item:hover svg {
+            fill: rgba(50,50,50, 0.75);
+        }
+
+        div.cbp-panel.vertical div.cbp-item > span {
+            font-size: 90%;
+            margin-top: -4px;
+        }
+
+    div.cbp-panel.vertical > div.box-container {
+        background-color: rgba(212,228,239, .8);
+        overflow: hidden;
+        height: 95%;
+        will-change: height;
+        opacity: 1;
+        transition: height 1s,opacity 1s;
+    }
+
+    div.cbp-panel.vertical.min > div.box-container {
+        width: 0%;
+        opacity: 0;
+    }
+
+    div.cbp-panel.vertical.min {
+        width: 5%;
+    }
+
+svg.peity > path:first-child {
+    cursor: crosshair;
+    -moz-box-shadow: -5px -5px 5px #888;
+    -webkit-box-shadow: -5px -5px 5px #888;
+    box-shadow: -5px -5px 5px #888;
+}
+
+div.floating-container {
+    position: absolute;
+    height: 15%;
+    width: 98%;
+    bottom: 0;
+    margin: 1% 1% 1% 1%;
+    animation: btt-in 0.5s;
+    will-change: bottom;
+}
+
+    div.floating-container.ng-leave {
+        animation: btt-out 1s;
+    }
+
+    div.floating-container div.box-container {
+        margin: 0 0 0 0.25%;
+        background-color:rgba(50,50,50, 0.3) !important;
+    }
+
+
+div.vertical-container-circs {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    width: 10%;
+    /*padding: 0.5% 0.5% 0.5% 0%;*/
+}
+
+    div.vertical-container-circs button {
+        margin-right: 0% !important;
+        animation: rtl-in 0.5s;
+    }
+
+    div.vertical-container-circs > div.box-container {
+        border-radius: 100%;
+        margin: 5% 15% 5% 20%;
+        animation: scalein 1s;
+        will-change: transform;
+        padding: 10px;
+    }
+
+        div.vertical-container-circs > div.box-container > span.name {
+            font-size: 80%;
+            text-align: center;
+            word-break: break-word;
+            color: rgba(50,50,50,0.7);
+        }
+
+        div.vertical-container-circs > div.box-container > span.value {
+            font-size: 60%;
+            text-align: center;
+            word-break: break-word;
+            text-transform: uppercase;
+        }
+
+            div.vertical-container-circs > div.box-container > span.value.green {
+                color: rgba(100,255,0, 0.8);
+            }
+
+            div.vertical-container-circs > div.box-container > span.value.red {
+                color: rgba(249, 27, 53, 0.8);
+            }
+
+            div.vertical-container-circs > div.box-container > span.value.yellow {
+                color: rgba(255,237,0, 0.8);
+            }
+
+        div.vertical-container-circs > div.box-container.green {
+            border: 1px solid rgba(100,255,0, .3);
+            background-color: rgba(100,255,0, .1);
+        }
+
+        div.vertical-container-circs > div.box-container.red {
+            border: 1px solid rgba(249, 27, 53, .3);
+            background-color: rgba(249, 27, 53, .1);
+        }
+
+        div.vertical-container-circs > div.box-container.yellow {
+            border: 1px solid rgba(255,237,0, .3);
+            background-color: rgba(255,237,0, .1);
+        }
+
+    div.vertical-container-circs.ng-leave > div.box-container {
+        animation: scaleout 1s;
+    }
+
+    div.vertical-container-circs.ng-leave {
+        animation: fadeout 1s;
+    }
+
+div.vertical-container-listview {
+    width: 17%;
+    right: 0;
+    position: absolute;
+    height: 100%;
+    animation: rtl-in 0.5s;
+    margin: 0.5% 0.5% 0.5% 0%;
+    z-index: 11;
+    opacity: !important;
+    will-change: right;
+}
+
+    div.vertical-container-listview.ng-leave {
+        animation: rtl-out 0.5s;
+    }
+
+
+
+/* CBP DETAILED */
+div.chart-container > div.box-container {
+    margin: 1.5px;
+}
+
+    div.chart-container > div.box-container:first-child {
+        margin-left: 8px;
+    }
+
+    div.chart-container > div.box-container:last-child {
+        margin-right: 8px;
+    }
+
+
+div.chart-container.vert > div.box-container {
+    margin: 1.5px;
+}
+
+    div.chart-container.vert > div.box-container:first-child {
+        margin-left: 8px;
+    }
+
+    div.chart-container.vert > div.box-container:last-child {
+        margin-right: 1px;
+    }
+
+div.rgraph-container > div.box-container {
+    margin: 1.5px 8px 1.5px 1.5px;
+}
+
+div.detail-container > div.box-container {
+    margin: 1.5px;
+    margin-left: 8px;
+}
+
+
+    div.detail-container > div.box-container.diff {
+        background-color: transparent;
+        border: none;
+    }
+
+        div.detail-container > div.box-container.diff > div.box-container {
+            margin: 0px 3px 0px 0px;
+        }
+
+            div.detail-container > div.box-container.diff > div.box-container:first-child {
+                margin: 0px 3px 0px 0px;
+            }
+
+            div.detail-container > div.box-container.diff > div.box-container:last-child {
+                margin: 0px 0px 0px 0px;
+            }
+
+div.list-item {
+    padding-left: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
+    height: 5%;
+    transition: margin-left 1s, height 1s;
+}
+
+    div.list-item > div.info {
+        margin-left: 3px;
+        margin-right: 3px;
+        padding-bottom: 4.5px;
+        border-bottom: 1px solid rgba(96, 128, 149, .3);
+        transition: border-bottom 1s;
+    }
+
+        div.list-item > div.info:hover {
+            border-bottom: 1px solid rgba(253,81,9,.8);
+        }
+
+    div.list-item div.status {
+        margin: 3px;
+        background-color: rgba(96, 128, 149, .3);
+    }
+
+        div.list-item div.status.green {
+            background-color: rgba(50,50,50, 0.8);
+            -webkit-box-shadow: 0px 0px 10px 0px rgba(253,81,9,.8);
+            -moz-box-shadow: 0px 0px 10px 0px rgba(253,81,9,.8);
+            box-shadow: 0px 0px 10px 0px rgba(253,81,9,.8);
+        }
+
+    div.list-item.ng-enter-active {
+        margin-left: -100%;
+        height: 0%;
+        transition: margin-left 1s, height 1s;
+    }
+
+    div.list-item.ng-leave-active {
+        margin-left: -100%;
+        height: 0%;
+        transition: margin-left 1s, height 1s;
+    }
+
+div.component-list {
+}
+
+div.status-container {
+    width: 30px;
+}
+
+    div.status-container > div.status.green {
+        margin-top: 8px;
+        background-color: rgba(50,50,50, 0.8);
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(253,81,9,.8);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(253,81,9,.8);
+        box-shadow: 0px 0px 10px 0px rgba(253,81,9,.8);
+    }
+
+    div.status-container > div.status.red {
+        margin-top: 8px;
+        background-color: rgba(96, 128, 149, .3);
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(96, 128, 149, .3);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(96, 128, 149, .3);
+        box-shadow: 0px 0px 10px 0px rgba(96, 128, 149, .3);
+    }
+/* END OF CBP DETAILED */
+
+/* SIDENAV */
+div.homebtn md-icon svg {
+    fill: rgba(96, 128, 149, .7);
+    transition: left 1s;
+}
+
+div.homebtn i {
+    color: white;
+}
+
+div.homebtn {
+    width: 3%;
+    will-change: width, opacity;
+}
+
+    div.homebtn.ng-enter {
+        animation: homebtn-in 1s;
+    }
+
+    div.homebtn.ng-leave {
+        animation: homebtn-out 1s;
+    }
+
+
+md-sidenav.boq {
+    border: 1px solid rgba(96, 128, 149, .5);
+    background-color: rgba(212,228,239, .8);
+}
+
+    md-sidenav.boq > div.head {
+        border-top: 1px solid rgba(212,228,239, .6);
+        border-left: 1px solid rgba(212,228,239, .6);
+        border-right: 1px solid rgba(212,228,239, .6);
+        background-color: rgba(96, 128, 149, .5);
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    md-sidenav.boq div.head span.title {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        opacity: 1;
+    }
+
+    md-sidenav.boq > div.item-line {
+        margin: 5px 5px 0px 5px;
+        border: 1px solid rgba(96, 128, 149, .5);
+        background-color: rgba(212,228,239, .8);
+        padding: 0px 5px;
+    }
+
+        md-sidenav.boq > div.item-line span.title {
+            font-size: 110%;
+            color: rgba(50,50,50, 0.8);
+        }
+
+        md-sidenav.boq > div.item-line span.subtitle {
+            font-size: 80%;
+            color: rgba(96, 128, 149, .5);
+        }
+
+md-sidenav.boq {
+}
+
+    md-sidenav.boq div.vert div {
+        transform: rotate(-90deg);
+        margin-left: -8px;
+    }
+
+    md-sidenav.boq div.vert.ng-enter {
+        animation: vert-in 1s;
+    }
+
+    md-sidenav.boq div.vert.ng-leave {
+        animation: vert-out 1s;
+    }
+
+
+
+md-sidenav.boq > div.item-line div.item-line {
+    margin: 5px 0px 5px 0px;
+    border: 1px solid rgba(96, 128, 149, .5);
+    background-color: rgba(212,228,239, .8);
+    padding: 0px;
+}
+
+    md-sidenav.boq > div.item-line div.item-line:first-child {
+        margin: 5px 0px 0px 0px;
+    }
+
+    md-sidenav.boq > div.item-line div.item-line:hover,
+    md-sidenav.boq > div.item-line div.item-line.active {
+        border: 1px solid rgba(50,50,50, 0.6);
+        background-color: rgba(212,228,239, .95);
+    }
+
+        md-sidenav.boq > div.item-line div.item-line.active div.vert {
+            background-color: rgba(50,50,50, 0.6);
+            color: white;
+        }
+
+    md-sidenav.boq > div.item-line div.item-line div.vert {
+        background-color: transparent;
+        color: white;
+    }
+/* END OF SIDENAV */
+
+div.scrollbar-rail.list > div.box-container {
+    height: 6%;
+    min-height: 30px;
+    margin: 3px 5px;
+    padding: 0px;
+}
+
+div.listview-head {
+    height: 3%;
+    min-height: 20px;
+    font-size: 70%;
+    text-transform: uppercase;
+    opacity: 0.7;
+    color: rgba(50,50,50, 0.8);
+    border-bottom: 1px solid rgba(50,50,50, 0.6);
+    margin: 0 5px 3px 5px;
+}
+
+div.scrollbar-rail.list > div.box-container > span.name {
+    font-size: 0.8vw;
+    color: rgba(50,50,50, 1);
+}
+
+div.scrollbar-rail.list > div.box-container > div.status {
+    width: 5%;
+    height: 100%;
+    background-color: rgba(50,50,50, .4);
+}
+
+    div.scrollbar-rail.list > div.box-container > div.status.green {
+        border: 1px solid rgba(100,255,0, .7);
+        background-color: rgba(100,255,0, .4);
+    }
+
+    div.scrollbar-rail.list > div.box-container > div.status.red {
+        border: 1px solid rgba(249, 27, 53, .7);
+        background-color: rgba(249, 27, 53, .4);
+    }
+
+    div.scrollbar-rail.list > div.box-container > div.status.yellow {
+        border: 1px solid rgba(255,237,0, .7);
+        background-color: rgba(255,237,0, .4);
+    }
+
+div.floating-container div.box-container div.content {
+    padding: 8px;
+}
+
+div.floating-container div.box-container span.name {
+    color: rgba(50,50,50,1);
+    font-size: 90%;
+    margin-right: 3px;
+    word-break: break-word;
+}
+
+div.floating-container div.box-container span.subtitle {
+    color: rgba(50,50,50,0.8);
+    font-size: 75%;
+    margin-right: 3px;
+    word-break: break-word;
+}
+
+
+
+div.content > div.box-container {
+    margin: 5px 5px 0px 0px;
+}
+
+    div.content > div.box-container:first-child {
+        margin: 5px 5px 0px 5px;
+    }
+
+div.flow-diagram-container {
+}
+
+    div.flow-diagram-container div.bottom-border {
+        border-bottom: 0.5px solid rgba(50,50,50,1);
+    }
+
+    div.flow-diagram-container div.top-border {
+        border-top: 0.25px solid rgba(50,50,50,1);
+    }
+
+    div.flow-diagram-container div.right-border {
+        border-right: 0.25px solid rgba(50,50,50,1);
+    }
+
+    div.flow-diagram-container div.left-border {
+        border-left: 0.25px solid rgba(50,50,50,1);
+    }
+
+    div.flow-diagram-container div.section-title {
+        border-bottom: 1px solid rgba(50,50,50, 0.6);
+        margin: 0 5px 2px 5px;
+    }
+
+        div.flow-diagram-container div.section-title:first-child {
+            margin-left: 0px;
+        }
+
+        div.flow-diagram-container div.section-title:last-child {
+            margin-right: 0px;
+        }
+
+        div.flow-diagram-container div.section-title span {
+            color: rgba(50,50,50,0.7);
+        }
+
+    div.flow-diagram-container div.box-container:first-child {
+        margin-left: 30%;
+    }
+
+    div.flow-diagram-container div.box-container:last-child {
+        margin-right: 30%;
+    }
+
+span.primary {
+    color: rgba(50,50,50, 0.9);
+}
+
+div.flow-diagram-container div.box-container {
+    padding: 3px;
+    overflow: hidden;
+}
+
+div.flow-diagram-container div.circle {
+    border-radius: 100%;
+    margin-top: 5%;
+    height: 3%;
+    border: 1px solid rgba(50,50,50, .3);
+    background-color: rgba(50,50,50, .1);
+}
+
+    div.flow-diagram-container div.circle span {
+        font-size: 80%;
+    }
+
+div.content div.box-container > div {
+    padding: 1px 0;
+}
+
+div.flow-diagram {
+    margin-right: 5px;
+}
+
+    div.flow-diagram div.head div.cover {
+    }
+
+        div.flow-diagram div.head div.cover.left {
+            border-left: 1px solid rgba(50,50,50,0.5);
+            border-top: 1px solid rgba(50,50,50,0.5);
+        }
+
+        div.flow-diagram div.head div.cover.right {
+            border-top: 1px solid rgba(50,50,50,0.5);
+            border-right: 1px solid rgba(50,50,50,0.5);
+        }
+
+    div.legend div.bot,
+    div.flow-diagram div.bot {
+        z-index: 2;
+        border-bottom: 0.5px solid rgba(50,50,50, .3);
+    }
+
+    div.legend div.top,
+    div.flow-diagram div.top {
+        z-index: 2;
+        border-top: 0.5px solid rgba(50,50,50, .3);
+    }
+
+    div.legend div.right,
+    div.flow-diagram div.right {
+        z-index: 2;
+        border-right: 0.5px solid rgba(50,50,50, .3);
+    }
+
+    div.legend div.left,
+    div.flow-diagram div.left {
+        z-index: 2;
+        border-left: 0.5px solid rgba(50,50,50, .3);
+    }
+
+
+    div.legend div.bot.y,
+    div.flow-diagram div.bot.y {
+        border-bottom: 0.5px solid rgba(249,86,2, .3);
+    }
+
+    div.legend div.top.y,
+    div.flow-diagram div.top.y {
+        border-top: 0.5px solid rgba(249,86,2, .3);
+    }
+
+    div.legend div.right.y,
+    div.flow-diagram div.right.y {
+        border-right: 0.5px solid rgba(249,86,2, .3);
+    }
+
+    div.legend div.left.y,
+    div.flow-diagram div.left.y {
+        border-left: 0.5px solid rgba(249,86,2, .3);
+    }
+
+i.material-icons.left {
+    margin-left: -150%;
+    margin-top: 2%;
+}
+
+i.material-icons.right {
+    margin-left: -200%;
+    margin-top: 2%;
+}
+
+
+i.material-icons.primary {
+    opacity: 0.7;
+}
+
+i.material-icons.y {
+    color: rgba(249,86,2, .4);
+}
+
+div.flow-diagram div.box-container {
+    overflow: hidden;
+    padding: 0px;
+    position: relative;
+}
+
+    div.flow-diagram div.box-container span.number {
+        position: absolute;
+        color: rgba(50,50,50, 1);
+        font-size: 250%;
+        left: 10px;
+        bottom: 2px;
+        opacity: 0.5;
+    }
+
+    div.flow-diagram div.box-container span.step-name {
+        font-size: 150%;
+        text-transform: uppercase;
+        position: absolute;
+        top: 0%;
+        left: 10%;
+        width: 65%;
+        color: rgba(50,50,50, .9);
+        /*letter-spacing:1.5px;*/
+    }
+
+    div.flow-diagram div.box-container span.kpi-name {
+        font-size: 100%;
+        text-transform: uppercase;
+        position: absolute;
+        top: 60%;
+        right: 23.5%;
+        color: rgba(50,50,50, .9);
+        /*letter-spacing:1.5px;*/
+    }
+
+    div.flow-diagram div.box-container div.kpi {
+        padding: 3px 0px;
+    }
+
+        div.flow-diagram div.box-container div.kpi div.status {
+            border: 1px solid rgba(50,50,50, .7);
+            background-color: rgba(50,50,50, .4);
+            width: 3%;
+            margin-right: 3px;
+            height: 3%;
+        }
+
+        div.flow-diagram div.box-container div.kpi span.name {
+            color: rgba(50,50,50, .8);
+        }
+
+    div.flow-diagram div.box-container value-donut-chart {
+        position: absolute;
+        height: 130%;
+        width: 50%;
+        right: -15%;
+        top: -17.5%;
+    }
+
+div.flow-diagram div.box-container {
+}
+
+div.box-container.f {
+    padding: 0 !important;
+}
+
+    div.box-container.f span.stepnumber {
+        font-size: 350%;
+        margin-top: -25%;
+        color: rgba(50,50,50, .8);
+    }
+
+    div.box-container.f span.stepname {
+        font-size: 105%;
+        margin-top: 0%;
+        color: rgba(50,50,50, .6);
+        text-transform: uppercase;
+        letter-spacing: 1.25px;
+    }
+
+    div.box-container.f div.kpi div.value {
+        color: rgba(255,255,255, 0.75);
+        background-color: rgba(50,50,50, .5);
+        border-radius: 5%;
+        padding: 1px 10px 1px 10px;
+    }
+
+        div.box-container.f div.kpi div.value span {
+            margin-top: -5px;
+        }
+
+    div.box-container.f div.kpi span.name {
+        margin-top: -5px;
+        font-size: 120%;
+    }
+
+div.content.v {
+}
+
+    div.content.v > div {
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+
+    div.content.v div.title-bar div.box-container {
+        margin-left: 5px;
+    }
+
+div.title-bar span.title {
+    color: rgba(50,50,50, .8);
+    font-size: 250%;
+}
+
+div.title-bar span.subtitle {
+    color: rgba(50,50,50, .6);
+    font-size: 100%;
+    text-transform: uppercase;
+}
+
+div.title-bar span.value {
+    color: rgba(50,50,50, .6);
+    font-size: 300%;
+    margin-bottom: 5%;
+    text-transform: uppercase;
+}
+
+i.material-icons.title {
+    font-size: 350%;
+    color: rgba(50,50,50, .8);
+    margin-right: 4%;
+}
+
+i.material-icons.primary {
+    opacity: 0.7;
+}
+
+div.flow-diagram div.box-container {
+    overflow: hidden;
+    padding: 0px;
+    position: relative;
+}
+
+    div.flow-diagram div.box-container span.number {
+        position: absolute;
+        color: rgba(50,50,50, 1);
+        font-size: 250%;
+        left: 10px;
+        bottom: 2px;
+        opacity: 0.5;
+    }
+
+    div.flow-diagram div.box-container span.step-name {
+        font-size: 150%;
+        text-transform: uppercase;
+        position: absolute;
+        top: 0%;
+        left: 10%;
+        width: 65%;
+        color: rgba(50,50,50, .9);
+        /*letter-spacing:1.5px;*/
+    }
+
+    div.flow-diagram div.box-container span.kpi-name {
+        font-size: 100%;
+        text-transform: uppercase;
+        position: absolute;
+        top: 60%;
+        right: 23.5%;
+        color: rgba(50,50,50, .9);
+        /*letter-spacing:1.5px;*/
+    }
+
+    div.flow-diagram div.box-container div.kpi {
+        padding: 3px 0px;
+        overflow:hidden !important;
+    }
+
+        div.flow-diagram div.box-container div.kpi div.status {
+            border: 1px solid rgba(50,50,50, .7);
+            background-color: rgba(50,50,50, .4);
+            width: 3%;
+            margin-right: 3px;
+            height: 3%;
+        }
+
+        div.flow-diagram div.box-container div.kpi span.name {
+            color: rgba(50,50,50, .8);
+        }
+
+    div.flow-diagram div.box-container value-donut-chart {
+        position: absolute;
+        height: 130%;
+        width: 50%;
+        right: -15%;
+        top: -17.5%;
+    }
+
+div.box-container.f {
+    padding: 0 !important;
+}
+
+    div.box-container.f span.stepnumber {
+        font-size: 350%;
+        margin-top: -25%;
+        color: rgba(50,50,50, .8);
+    }
+
+    div.box-container.f span.stepname {
+        font-size: 95%;
+        margin-top: 1%;
+        color: rgba(50,50,50, .3);
+        text-transform: uppercase;
+        letter-spacing: 1.25px;
+        font-weight: bolder;
+    }
+
+    div.box-container.f div.kpi div.value {
+        color: rgba(255,255,255, 0.75);
+        background-color: rgba(50,50,50, .5);
+        border-radius: 5%;
+        padding: 1px 10px 1px 10px;
+    }
+
+        div.box-container.f div.kpi div.value span {
+            margin-top: -5px;
+        }
+
+    div.box-container.f div.kpi span.name {
+        margin-top: -5px;
+        font-size: 130%;
+        letter-spacing: 1px;
+    }
+
+div#row-3 {
+    position: relative;
+}
+
+span.float.subtle {
+    position: absolute;
+    font-size: 1.3vw;
+    top: 25%;
+    left: -15%;
+    width: 150%;
+    transform: rotate(90deg);
+    font-style: normal;
+}
+
+div.data-column, div.gap {
+    margin-top: 3px;
+}
+
+    div.data-column > div {
+        font-size:0.8vw;
+        background-color: rgba(50,50,50, .1);
+        border-left: 1px solid rgba(50,50,50,0.5);
+        border-right: 1px solid rgba(50,50,50,0.5);
+    }
+
+    div.data-column div.head > div:nth-child(2) {
+        background-color: rgba(50,50,50, .8);
+        color: white !important;
+    }
+
+        div.data-column div.head > div:nth-child(2) span {
+            color: white !important;
+        }
+
+    div.data-column div.head {
+        background-color: rgba(50,50,50, 0) !important;
+    }
+
+        div.data-column div.head div.cover {
+            background-color: rgba(50,50,50, .1);
+        }
+
+    div.data-column > div:first-child {
+        border: none;
+    }
+
+    div.data-column > div:last-child {
+        border-bottom: 1px solid rgba(50,50,50,0.5);
+    }
+
+div.legend {
+    padding: 5px !important;
+}
+
+    div.legend div.bot span {
+        font-size: 75%;
+        margin: 0 0 5px 3px;
+    }
+
+    div.legend div.bot.y span {
+        color: rgba(249,86,2, .8) !important;
+    }
+
+span {
+    cursor: default;
+}
+
+div[ng-click],
+div[ng-click] * {
+    cursor: pointer;
+}
+
+div.divider.w {
+    width: 5px;
+}
+
+div.divider.h {
+    height: 5px;
+}
+
+i.material-icons.w {
+    color: white;
+    opacity: 0.8;
+}
+
+span.backbtn {
+    font-size: 85%;
+    margin-top: -4px;
+    opacity: 0.8;
+}
+
+span.w.title {
+    margin-top: -4px;
+}
+
+div.name span.subtle {
+    margin-left: 10px;
+}
+
+span.subtletitle {
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    font-size: 0.8vw;
+    margin: 3px;
+    color: rgba(50,50,50, .4);
+}
+
+span.primarytitle {
+    font-size: 1vw;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    color: rgba(50,50,50, 1);
+    text-align: left;
+    margin: 3px;
+}
+
+.box .box-container.t {
+    padding: 0px;
+    margin: 0px;
+}
+
+div.flow-diagram {
+    z-index: 19;
+}
+
+    div.flow-diagram > div {
+        position: relative;
+    }
+
+.box-container.t {
+    transition: background-color 0.5s;
+    z-index: 20 !important;
+}
+
+    .box-container.t .step {
+        padding: 0px;
+        margin: 0px;
+    }
+
+        .box-container.t .step .number {
+            transition: background-color 0.5s;
+            background: rgba(50,50,50, .8);
+            font-size: .95vw;
+        }
+
+        .box-container.t .step .name {
+            transition: background 0.5s,color 0.5s;
+            background: rgba(50,50,50, .15);
+            text-transform: uppercase;
+            font-size: 80%;
+            letter-spacing: 2px;
+            color: rgba(50,50,50, .7);
+            font-weight: bolder;
+        }
+
+        .box-container.t .step .number .text {
+            position: absolute;
+            top: 7%;
+        font-size: 1vw;
+        }
+
+        .box-container.t .step .name .text {
+            margin-left: 3px;
+            text-align: center;
+            font-size: 0.7vw;
+        }
+
+    .box-container.t .kpi .name {
+        transition: color 0.5s;
+        color: rgba(50,50,50, .8);
+    }
+
+    .box-container.t .kpi .value {
+        color: rgba(50,50,50, .8);
+        font-size: 120%;
+    }
+
+    .box-container.t .kpi .name .text {
+        color: rgba(50,50,50, .8);
+        font-size: 0.9vw;
+        margin-left: 10px;
+    }
+
+    .box-container.t .kpi .value .text {
+        color: rgba(50,50,50, .8);
+        font-size:1.2vw;
+        position: absolute;
+        font-weight: bolder;
+    }
+
+span.subtle {
+    font-size: 80%;
+    font-style: italic;
+    color: rgba(50,50,50, .7);
+}
+
+
+
+.box-container.r.t {
+    border: 1px solid rgba(249, 27, 53, .9);
+    z-index: 22 !important;
+}
+
+    .box-container.r.t .step .number {
+        color:rgba(50,50,50,0.8);
+        background: rgba(249, 27, 53, .8);
+    }
+
+    .box-container.r.t .step .name {
+        background: rgba(249, 27, 53, .15);
+        color: rgba(50,50,50, .7);
+    }
+
+.box-container.r.t {
+    background-color: rgba(249, 27, 53, .1);
+}
+
+    .box-container.r.t .kpi .value .text,
+    .box-container.r.t .kpi .name .text,
+    .box-container.r.t .subtle {
+        color: rgba(50,50,50, .8);
+    }
+
+
+.box-container.y.t {
+    border: 1px solid rgba(255,237,0, .9);
+    z-index: 22 !important;
+}
+
+    .box-container.y.t .step .number {
+        background: rgba(255,237,0, .8);
+        color: rgba(50,50,50, .6);
+        font-size: 95%;
+    }
+
+    .box-container.y.t .step .name {
+        background: rgba(255,237,0, .15);
+        color: rgba(50,50,50, .8);
+    }
+
+.box-container.y.t {
+    background-color: rgba(255,237,0, .1);
+}
+
+    .box-container.y.t .kpi .value .text,
+    .box-container.y.t .kpi .name .text,
+    .box-container.y.t .subtle {
+        color: rgba(50,50,50, .8);
+    }
+
+.box-container.g.t {
+    border: 1px solid rgba(100,255,0, .9);
+    z-index: 22 !important;
+}
+
+    .box-container.g.t .step .number {
+        background: rgba(100,255,0, .8);
+        color: rgba(50,50,50, .6);
+        font-size: 95%;
+    }
+
+    .box-container.g.t .step .name {
+        background: rgba(100,255,0, .15);
+        color: rgba(50,50,50, .8);
+        position: relative;
+    }
+
+.box-container.g.t {
+    background-color: rgba(100,255,0, .1);
+}
+
+    .box-container.g.t .kpi .value .text,
+    .box-container.g.t .kpi .name .text,
+    .box-container.g.t .subtle {
+        color: rgba(50,50,50, .8);
+    }
+
+div.kpi {
+    overflow: hidden;
+    padding: 1px;
+}
+
+.box-container.t:hover i.material-icons.atype {
+    transform: scale(1.5);
+}
+
+i.material-icons.atype {
+    transition: transform 0.5s;
+    font-size: 7.5vw;
+    position: absolute;
+    right: -10%;
+    bottom: -45%;
+    opacity: 0.2;
+    z-index: 1;
+    color:rgba(50,50,50,0.5);
+}
+div.r i.material-icons.atype{
+    color:rgb(249, 27, 53);
+}
+div.y i.material-icons.atype{
+    color:rgb(255,237,0);
+    opacity:0.3;
+}
+div.g i.material-icons.atype{
+    color:rgb(100,255,0);
+    opacity:0.5;
+}
+
+div.legend div.box-container {
+    position: relative;
+    overflow: hidden;
+}
+
+div.legend span {
+    z-index: 2;
+}
+
+div.legend i.material-icons.atype {
+    font-size: 4vw;
+    right: -15%;
+    bottom: -75%;
+    z-index: 1;
+    opacity: 0.4;
+    color:rgba(50,50,50,0.5);
+}
+
+i.material-icons.lg {
+    font-size: 5vw;
+    color: rgba(50,50,50, .8);
+}
+
+div.infoheader {
+    padding: 5px;
+    color: white;
+    font-size: 0.9vw;
+    background-color: rgba(50,50,50,0.8);
+    margin: 3px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+    div.infoheader i {
+        color: white;
+        font-size: 1vw;
+        margin-left: -25%;
+    }
+
+    svg.pathline{
+		  position:absolute;
+		  width:100%;
+		  height:100%;
+		  top:0px;
+		  z-index:-1;
+		}
+    
+path#air-path {
+  stroke-dasharray: 5;
+  stroke-dashoffset: 0;
+  animation: dash 5s linear infinite;
+  stroke:rgba(249, 27, 53, 1);
+}
+path#mnl-br,
+path#syd-ny {
+  stroke:rgba(100,255,0, 1);
+}
+

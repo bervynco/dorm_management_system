@@ -1,0 +1,100 @@
+<div flex layout="column" layout-align="start stretch" class="page-container">
+    <div flex="none" layout layout-align="end stretch" class="page-header">
+        <div flex="80" layout layout-align="start stretch" class="page-header-details">
+            <div flex layout layout-align="start center"> <span class="emphasize">4</span> Items</div>
+        </div>
+        <div flex="20" layout layout-align="end stretch">
+            <button flex="none" class="flat-button" ng-click="addNewRoom()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Room 
+            </button>
+            <button flex="none" class="flat-button" ng-click="downloadPage()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/download-button.png" layout layout-align="center center" >Download 
+            </button>
+        </div>
+        
+    </div>
+    <div flex layout="column" layout-align="start stretch" class="page-content">
+        <table class="page-table">
+            <tr>
+                <th> Room #</th>
+                <th> Floor #</th>
+                <th> Tenant Count</th>
+                <th> Capacity Count</th>
+                <th> </th>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td ng-click="showCompleteRoomDetails()"> {{row.room_number}} </td>
+                <td> {{row.floor_number}} </td>
+                <td> {{row.tenant_count}} </td>
+                <td> {{row.capacity_count}} </td>
+                <td> </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <ng-form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Add New Room</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Room # </span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Floor # </span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant Count</span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Capacity Count </span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+            </span>
+        </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="addNewRoom()"> Add New Room </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+        </div>
+    </ng-form>
+</div>
+<div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-special-white-space"></div>
+    <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >View Room Details</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <table class="page-table">
+                <tr>
+                    <th> Tenant Name</th>
+                    <th> Start Date</th>
+                    <th> End Date</th>
+                    <th> Room Items </th>
+                    <th> Rent </th>
+                    <th> Electricity Bill</th>
+                    <th> Water Bill</th>
+                    <th> Laundry Bill</th>
+                </tr>
+                <tr ng-repeat="row in modalRows track by $index">
+                    <td> {{row.tenant_name}} </td>
+                    <td> {{row.start_date}} </td>
+                    <td> {{row.end_date}} </td>
+                    <td> {{row.room_items}} </td>
+                    <td> {{row.rent}} </td>
+                    <td> {{row.electricity_bill}} </td>
+                    <td> {{row.water_bill}} </td>
+                    <td> {{row.laundry_bill}} </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

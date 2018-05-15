@@ -1,0 +1,60 @@
+
+<div layout="column" layout-align="start stretch" flex style="background-color:whitesmoke">
+    <div flex="10" class="assessment-card" layout="column" layout-align="start stretch" my-setter padding="10">
+        <div flex layout="column" layout-align="start stretch">
+            <span class="header-title">System Logs Page</span>
+        </div>
+        <div flex></div>
+        <div flex layout layout-align="start stretch">
+            <span class="header-subtitle">Page for viewing actions of users in the system</span>
+        </div>
+    </div>
+    <div flex layout layout-align="start stretch" my-setter padding="10">
+        <div layout="column" flex layout layout-align="start stretch">
+            <div flex="none" layout="row" layout-align="center stretch" class="table-menu">
+                <div flex="20"></div> 
+                <div flex="50" layout="row" layout-align="center stretch">
+                    <div flex="15" layout layout-align="center center">
+                        <md-icon md-svg-src="{{SVG.left}}" layout layout-align="center center" flex ng-class="currentPage == 0 ? 'not-allowed' : 'pointer'" ng-click="PreviousPage()"></md-icon>
+                        <!-- <div flex
+                            ng-options="i for i in _.range(1,(filtered.length/10))">
+                        </div> -->
+                        <div flex layout layout-align="center center"> {{currentPage + 1}} </div>
+                        <md-icon md-svg-src="{{SVG.right}}" layout layout-align="center center" flex ng-class="(currentPage + 1)*15 >= filtered.length ? 'not-allowed': 'pointer'" ng-click="NextPage()"></md-icon>
+                    </div>
+                </div>
+                <div flex></div> 
+                <div flex="20" layout layout-align="end stretch">
+                    <div flex layout layout-align="start stretch">
+                        <md-icon md-svg-src="{{SVG.search}}" my-setter padding="10"></md-icon>
+                        <input type="text" flex placeholder="What are you looking for?" ng-model="searchLogs">
+                    </div>
+                </div>
+            </div>
+            <div flex layout layout-align="start stretch" style="overflow-y:auto">
+                <table class="data-table">
+                    <tr>
+                        <th class=""> Employee Name </th>
+                        <th class=""> Page </th>
+                        <th class=""> Action </th>
+                        <th class=""> Access Date </th>
+                    </tr>
+                    <tr class="values no-animation" ng-repeat="log in filtered=(logList | filter: searchLogs) | limitTo:15:(currentPage-1)*15">
+                        <td>{{log.name}}</td>
+                        <td>{{log.page}}</td>
+                        <td>{{log.action}}</td>
+                        <td>{{log.timestamp}}</td>
+                    </tr>
+                </table>
+            </div>        
+        </div>
+    </div>
+    <!-- <div flex="10" layout="row" layout-align="center stretch">
+        <div flex="15" layout layout-align="center center">
+            <md-icon md-svg-src="{{SVG.left}}" layout layout-align="center center" flex ng-class="currentPage == 1 ? 'not-allowed' : 'pointer'" ng-click="PreviousPage()"></md-icon>
+            <div flex layout layout-align="center center"> {{currentPage}} </div>
+            <md-icon md-svg-src="{{SVG.right}}" layout layout-align="center center" flex ng-class="(currentPage + 1)*14 >= filtered.length ? 'not-allowed': 'pointer'" ng-click="NextPage()"></md-icon>
+        </div>
+    </div>
+    <div flex="5"></div> -->
+</div>

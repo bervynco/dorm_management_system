@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<base href="http://localhost:8080/pektounleashed/app/">-->
+    <title>Migatsu Inventory System</title>
+    <!--build:js public/assets/js/main.min.js -->
+    <script src="./assets/js/jquery-2.2.1.js"></script>
+    <script src="./assets/js/angular.min.js"></script>
+    <script src="./assets/js/angular-animate.min.js"></script>
+    <script src="./assets/js/angular-aria.min.js"></script>
+    <script src="./assets/js/angular-material.min.js"></script>
+    <script src="./assets/js/angular-messages.min.js"></script>
+    <script src="./assets/js/jquery.scrollbar.min.js"></script>
+    
+    <!-- <script src="public/assets/libraries/Highcharts/highcharts.js"></script>
+    <script src="public/assets/libraries/Highcharts/highcharts-custom.js"></script> -->
+    <script src="./assets/js/peity.js"></script>
+    <script src="./assets/js/tinycolor.js"></script>
+    <script src="./assets/js/md-color-picker.js"></script>
+    <script src="./assets/js/uirouter.js"></script>
+    <script src="./assets/js/moment.js"></script>
+    <script src="./assets/js/lodash.js"></script>
+    <script src="./assets/js/angular-local-storage.js"></script>
+    <!-- endbuild -->
+    <!--build:js angular/angular.min.js -->
+    <script src="./angular/Shared/mainContentManager.js"></script>
+    <script src="./angular/Shared/mainDirectives.js"></script>
+    <script src="./angular/Shared/mainFactory.js"></script>
+    <script src="./angular/Shared/mainRouter.js"></script>
+    <script src="./angular/main.js"></script>
+
+    <!-- Project -->
+    <script src="./angular/Templates/Login/loginController.js"></script>
+    <script src="./angular/Templates/Logs/logsController.js"></script>
+    <!--build:css css/styles.min.css-->
+    <link rel="stylesheet" href="./assets/css/jquery.scrollbar.css">
+    <link rel="stylesheet" href="./assets/css/material.css">
+    <link rel="stylesheet" href="./assets/scss/styles.css">
+    <link rel="stylesheet" href="./assets/css/md-color-picker.css">
+    <link rel="stylesheet" href="./assets/css/RGraph.css">
+    <link rel="stylesheet" href="./assets/css/mainstyle.css">
+
+    <!--endbuild-->
+</head>
+<body ng-app="MainApplication" ng-controller="MainController" ng-class="{'login': MainState == 'login'}" ng-cloak layout="row" layout-align="start stretch">
+    <hud-styles></hud-styles>
+    <!--START: LOADER-->
+     <div ng-if="loadstate" class="load-container">
+        <div class="loader-circle"></div>
+        <div class="loader-line-mask">
+            <div class="loader-line"></div>
+        </div>
+    </div> 
+    <!--END: LOADER-->
+    <div flex layout="row" layout-align="start stretch">
+        <div flex ui-view layout class="main-container"></div>
+    </div>
+    
+</body>
+</html>

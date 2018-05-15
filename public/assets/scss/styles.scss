@@ -1,0 +1,620 @@
+/* ANIMATIONS*/
+
+@keyframes blur {
+    0% {
+        filter: none;
+    }
+
+    50% {
+        filter: blur(0.5px);
+    }
+
+    100% {
+        filter: none;
+    }
+}
+
+/* Fade Animations */
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+/* End of Fade Animations */
+
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes rotate {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes rotate {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+
+    100% {
+        -o-transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes btt-in {
+    from {
+        bottom: -100%;
+    }
+
+    to {
+        bottom: 0;
+    }
+}
+
+@keyframes btt-out {
+    from {
+        bottom: 0;
+    }
+
+    to {
+        bottom: -100%;
+    }
+}
+
+@keyframes rtl-in {
+    from {
+        right: -100%;
+    }
+
+    to {
+        right: 0;
+    }
+}
+
+@keyframes rtl-out {
+    from {
+        right: 0%;
+    }
+
+    to {
+        right: -100%;
+    }
+}
+
+@keyframes scalein {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleout {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(0);
+    }
+}
+/* END OF AO PAGE */
+
+@keyframes homebtn-in {
+    from {
+        opacity: 0;
+        width: 0%;
+    }
+
+    to {
+        opacity: 1;
+        width: 3%;
+    }
+}
+
+@keyframes homebtn-out {
+    to {
+        opacity: 0;
+        width: 0%;
+    }
+
+    from {
+        opacity: 1;
+        width: 3%;
+    }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 50;
+  }
+}
+
+
+@keyframes vert-in {
+    from {
+        opacity: 0;
+        width: 0%;
+    }
+
+    to {
+        opacity: 1;
+        width: 10%;
+    }
+}
+
+@keyframes vert-out {
+    to {
+        opacity: 0;
+        width: 0%;
+    }
+
+    from {
+        opacity: 1;
+        width: 10%;
+    }
+}
+
+@-webkit-keyframes down {
+      0% { top: 0px; }
+     50% { top: 40px; }
+    100% { top: 0px; }
+}
+@-moz-keyframes down {
+      0% { top: 0px; }
+     50% { top: 40px; }
+    100% { top: 0px; }
+}
+
+@font-face {
+  	font-family: junction;
+  	src: url("../fonts/junction/Junction-regular.otf") format("opentype");
+}
+
+@font-face {
+  	font-family: lato;
+  	src: url("../fonts/lato/Lato-Regular.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: opensans;
+  	src: url("../fonts/open_sans/OpenSans-Regular.ttf") format("opentype");
+}
+
+/* Variable declarations */
+$primaryColor: rgb(60, 141, 188);
+$headerColor: rgb(60, 141, 188);
+$hoverColor: rgb(45, 105, 141);
+$inputFontColor: rgb(85, 85, 85);
+
+$sideNavColor: rgb(34, 45, 50);
+$sideNavFontColor: rgba(255,255,255,0.75);
+$successColor: rgb(67, 209, 175);
+$backgroundImageUrl: url('../images/bg/background.jpg');
+$fontName: opensans;
+$formBottomHeaderPadding: 20px;
+$pagePadding: 7.5px;
+$buttonPadding: 12px;
+/* End of variable declarations */
+%emphasize {
+    font-weight: bolder;
+    color: rgb(40,40,40);
+}
+%no-outline {
+    outline: none;
+}
+%test-background {
+    background-color: $sideNavColor;
+    border: 3px solid white;
+}
+%extra-large-font {
+    font-family: $fontName;
+    font-size: 24px;
+}
+%large-font {
+    font-family: $fontName;
+    font-size: 18px;
+}
+%medium-font {
+    font-family: $fontName;
+    font-size: 14px;
+}
+%small-font {
+    font-family: $fontName;
+    font-size: 8px;
+}
+%cursor-pointer{
+    cursor:pointer;
+}
+/* css for login */
+#login-container {
+    > #image-container {
+        > #background-image {
+            background: $backgroundImageUrl center center no-repeat;
+            background-size: cover;
+        }
+        
+    }
+    > #login-form-container {
+        > #login-form {
+            > #login-form-title {
+                @extend %extra-large-font;
+                text-transform: uppercase;
+            }
+            > #login-form-body {
+                padding: $formBottomHeaderPadding;
+            }
+        }
+        
+    }
+}
+/* end of css for login */
+
+/* Inputs*/
+input, button, submit { border:none; } 
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="time"],
+input[type="url"],
+textarea,
+select 
+{
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    background: transparent;
+    margin-bottom: 4%;
+    border: 1px solid #ccc;
+    padding: 2%;
+    color: $inputFontColor;
+    font: 95% $fontName;
+    border-radius: 3px;
+}
+input[type="text"]:focus,
+input[type="password"],
+input[type="date"]:focus,
+input[type="datetime"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="time"]:focus,
+input[type="url"]:focus,
+textarea:focus,
+select:focus
+{
+    box-shadow: 0 0 5px $primaryColor;
+    padding: 2%;
+    border: 1px solid $primaryColor;
+    border-radius: 3px;
+}
+
+.submit-button{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    padding: 3%;
+    background: $primaryColor;
+    border-bottom: 2px solid $primaryColor;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;    
+    color: #fff;
+    font: 110% $fontName;
+}
+.submit-button:hover{
+    // background: $primaryColor;
+    background: $hoverColor;
+    transition: 0.50s;
+}
+.page-add-button {
+    @extend %large-font;
+    @extend %no-outline;
+    padding: $buttonPadding;
+    background-color: $sideNavColor;
+    color: $sideNavFontColor;
+    border-radius: 5px;
+    &:hover{
+        @extend %cursor-pointer;
+        background-color: rgb(9,14,18) !important;
+        transition: 0.75s;
+    }
+}
+
+.page-cancel-button {
+    @extend %large-font;
+    @extend %no-outline;
+    padding: $buttonPadding;
+    background-color: rgba(245, 245, 245,1);
+    color: $sideNavColor;
+    border-radius: 5px;
+    &:hover{
+        @extend %cursor-pointer;
+        background-color: rgba(220,220,220,1);
+        transition: 0.75s;
+    }
+}
+
+.flat-button {
+    @extend %medium-font;
+    @extend %no-outline;
+    padding: $buttonPadding;
+    background-color: transparent;
+    color: $headerColor;
+    border: none;
+    font-weight: bolder;
+    &:hover{
+        background-color: rgba(245, 245, 245,1);
+        @extend %cursor-pointer;
+
+        transition: 0.75s;
+    }
+    > img {
+        padding-right: 5px;
+    }
+}
+/* end of inputs and buttons */
+
+/* sidenav */
+#side-menubar {
+    background-color: $sideNavColor;
+    width: 250px;
+    > #sidebar-logo {
+        width: 100%;
+        height: 6%;
+        background-color: $headerColor;
+        > #sidebar-text {
+            color: white; 
+            @extend %extra-large-font;
+            font-weight: bolder;
+        }
+    }
+    > #sidebar-profile {
+        width: 100%;
+        height: 15%;
+    }
+    > #sidebar-content {
+        width: 100%;
+        height: 79%;
+        .state-active {
+            @extend %cursor-pointer;
+            background-color: rgb(27,36,40) !important;
+            transition: 0.4s;
+        }
+        > .sidebar-content-item {
+            color: $sideNavFontColor;
+            height: 8%;
+            width: 100%;
+            outline: none;
+            @extend %large-font;
+             > div {
+                 padding-left: 10%;
+            }
+            .status-active{
+                background-color: $headerColor;
+                width: 3%;
+                height: 100%;
+                // background-color: rgb(27,36,40);
+            }
+            .status-inactive {
+                width: 3%;
+                height: 100%;
+                background-color: transparent;
+            }
+            &:hover{
+                @extend %cursor-pointer;
+                background-color: rgb(27,36,40) !important;
+                transition: 0.4s;
+            }
+        }
+        
+    }
+    
+    
+    
+    
+}
+
+/* end of sidenav */
+
+/* navbar */
+#navbar {
+    background-color: $headerColor;
+    height: 6%;
+    width: 100%;
+}
+/* end of navbar */
+
+/* sidebar modal */
+.sidebar-default-modal {
+    width: 100%;
+    height: 94%;
+    right: 0;
+    position: absolute;
+    background-color: white;
+    z-index: 100;
+
+    > .sidebar-white-space {
+        background-color: rgba(0,0,0,0.8);
+        width: calc(100% - 500px);
+    }
+
+    > .sidebar-special-white-space {
+        background-color: rgba(0,0,0,0.8);
+        width: calc(100% - 1500px);
+    }
+    hr {
+        width: 100%;
+    }
+    > .sidebar-form {
+        width: 500px;
+        overflow-y: auto;
+        padding: $formBottomHeaderPadding;
+        
+        > .sidebar-form-header {
+            @extend %extra-large-font;
+            width: 100%;
+            height: 70px;
+            font-weight: bolder;
+            border-bottom: 1px solid rgb(200,200,200);
+            > .sidebar-form-close {
+                background: url('../images/icons/delete.png') no-repeat center;
+                @extend %cursor-pointer;
+
+            }
+        }
+
+        .sidebar-form-content {
+            padding-top: 10px;
+            > .sidebar-form-defined-details {
+                > .defined-header {
+                    @extend %large-font;
+                    font-weight: bolder;
+                }
+            }
+            > .sidebar-form-input {
+                @extend %medium-font;
+                font-weight: bolder;
+                height: 65px;
+                padding-bottom: $formBottomHeaderPadding;
+                > .sidebar-form-label {
+                    width: 110px;
+                }
+
+                > .sidebar-form-input {
+                    height: 100%;
+                }
+            }
+            > .page-table >  tbody > tr > td:first-child { 
+                font-weight: bold; 
+                color: $sideNavColor;
+                @extend %cursor-pointer;
+            }  
+        }
+        > .sidebar-form-button {
+            margin-top: $formBottomHeaderPadding;
+            height: 50px;
+            width: 100%;
+            > .space-between-buttons {
+                width: 10px;
+                height: 100%;
+            }
+        }
+    }
+}
+
+.sidebar-modal-active {
+    background-color: rgba(0,0,0,0.8);
+}
+.sidebar-modal-inactive {
+    background-color: none;
+}
+.emphasize {
+    font-weight: bolder;
+}
+.form-padding{
+    padding: $formBottomHeaderPadding;
+}
+/* generic page */
+.page-container {
+    padding: $pagePadding;
+    > .page-header {
+        width: 100%;
+        > .page-header-details {
+            color: rgb(100,100,100);
+            @extend %large-font;
+
+            .emphasize {
+                padding-left: 5px;
+                padding-right: 5px;
+                @extend %emphasize;
+            }
+        }
+    } 
+    > .page-content {
+        // css content here
+    }
+}
+/* end of generic page */
+/* generic table */
+.page-table {
+    border-collapse: collapse;
+    > tbody > tr {
+        height: 20px;
+        
+    }
+    > tbody > tr > th {
+        background-color: $sideNavColor;
+        color: $sideNavFontColor;
+        @extend %medium-font;
+        padding: 15px;
+        text-align:left;
+    }
+    > tbody > tr > td {
+        padding: 15px; 
+        border: 1px solid rgb(210,210,210);
+        @extend %medium-font;
+        font-weight: bold;
+
+    }
+    > tbody > tr > td:first-child { 
+        font-weight: bolder; 
+        color: $headerColor;
+        @extend %cursor-pointer;
+    };  
+}
+/* end of generic table */

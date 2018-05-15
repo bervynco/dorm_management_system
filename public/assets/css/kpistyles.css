@@ -1,0 +1,69 @@
+
+@keyframes kpi-sites-in {
+    from {
+        top: -100%;
+        opacity: 0;
+    }
+
+    to {
+        top: 0%;
+        opacity: 1;
+    }
+}
+
+@keyframes kpi-sites-out {
+    from {
+        top: 0%;
+        opacity: 1;
+    }
+
+    to {
+        top: -100%;
+        opacity: 0;
+    }
+}
+
+div.kpi-sites {
+    animation: kpi-sites-in 1s;
+    position: absolute;
+    width: 100%;
+    height: 70%;
+    margin: 5.5% 0%;
+}
+
+    div.kpi-sites.ng-leave {
+        animation: kpi-sites-out 1s;
+    }
+
+    div.kpi-sites div.box-container {
+        padding: 10px;
+    }
+
+        div.kpi-sites div.box-container div.site-list {
+        }
+
+            div.kpi-sites div.box-container div.site-list div.line-item {
+                height: 10%;
+                border-bottom: 1px solid rgba(96, 128, 149, .3);
+                padding: 3px;
+            }
+
+                div.kpi-sites div.box-container div.site-list div.line-item:first-child {
+                    border-top: 1px solid rgba(96, 128, 149, .3);
+                }
+
+            div.kpi-sites div.box-container div.site-list div.status-container {
+                margin: 0;
+                width: 35px;
+                height: 35px;
+            }
+
+                div.kpi-sites div.box-container div.site-list div.status-container div.status {
+                    margin: 0;
+                }
+                div.kpi-sites div.box-container div.site-list div.line-item div.status{
+                    transition: transform 0.5s;
+                }
+                div.kpi-sites div.box-container div.site-list div.line-item:hover div.status{
+                    transform:scale(0);
+                }

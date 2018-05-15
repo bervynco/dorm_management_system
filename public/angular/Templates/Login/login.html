@@ -1,0 +1,26 @@
+<div flex layout layout-align="start stretch" id="login-container">
+    <div flex="70" layout layout-align="start stretch" id="image-container">
+        <span flex layout layout-align="start stretch" id="background-image">
+    </div>
+    <div flex layout="column" layout-align="start stretch" id="login-form-container">
+        <div flex></div>
+        <ng-form name="login" flex layout="column" layout-align="center stretch" id="login-form">
+            <span id="login-form-title" layout layout-align="center center"> Login to continue</span>
+            <div flex layout="column" layout-align="start stretch" id="login-form-body">
+                <span layout layout-align="center center">
+                    <input type="text" placeholder="Username">
+                </span>
+                <span layout layout-align="center center">
+                    <input type="text" placeholder="Password">
+                </span>
+                <span layout layout-align="center center">
+                    <button type="submit" class="submit-button" ng-click="Login()">Login</button>
+                </span>
+            </div>
+
+            
+        </ng-form>
+        <div flex></div>
+    </div>
+    
+</div>

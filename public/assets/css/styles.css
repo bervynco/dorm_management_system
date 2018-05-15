@@ -1,0 +1,24 @@
+@font-face {
+  font-family: Metric;
+  src: url("../fonts/metric/Metric-Light.otf") format("opentype"); }
+
+.stop-left {
+  stop-color: #3f51b5;
+  /* Indigo */ }
+
+.stop-right {
+  stop-color: #009688;
+  /* Teal */ }
+
+.filled {
+  fill: url(#mainGradient); }
+
+.outlined {
+  fill: none;
+  stroke: url(#mainGradient);
+  stroke-width: 4; }
+
+div.background-gradient {
+  position: absolute;
+  height: 100%;
+  width: 100%; }
