@@ -7,7 +7,7 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             'abstract': true,
             template: '<div ui-view layout flex/>'
         })
-        //LoginMain Page
+        //Login
         .state('login', {
             parent: 'site',
             data: {
@@ -34,6 +34,15 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             url: "/user",
             templateUrl: "public/angular/Templates/User/user.html",
             controller: "UserController"
+        })
+        .state('manage-branch', {
+            parent: 'site',
+            data: {
+                roles: []
+            },
+            url: "/manage-branch",
+            templateUrl: "public/angular/Templates/Branch/branch.html",
+            controller: "BranchController"
         })
         .state('manage-room', {
             parent: 'site',

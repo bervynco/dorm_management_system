@@ -4,21 +4,19 @@
     </div>
     <div flex layout="column" layout-align="start stretch" id="login-form-container">
         <div flex></div>
-        <ng-form name="login" flex layout="column" layout-align="center stretch" id="login-form">
+        <ng-form name="login" flex layout="column" layout-align="center stretch" id="login-form" >
             <span id="login-form-title" layout layout-align="center center"> Login to continue</span>
-            <div flex layout="column" layout-align="start stretch" id="login-form-body">
+            <form flex layout="column" layout-align="start stretch" id="login-form-body" ng-submit="Login()">
                 <span layout layout-align="center center">
-                    <input type="text" placeholder="Username">
+                    <input type="text" placeholder="Username" ng-model="user.username" ng-required="true">
                 </span>
                 <span layout layout-align="center center">
-                    <input type="text" placeholder="Password">
+                    <input type="text" placeholder="Password" ng-model="user.password" ng-required="true">
                 </span>
                 <span layout layout-align="center center">
                     <button type="submit" class="submit-button" ng-click="Login()">Login</button>
                 </span>
-            </div>
-
-            
+            </form>
         </ng-form>
         <div flex></div>
     </div>

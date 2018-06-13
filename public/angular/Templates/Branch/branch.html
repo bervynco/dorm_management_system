@@ -1,0 +1,93 @@
+<div flex layout="column" layout-align="start stretch" class="page-container">
+    <div flex="none" layout layout-align="end stretch" class="page-header">
+        <div flex="80" layout layout-align="start stretch" class="page-header-details">
+            <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length}}</span> Item 
+                <span ng-if="rows.length > 1">s</span>
+            </div>
+        </div>
+        <div flex="20" layout layout-align="end stretch">
+            <button flex="none" class="flat-button" ng-click="addNewBranch()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Branch 
+            </button>
+            <button flex="none" class="flat-button" ng-click="downloadPage()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/download-button.png" layout layout-align="center center" >Download 
+            </button>
+        </div>
+        
+    </div>
+    <div flex layout="column" layout-align="start stretch" class="page-content">
+        <table class="page-table">
+            <tr>
+                <th> Name</th>
+                <th> Username</th>
+                <th> Mobile Number</th>
+                <th> Branch </th>
+                <th> Branch Role</th>
+                <!-- <th> </th> -->
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td ng-click="showCompeleteDetails(row)"> {{row.name}} </td>
+                <td> {{row.username}} </td>
+                <td> {{row.mobile_number}} </td>
+                <td> {{row.branch_name}} </td>
+                <td> {{row.role}} </td>
+                <!-- <td></td> -->
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <div flex class="sidebar-form" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Add New Branch</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar(branch)"></span>
+        </span>
+        <form name="addForm" flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content" novalidate>
+            
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Branch Name <i class="required"> * </i></span>
+                <input type="text" name="branch_name"  ng-model="user.name" class="sidebar-form-input" layout layout-align="start stretch" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Branch Location <i class="required"> * </i></span>
+                <input type="text" name="branch_location" ng-model="user.username" class="sidebar-form-input" layout layout-align="start stretch"  required>
+            </span>
+            <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+                <button type="submit" flex class="page-add-button" ng-click="addUser($event)" ng-disabled="addForm.$error.required.length > 0"> Add New Branch </button>
+                <span class="space-between-buttons"></span>
+                <button flex class="page-cancel-button" ng-click="CloseSidebar('branch')"> Cancel </button> 
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+<div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Branch Details</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar(branch)"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Branch Name <i class="required"> * </i></span>
+                <input type="text" name="branch_name"  ng-model="user.name" class="sidebar-form-input" layout layout-align="start stretch" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Branch Location <i class="required"> * </i></span>
+                <input type="text" name="branch_location" ng-model="user.username" class="sidebar-form-input" layout layout-align="start stretch"  required>
+            </span>
+        </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="editUser(disable)"> 
+                <span ng-if="disable"> Edit Branch </span>
+                <span ng-if="!disable"> Update Branch </span>
+            </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar(branch)"> Cancel </button> 
+        </div>
+    </div>
+</div>

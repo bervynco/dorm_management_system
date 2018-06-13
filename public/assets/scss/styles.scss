@@ -269,6 +269,11 @@ $buttonPadding: 12px;
 %cursor-pointer{
     cursor:pointer;
 }
+body {
+    width: 100%;
+    height: 100%;
+    @extend %medium-font;
+}
 /* css for login */
 #login-container {
     > #image-container {
@@ -342,6 +347,121 @@ select:focus
     border-radius: 3px;
 }
 
+.select {
+	width: 100px;
+	height: 40px;
+	cursor: pointer;
+	background-color: white;
+	box-shadow: 0 2px 0 white;
+	border-radius: 2px;
+	
+	&_expand {
+		width: 0;
+		height: 40px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		
+		&::after {
+			content: '\003E';
+			position: absolute;
+			top: 50%;
+			right: 0;
+			transform: translate(-50%, -50%) rotate(90deg) scaleY(1.75);
+			color: #3e3e3e;
+			font-size: 28px;
+			pointer-events: none;
+			z-index: 2;
+			transition: all 250ms cubic-bezier(.4,.25,.3,1);
+			opacity: .6;
+		}
+		
+		&:hover::after {opacity: 1}
+
+		&:checked::after {transform: translate(-50%, -50%) rotate(90deg) scaleX(-1) scaleY(1.75);}
+	}
+	
+	&_expandLabel {
+		display: block;
+		width: 100%;
+		height: 40px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		cursor: pointer;
+	}
+	
+	&_close {display: none}
+	
+	&_closeLabel {
+		width: 100vw;
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		display: none;
+	}
+	
+	&_items {
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		border: 2px solid #2fb5d1;
+		border-radius: 2px;
+		padding-top: 40px;
+	}
+	
+	&_input {display: none}
+	
+	&_label {
+		transition: all 250ms cubic-bezier(.4,.25,.3,1);
+		display: block;
+		height: 0;
+		font-size: 1.2rem;
+		line-height: 40px;
+		overflow: hidden;
+		color: #3e3e3e;
+		background-color: #fff;
+		cursor: pointer;
+		padding-left: 20px;
+		
+		&-placeholder {
+			height: 40px;
+			vertical-align: middle;
+			position: absolute;
+			top: 0;
+			left: 0;
+			opacity: .6;
+			background-color: transparent;
+		}
+	}
+	
+	&_expand:checked {
+		+ .select_closeLabel {
+			display: block;
+			
+			+ .select_options {
+				.select_label {
+					height: 40px;
+					&:hover {background-color: #f7f7f7}
+				}
+				
+				+ .select_expandLabel {display: none}
+			}
+		}
+	}
+	
+	&_input:checked + .select_label {
+		height: 40px;
+		margin-top: -40px;
+	}
+}
+
+.required {
+    padding-left: 10px;
+    color:red;
+}
 .submit-button{
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -374,7 +494,19 @@ select:focus
         transition: 0.75s;
     }
 }
-
+.page-add-button:disabled {
+    @extend %large-font;
+    @extend %no-outline;
+    padding: $buttonPadding;
+    background-color: gray;
+    color: $sideNavFontColor;
+    border-radius: 5px;
+    &:hover{
+        @extend %cursor-pointer;
+        background-color: rgb(9,14,18) !important;
+        transition: 0.75s;
+    }
+}
 .page-cancel-button {
     @extend %large-font;
     @extend %no-outline;
@@ -490,7 +622,7 @@ select:focus
 
     > .sidebar-white-space {
         background-color: rgba(0,0,0,0.8);
-        width: calc(100% - 500px);
+        width: calc(100% - 700px);
     }
 
     > .sidebar-special-white-space {
@@ -501,7 +633,7 @@ select:focus
         width: 100%;
     }
     > .sidebar-form {
-        width: 500px;
+        width: 700px;
         overflow-y: auto;
         padding: $formBottomHeaderPadding;
         
@@ -532,12 +664,18 @@ select:focus
                 height: 65px;
                 padding-bottom: $formBottomHeaderPadding;
                 > .sidebar-form-label {
-                    width: 110px;
+                    width: 180px;
                 }
 
                 > .sidebar-form-input {
                     height: 100%;
                 }
+            }
+            > .sidebar-form-error {
+                @extend %medium-font;
+                font-weight: bolder;
+                height: 40px;
+                color: red;
             }
             > .page-table >  tbody > tr > td:first-child { 
                 font-weight: bold; 

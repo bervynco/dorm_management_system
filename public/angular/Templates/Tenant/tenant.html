@@ -4,6 +4,9 @@
             <div flex layout layout-align="start center"> <span class="emphasize">3</span> Items</div>
         </div>
         <div flex="20" layout layout-align="end stretch">
+            <button flex="none" class="flat-button" ng-click="assignToRoom()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Assign to Room 
+            </button>
             <button flex="none" class="flat-button" ng-click="addNewTenant()" layout layout-align="center stretch">
                 <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Tenant 
             </button>
@@ -17,25 +20,23 @@
         <table class="page-table">
             <tr>
                 <th> Tenant Name</th>
+                <th> Birthday</th>
+                <th> Contact Number</th>
+                <th> Emergency Contact Name</th>
+                <th> Emergency Contact Number</th>
                 <th> Start of Contract</th>
                 <th> End of Contract</th>
-                <th> Items</th>
-                <th> Rent </th>
-                <th> Electricity Bill </th>
-                <th> Water Bill </th>
-                <th> Laundry Bill </th>
-                <th> </th>
+                <th> Address</th>
             </tr>
             <tr ng-repeat="row in rows">
                 <td ng-click="showCompleteDetails()"> {{row.tenant_name}} </td>
-                <td> {{row.start_date}} </td>
-                <td> {{row.end_date}} </td>
-                <td> {{row.items}} </td>
-                <td> {{row.rent}}</td>
-                <td> {{row.electricity_bill}}</td>
-                <td> {{row.water_bill}}</td>
-                <td> {{row.laundry_bill}}</td>
-                <td></td>
+                <td> {{row.birthday}} </td>
+                <td> {{row.contact_number}} </td>
+                <td> {{row.emergency_name}} </td>
+                <td> {{row.emergency_number}} </td>
+                <td> {{row.start_contract}} </td>
+                <td> {{row.end_contract}} </td>
+                <td> {{row.address}} </td>
             </tr>
         </table>
     </div>
@@ -43,56 +44,52 @@
 
 <div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
     <div flex="none" class="sidebar-white-space"></div>
-    <ng-form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+    <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
         <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
             <span flex layout layout-align="start center" >Add New Tenant</span>
             <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
         </span>
         <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Name </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="tenant.tenant_name" required>
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Age </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Birthday <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="tenant.birthday"required>
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Birthday</span>
-                <input type="number" class="sidebar-form-input" layout layout-align="start stretch">
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Mobile No </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Contact No <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="tenant.contact_number" required>
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Emergency Contact </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="tenant.emergency_name">
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Emergency No </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="tenant.emergency_number">
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Address </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="tenant.address">
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Start of Contract </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Start of Contract <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="tenant.start_contract" required>
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> End of Contract </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> End of Contract <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="tenant.end_contract" required>
             </span>
             
         </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-click="addNewRoom()"> Add New Tenant </button>
+            <button flex class="page-add-button" ng-click="addTenant($event)" ng-disabled="addForm.$error.required.length > 0"> Add New Tenant </button>
             <span class="space-between-buttons"></span>
-            <button flex class="page-cancel-button" ng-click="addNewRoom()"> Cancel </button> 
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
-    </ng-form>
+    </form>
 </div>
 <div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
     <div flex="none" class="sidebar-special-white-space"></div>
@@ -164,5 +161,14 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div ng-if="assignRoomFlag" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-special-white-space"></div>
+    <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Assign Room Flag</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
     </div>
 </div>

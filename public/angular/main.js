@@ -10,7 +10,7 @@ var app = angular.module('MainApplication', [
     "ngMaterial",
     "jQueryScrollbar",
     "LocalStorageModule"]); //
-app.controller('MainController', function ($mdDialog, $mdToast, $state, $mdSidenav, $rootScope, $scope, $log, DataFactory, ConfigurableItems) {
+app.controller('MainController', function ($mdDialog, $mdToast, $state, $mdSidenav, $rootScope, $scope, $log, AppService, DataFactory, ConfigurableItems) {
     $scope.currState = 'login';
     $scope.ChangeState = function (num) {
         $state.go(num);
@@ -18,7 +18,16 @@ app.controller('MainController', function ($mdDialog, $mdToast, $state, $mdSiden
 
     $scope.ChangeAppState = function (num) {
         $scope.currState = num;
-        console.log(num);
     }
 
+    $scope.LoadSessionData = function(){
+        $scope.userDetails = JSON.parse(localStorage.getItem("user"));
+    }
+
+    $scope.ChangeBranch = function(branch){
+        console.log(branch);
+        AppService.setCurrBranch(branch);
+    }
+    $scope.LoadSessionData();
+    
 });

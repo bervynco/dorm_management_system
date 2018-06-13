@@ -2,37 +2,69 @@
     $scope.$parent.ChangeAppState('user');
     $scope.showSideNav = false;
     $scope.showCompleteDetailsFlag = false;
-    $scope.rows = [
-        {
-            'name': "Juan dela Cruz",
-            'username': 'juandelacruz',
-            'mobile_number': '09172828282',
-            'role': 'Administrator'
-        },
-        {
-            'name': "Jose Reyes",
-            'username': 'josereyes',
-            'mobile_number': '09172828283',
-            'role': 'Administrator'
-        },
-        {
-            'name': "Jimmy Santos",
-            'username': 'jimmysantos',
-            'mobile_number': '09172828282',
-            'role': 'Administrator'
-        }
-    ];
+    $scope.disable = true;
+    $scope.user = {
+        name: '',
+        username: '',
+        password: '',
+        mobile_number: ''
+    }
+    function getAllUsers(){
 
+        DataFactory.GetUserList(1).success(function(response){
+            console.log(response);
+            $scope.rows = response;
+        }).error(function(error){
+
+        });
+    }
     $scope.addNewUser = function(){
         $scope.showSideNav = true;
     }
 
-    $scope.CloseSidebar = function() {
+    $scope.addUser = function(ev){
+        DataFactory.AddNewUser($scope.user).success(function(response){
+            if(response.status == 200){
+                $scope.CloseSidebar($scope.user);
+                $scope.showConfirm(ev);
+
+            }
+        }).error(function(error){
+
+        });
+    }
+    $scope.editUser = function(flag){
+        if(flag == true)
+            scope.disable = false;
+        else {
+            console.log("EDIT Underway");
+        }
+    }
+    $scope.CloseSidebar = function(object) {
+        $scope[object] = null;
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
     }
 
-    $scope.showCompeleteDetails = function(){
+    $scope.showCompeleteDetails = function(user){
         $scope.showCompleteDetailsFlag = true;
+        $scope.user = user;
     }
+
+    $scope.showConfirm = function(ev) {
+        var confirm = $mdDialog.confirm()
+            .title('Would you like to add user in a branch?')
+            .textContent('You will be redirected to another page.')
+            .ariaLabel('Lucky day')
+            .targetEvent(ev)
+            .ok('Yes')
+            .cancel('Cancel');
+
+        $mdDialog.show(confirm).then(function() {
+            $scope.$parent.ChangeAppState('manage-branch');
+            $state.go('manage-branch');
+        }, function() {
+        });
+    };
+    getAllUsers();
 });

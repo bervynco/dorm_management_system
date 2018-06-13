@@ -38,6 +38,7 @@
     <script src="public/angular/Templates/Tenant/tenantController.js"></script>
     <script src="public/angular/Templates/Room/roomController.js"></script>
     <script src="public/angular/Templates/User/userController.js"></script>
+    <script src="public/angular/Templates/Branch/branchController.js"></script>
     <!--build:css css/styles.min.css-->
     <link rel="stylesheet" href="public/assets/css/jquery.scrollbar.css">
     <link rel="stylesheet" href="public/assets/css/material.css">
@@ -49,6 +50,7 @@
 
     <!--endbuild-->
 </head>
+
 <body ng-app="MainApplication" ng-controller="MainController" ng-class="{'login': currState == 'login'}" ng-cloak layout="row" layout-align="start stretch">
     <hud-styles></hud-styles>
     <!--START: LOADER-->
@@ -63,9 +65,11 @@
         <div flex="none" id="sidebar-logo" layout layout-align="start stretch">
             <span id="sidebar-text" flex layout layout-align="center center"> Management </span>
         </div>
-        <div flex="none" id="sidebar-profile" layout layout-align="start stretch">
+        <div flex="none" id="sidebar-profile form" layout layout-align="start stretch">
+            <select ng-options="branch.branch_name for branch in userDetails.branch track by branch.user_branch_id" ng-model="selected" ng-change="ChangeBranch(selected)"></select>
         </div>
         <div flex="none" id="sidebar-content" layout="column" layout-align="start stretch">
+            
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('home')">
                 <span flex="none" ng-class="currState === 'home' ? 'status-active' : 'status-inactive'"></span>
@@ -76,6 +80,11 @@
                 <span flex="none" ng-class="currState === 'user' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">User Management</div>
             </div>
+            <!-- <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+                ng-click="ChangeState('manage-branch')">
+                <span flex="none" ng-class="currState === 'manage-branch' ? 'status-active' : 'status-inactive'"></span>
+                <div flex layout layout-align="start center">Branch Management</div>
+            </div> -->
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('manage-room')">
                 <span flex="none" ng-class="currState === 'manage-room' ? 'status-active' : 'status-inactive'"></span>

@@ -1,5 +1,15 @@
 /* Factory */
 var mainFactory = angular.module('Main-Factory', []); //
+mainFactory.service('AppService', function(){
+    var currBranch = {};
+    this.setCurrBranch = function(branch){
+        currBranch = branch;
+    }
+    this.getCurrBranch = function () {
+        console.log(currBranch);
+        return currBranch;
+    }
+});
 mainFactory.factory('DataFactory', ['$http', function ($http) {
     var pre = "";
 
@@ -32,10 +42,9 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
 
         /* Login */
         SignIn: function(user){
-            console.log(user);
             return $http({
                 method: "POST",
-                url: 'index.php/UserManagement/login',
+                url: 'index.php/UserController/login',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -43,6 +52,59 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
             });
         },
         /* End of Login */
+        /** User Management  **/
+        GetUserList: function(branchID){
+            return $http({
+                method: "GET",
+                url: "index.php/UserController/getAllUsersPerBranch",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: branchID
+            })
+        },
+        AddNewUser: function(user){
+            return $http({
+                method: "POST",
+                url: "index.php/UserController/addNewUser",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:user
+            })
+        },
+        /** Tenant **/
+        GetTenantList: function(id) {
+            return $http({
+                method: "POST",
+                url: "index.php/TenantController/getAllTenantsPerBranch",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
+        AddNewTenant: function(tenant){
+            return $http({
+                method: "POST",
+                url: "index.php/TenantController/addNewTenant",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:tenant
+            })
+        },
+
+
+
+
+
+
+
+
+
+
+
         /** System Logs **/
         SetPageLog: function(logDetail){
             return $http({
@@ -391,26 +453,7 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:supplier
             })
         },
-        /** User Management  **/
-        GetUserList: function(){
-            return $http({
-                method: "GET",
-                url: "index.php/UserManagement/getAllUsers",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        AddNewUser: function(user){
-            return $http({
-                method: "POST",
-                url: "index.php/UserManagement/addNewUser",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:user
-            })
-        },
+        
         EditUser: function(user){
             return $http({
                 method: "POST",
