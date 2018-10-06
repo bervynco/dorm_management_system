@@ -229,7 +229,6 @@ $primaryColor: rgb(60, 141, 188);
 $headerColor: rgb(60, 141, 188);
 $hoverColor: rgb(45, 105, 141);
 $inputFontColor: rgb(85, 85, 85);
-
 $sideNavColor: rgb(34, 45, 50);
 $sideNavFontColor: rgba(255,255,255,0.75);
 $successColor: rgb(67, 209, 175);
@@ -310,7 +309,6 @@ input[type="search"],
 input[type="time"],
 input[type="url"],
 textarea,
-select 
 {
     -webkit-transition: all 0.30s ease-in-out;
     -moz-transition: all 0.30s ease-in-out;
@@ -328,6 +326,27 @@ select
     color: $inputFontColor;
     font: 95% $fontName;
     border-radius: 3px;
+}
+
+
+select {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    background: transparent;
+    margin-bottom: 4%;
+    border: 1px solid #ccc;
+    padding: 2%;
+    color: $inputFontColor;
+    font: 95% $fontName;
+    border-radius: 3px;
+    background-color: white;
 }
 input[type="text"]:focus,
 input[type="password"],
@@ -347,116 +366,116 @@ select:focus
     border-radius: 3px;
 }
 
-.select {
-	width: 100px;
-	height: 40px;
-	cursor: pointer;
-	background-color: white;
-	box-shadow: 0 2px 0 white;
-	border-radius: 2px;
+// .select {
+// 	width: 100px;
+// 	height: 40px;
+// 	cursor: pointer;
+// 	background-color: white;
+// 	box-shadow: 0 2px 0 white;
+// 	border-radius: 2px;
 	
-	&_expand {
-		width: 0;
-		height: 40px;
-		position: absolute;
-		top: 0;
-		right: 0;
+// 	&_expand {
+// 		width: 0;
+// 		height: 40px;
+// 		position: absolute;
+// 		top: 0;
+// 		right: 0;
 		
-		&::after {
-			content: '\003E';
-			position: absolute;
-			top: 50%;
-			right: 0;
-			transform: translate(-50%, -50%) rotate(90deg) scaleY(1.75);
-			color: #3e3e3e;
-			font-size: 28px;
-			pointer-events: none;
-			z-index: 2;
-			transition: all 250ms cubic-bezier(.4,.25,.3,1);
-			opacity: .6;
-		}
+// 		&::after {
+// 			content: '\003E';
+// 			position: absolute;
+// 			top: 50%;
+// 			right: 0;
+// 			transform: translate(-50%, -50%) rotate(90deg) scaleY(1.75);
+// 			color: #3e3e3e;
+// 			font-size: 28px;
+// 			pointer-events: none;
+// 			z-index: 2;
+// 			transition: all 250ms cubic-bezier(.4,.25,.3,1);
+// 			opacity: .6;
+// 		}
 		
-		&:hover::after {opacity: 1}
+// 		&:hover::after {opacity: 1}
 
-		&:checked::after {transform: translate(-50%, -50%) rotate(90deg) scaleX(-1) scaleY(1.75);}
-	}
+// 		&:checked::after {transform: translate(-50%, -50%) rotate(90deg) scaleX(-1) scaleY(1.75);}
+// 	}
 	
-	&_expandLabel {
-		display: block;
-		width: 100%;
-		height: 40px;
-		position: absolute;
-		top: 0;
-		left: 0;
-		cursor: pointer;
-	}
+// 	&_expandLabel {
+// 		display: block;
+// 		width: 100%;
+// 		height: 40px;
+// 		position: absolute;
+// 		top: 0;
+// 		left: 0;
+// 		cursor: pointer;
+// 	}
 	
-	&_close {display: none}
+// 	&_close {display: none}
 	
-	&_closeLabel {
-		width: 100vw;
-		height: 100vh;
-		position: fixed;
-		top: 0;
-		left: 0;
-		display: none;
-	}
+// 	&_closeLabel {
+// 		width: 100vw;
+// 		height: 100vh;
+// 		position: fixed;
+// 		top: 0;
+// 		left: 0;
+// 		display: none;
+// 	}
 	
-	&_items {
-		width: 100%;
-		position: absolute;
-		top: 0;
-		left: 0;
-		border: 2px solid #2fb5d1;
-		border-radius: 2px;
-		padding-top: 40px;
-	}
+// 	&_items {
+// 		width: 100%;
+// 		position: absolute;
+// 		top: 0;
+// 		left: 0;
+// 		border: 2px solid #2fb5d1;
+// 		border-radius: 2px;
+// 		padding-top: 40px;
+// 	}
 	
-	&_input {display: none}
+// 	&_input {display: none}
 	
-	&_label {
-		transition: all 250ms cubic-bezier(.4,.25,.3,1);
-		display: block;
-		height: 0;
-		font-size: 1.2rem;
-		line-height: 40px;
-		overflow: hidden;
-		color: #3e3e3e;
-		background-color: #fff;
-		cursor: pointer;
-		padding-left: 20px;
+// 	&_label {
+// 		transition: all 250ms cubic-bezier(.4,.25,.3,1);
+// 		display: block;
+// 		height: 0;
+// 		font-size: 1.2rem;
+// 		line-height: 40px;
+// 		overflow: hidden;
+// 		color: #3e3e3e;
+// 		background-color: #fff;
+// 		cursor: pointer;
+// 		padding-left: 20px;
 		
-		&-placeholder {
-			height: 40px;
-			vertical-align: middle;
-			position: absolute;
-			top: 0;
-			left: 0;
-			opacity: .6;
-			background-color: transparent;
-		}
-	}
+// 		&-placeholder {
+// 			height: 40px;
+// 			vertical-align: middle;
+// 			position: absolute;
+// 			top: 0;
+// 			left: 0;
+// 			opacity: .6;
+// 			background-color: transparent;
+// 		}
+// 	}
 	
-	&_expand:checked {
-		+ .select_closeLabel {
-			display: block;
+// 	&_expand:checked {
+// 		+ .select_closeLabel {
+// 			display: block;
 			
-			+ .select_options {
-				.select_label {
-					height: 40px;
-					&:hover {background-color: #f7f7f7}
-				}
+// 			+ .select_options {
+// 				.select_label {
+// 					height: 40px;
+// 					&:hover {background-color: #f7f7f7}
+// 				}
 				
-				+ .select_expandLabel {display: none}
-			}
-		}
-	}
+// 				+ .select_expandLabel {display: none}
+// 			}
+// 		}
+// 	}
 	
-	&_input:checked + .select_label {
-		height: 40px;
-		margin-top: -40px;
-	}
-}
+// 	&_input:checked + .select_label {
+// 		height: 40px;
+// 		margin-top: -40px;
+// 	}
+// }
 
 .required {
     padding-left: 10px;
@@ -671,6 +690,24 @@ select:focus
                     height: 100%;
                 }
             }
+            > .sidebar-form-input-group {
+                @extend %medium-font;
+                font-weight: bolder;
+                height: 600px;
+                width: 100%;
+                padding-bottom: $formBottomHeaderPadding;
+                overflow-y: auto;
+
+                > .sidebar-form-group {
+                    height: 40px;
+                    margin: 5px;
+
+                    > span > .sidebar-form-input {
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+            }
             > .sidebar-form-error {
                 @extend %medium-font;
                 font-weight: bolder;
@@ -691,6 +728,19 @@ select:focus
                 width: 10px;
                 height: 100%;
             }
+        }
+
+        > .sidebar-form-tab {
+            @extend %large-font;
+            > div {
+                padding: $buttonPadding;
+                outline:none;
+                @extend %cursor-pointer;
+            }
+            .tab-active {
+                background-color: $sideNavColor;
+                color: $sideNavFontColor;
+            }           
         }
     }
 }
@@ -756,3 +806,12 @@ select:focus
     };  
 }
 /* end of generic table */
+
+/* assign to room */
+.panel-steps {
+    padding: $pagePadding;
+    .step {
+         @extend %large-font;
+         font-weight: bold;
+    }
+}

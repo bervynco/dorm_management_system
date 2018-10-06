@@ -1,7 +1,7 @@
 <div flex layout="column" layout-align="start stretch" class="page-container">
     <div flex="none" layout layout-align="end stretch" class="page-header">
         <div flex="80" layout layout-align="start stretch" class="page-header-details">
-            <div flex layout layout-align="start center"> <span class="emphasize">3</span> Items</div>
+            <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
         </div>
         <div flex="20" layout layout-align="end stretch">
             <button flex="none" class="flat-button" ng-click="addNewInventory()" layout layout-align="center stretch">
@@ -16,20 +16,16 @@
     <div flex layout="column" layout-align="start stretch" class="page-content">
         <table class="page-table">
             <tr>
-                <th> Item #</th>
+                <!-- <th> Item #</th> -->
                 <th> Item Name</th>
+                <th> Room</th>
                 <th> Description</th>
-                <th> Status</th>
-                <th> Location</th>
-                <th> </th>
             </tr>
             <tr ng-repeat="row in rows track by $index">
-                <td ng-click="showCompleteDetails()"> {{row.item_number}} </td>
-                <td> {{row.item_name}} </td>
+                <!-- <td > {{row.item_number}} </td> -->
+                <td ng-click="showCompleteDetails(row)"> {{row.item_name}} </td>
+                <td> {{row.room_number}} </td>
                 <td> {{row.description}} </td>
-                <td> {{row.status}} </td>
-                <td> {{row.location}} </td>
-                <td> </td>
             </tr>
         </table>
     </div>
@@ -42,31 +38,34 @@
             <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
         </span>
         <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+            <!-- <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item # </span>
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
-            </span>
+            </span> -->
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Name </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventory.item_name">
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventory.description">
             </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+            <!-- <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Status </span>
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Location </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
+            </span> -->
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Room <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="selectedRoom" ng-init="selectedRoom" ng-options="room as room.room_number for room in roomList" 
+                    ng-selected="selectedRoom" ng-change="ChangeInventoryRoom(selectedRoom)">
+                </select>
             </span>
         </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
             <button flex class="page-add-button" ng-click="addNewItem()"> Add New Item </button>
             <span class="space-between-buttons"></span>
-            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
     </ng-form>
 </div>
@@ -79,26 +78,38 @@
             <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
         </span>
         <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+            <!-- <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item # </span>
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch" disabled>
-            </span>
+            </span> -->
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Name </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" disabled>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" ng-model="inventory.item_name">
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" disabled>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" ng-model="inventory.description">
             </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+            <!-- <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Status </span>
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch" disabled>
+            </span> -->
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Room <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" ng-model="selectedRoom" ng-init="selectedRoom" 
+                    ng-options="room as room.room_number for room in roomList" 
+                    ng-selected="selectedRoom" ng-change="ChangeInventoryRoom(selectedRoom)" ng-disable="disable">
+                </select>
             </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Location </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" disabled>
-            </span>
+        </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editInventory()" > 
+                <span ng-if="disable"> Edit Inventory </span>
+                <span ng-if="!disable"> Update Inventory </span>
+            </button>
+            
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
     </div>
 </div>

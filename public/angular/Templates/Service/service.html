@@ -1,0 +1,117 @@
+<div flex layout="column" layout-align="start stretch" class="page-container">
+    <div flex="none" layout layout-align="end stretch" class="page-header">
+        <div flex="80" layout layout-align="start stretch" class="page-header-details">
+    <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
+        </div>
+        <div flex="20" layout layout-align="end stretch">
+            <button flex="none" class="flat-button" ng-click="assignServices()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Assign Services to Tenant 
+            </button>
+            <button flex="none" class="flat-button" ng-click="addNewService()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Service 
+            </button>
+           
+            <button flex="none" class="flat-button" ng-click="downloadPage()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/download-button.png" layout layout-align="center center" >Download 
+            </button>
+        </div>
+        
+    </div>
+    <div flex layout="column" layout-align="start stretch" class="page-content">
+        <table class="page-table">
+            <tr>
+                <th> Room #</th>
+                <th> Floor #</th>
+                <th> Tenant Count</th>
+                <th> Capacity Count</th>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td ng-click="showCompleteRoomWithService(row)"> {{row.room_number}} </td>
+                <td> {{row.floor_number}} </td>
+                <td> {{row.tenant_count}} </td>
+                <td> {{row.capacity_count}} </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Add New Service</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="service.service_name">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Description</span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.service_description">
+            </span>
+        </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="addService()" ng-disabled="addForm.$error.required.length > 0" > Add New Service </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+        </div>
+    </form>
+</div>
+<div ng-if="assignServicesToTenantFlag && tenantArray.length > 0" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Assign Services To Tenant</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant Name </span>
+                <md-autocomplete
+                    ng-disabled="false"
+                    md-no-cache="false"
+                    md-selected-item="selectedItem"
+                    md-search-text-change="searchTextChange(searchText)"
+                    md-search-text="searchText"
+                    md-selected-item-change="selectedItemChange(item)"
+                    md-items="tenant in querySearch(searchText)"
+                    md-item-text="tenant"
+                    md-min-length="0"
+                    placeholder="Tenant">
+                    <md-item-template>
+                        <span md-highlight-text = "searchText" >{{tenant.name}}</span>
+                    </md-item-template>
+                  
+                    <md-not-found>
+                        No tenant matching "{{searchText}}" were found.
+                    </md-not-found>
+                </md-autocomplete>
+            </span>
+            <!-- <md-chips flex layout="column" layout-align="start stretch" ng-model="tenantList" readonly="true" md-removable="true" delete-button-label="Remove Tag" delete-hint="Press delete to remove tag" secondary-placeholder="+Tag">
+                <md-chip-template flex>
+                    <span>
+                        <strong> {{$chip.tenant_name}} </strong>
+                    </span>
+                </md-chip-template>
+                <div md-chip-remove style="margin-top:7px; margin-right:7px">
+                </div>
+            </md-chips> -->
+        </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="addService()" ng-disabled="addForm.$error.required.length > 0" > Assign Service </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+        </div>
+    </form>
+</div>
+<div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-special-white-space"></div>
+    <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >View Room with Services Details</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+    </div>
+</div>

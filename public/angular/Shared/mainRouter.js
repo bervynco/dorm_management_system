@@ -68,8 +68,8 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
                 roles: []
             },
             url: "/service",
-            templateUrl: "public/angular/Templates/User Management/userManagement.html",
-            controller: 'UserManagementController'
+            templateUrl: "public/angular/Templates/Service/service.html",
+            controller: 'ServiceController'
         })
         .state('inventory', {
             parent: 'site',

@@ -35,7 +35,7 @@
     }
     $scope.editUser = function(flag){
         if(flag == true)
-            scope.disable = false;
+            $scope.disable = false;
         else {
             console.log("EDIT Underway");
         }

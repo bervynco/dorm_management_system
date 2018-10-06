@@ -94,427 +94,109 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:tenant
             })
         },
-
-
-
-
-
-
-
-
-
-
-
-        /** System Logs **/
-        SetPageLog: function(logDetail){
+        AddNewPayment: function(tenant) {
             return $http({
                 method: "POST",
-                url: "index.php/LogManagement/setPageLog",
+                url: "index.php/TenantController/addNewPayment",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: logDetail
-            });
-        },
-        GetPageLogs: function(){
-            return $http({
-                method: "GET",
-                url: "index.php/LogManagement/getPageLogs",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        },
-        /** Inventory **/
-        GetInventoryToday: function(){
-            return $http({
-                method: "GET",
-                url: 'index.php/InventoryManagement/getTransactions',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                data:tenant
             })
         },
-        GetInventoryList: function(){
-            return $http({
-                method: "GET",
-                url: 'index.php/InventoryManagement/getAllInventory',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        AddNewInventory: function(inventory){
+        /** Room **/
+        GetRoomList: function(id) {
             return $http({
                 method: "POST",
-                url: 'index.php/InventoryManagement/addNewInventory',
+                url: "index.php/RoomController/getAllRoomsPerBranch",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data:inventory
+                data: {'branch_id' : id}
             })
         },
-        EditInventoryItem: function(inventory){
+        GetCountTenantPerRoomPerBranch: function(id){
             return $http({
                 method: "POST",
-                url: 'index.php/InventoryManagement/editInventory',
+                url: "index.php/RoomController/getTenantPerRoomPerBranchSummary",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data:inventory
+                data: {'branch_id' : id}
             })
         },
-        DeleteInventoryItem: function(inventory){
-            return $http({
-                method: "DELETE",
-                url: 'index.php/InventoryManagement/deleteInventory',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:inventory
-            })
-        },
-        /** Customer **/
-        GetCustomerList: function(){
-            return $http({
-                method: "GET",
-                url: 'index.php/CustomerManagement/getAllCustomers',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        AddNewCustomer: function(customer){
+        AddRoom: function(room){
             return $http({
                 method: "POST",
-                url: 'index.php/CustomerManagement/addNewCustomer',
+                url: "index.php/RoomController/addRoom",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data:customer
+                data:room
             })
         },
-        EditCustomer: function(customer){
+        GetTenantPerRoom: function(room){
             return $http({
                 method: "POST",
-                url: 'index.php/CustomerManagement/editCustomer',
+                url: "index.php/RoomController/getTenantPerRoom",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data:customer
+                data:room
             })
         },
-        DeleteCustomer: function(customer){
-            return $http({
-                method: "DELETE",
-                url: 'index.php/CustomerManagement/deleteCustomer',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:customer
-            })
-        },
-
-        /** Receivables */
-        GetReceivablesToday: function(){
-            return $http({
-                method: "GET",
-                url: 'index.php/ReceivableManagement/getTransactions',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        GetReceivableList: function(){
-            return $http({
-                method: "GET",
-                url: 'index.php/ReceivableManagement/getAllReceivable',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        AddNewReceivable: function(receivable){
+        /** Service */
+        AddService: function(service){
             return $http({
                 method: "POST",
-                url: 'index.php/ReceivableManagement/addNewReceivable',
+                url: "index.php/ServiceController/addService",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: receivable
+                data:service
             })
         },
-        EditReceivable: function(receivable){
+        /** Inventory  **/
+        GetInventoryList: function(id) {
             return $http({
                 method: "POST",
-                url: 'index.php/ReceivableManagement/editReceivable',
+                url: "index.php/InventoryController/getAllInventoryPerBranch",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data:receivable
+                data: {'branch_id' : id}
             })
         },
-        DeleteReceivable: function(receivable){
-            return $http({
-                method: "DELETE",
-                url: 'index.php/ReceivableManagement/deleteReceivable',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:receivable
-            })
-        },
-        ToggleReceivableDone: function(receivable){
+        GetInventoryPerRoom: function(room) {
             return $http({
                 method: "POST",
-                url: "index.php/ReceivableManagement/toggleReceivableDone",
+                url: "index.php/InventoryController/getAllInventoryPerBranchPerRoom",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data:receivable
+                data: room
             })
         },
-        
-        /** Payables **/
-        GetPayablesToday: function(){
-            return $http({
-                method: "GET",
-                url: "index.php/PayableManagement/getTransactions",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        GetPayableList: function(){
-            return $http({
-                method: "GET",
-                url: "index.php/PayableManagement/getAllPayable",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        AddNewPayable: function(payable){
+        AddNewInventory: function(inventory) {
             return $http({
                 method: "POST",
-                url: "index.php/PayableManagement/addNewPayable",
+                url: "index.php/InventoryController/addNewInventory",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: payable
+                data: inventory
             })
         },
-        EditPayable: function(payable){
+        EditInventory: function(inventory) {
             return $http({
                 method: "POST",
-                url: "index.php/PayableManagement/editPayable",
+                url: "index.php/InventoryController/editInventory",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data:payable
+                data: inventory
             })
-        },
-        DeletePayable: function(payable){
-            return $http({
-                method: "DELETE",
-                url: "index.php/PayableManagement/deletePayable",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:payable
-            })
-        },
-        TogglePayableDone: function(payable){
-            return $http({
-                method: "POST",
-                url: "index.php/PayableManagement/togglePayableDone",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:payable
-            })
-        },
-
-        /** Purchase Order **/
-        GetPurchaseOrderToday: function(){
-            return $http({
-                method: "GET",
-                url: "index.php/PurchaseOrderManagement/getTransactions",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        GetInventoryPOList: function(){
-            return $http({
-                method: "GET",
-                url: "index.php/InventoryManagement/getAllInventoryForPurchaseOrder",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        GetPurchaseOrderList: function(){
-            return $http({
-                method: "GET",
-                url: "index.php/PurchaseOrderManagement/getAllPurchaseOrder",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        AddPurchaseOrder: function(po){
-            return $http({
-                method: "POST",
-                url: "index.php/PurchaseOrderManagement/addNewPurchaseOrder",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: po
-            })
-        },
-        EditPurchaseOrder: function(po){
-            return $http({
-                method: "POST",
-                url: "index.php/PurchaseOrderManagement/editPurchaseOrder",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: po
-            })
-        },
-        DeletePurchaseOrder: function(po){
-            return $http({
-                method: "POST",
-                url: "index.php/PurchaseOrderManagement/deletePurchaseOrder",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: po
-            })
-        },
-        ApplyInventoryChanges: function(po){
-            return $http({
-                method: "POST",
-                url: "index.php/PurchaseOrderManagement/applyInventoryChanges",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: po
-            })
-        },
-        TogglePurchaseOrderDone: function(po){
-            return $http({
-                method: "POST",
-                url: "index.php/PurchaseOrderManagement/togglePurchaseOrderDone",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:po
-            })
-        },
-        /** Suppliers **/
-        GetSupplierList: function(){
-            return $http({
-                method: "GET",
-                url: 'index.php/SupplierManagement/getAllSuppliers',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        AddNewSupplier: function(supplier){
-            return $http({
-                method: "POST",
-                url: 'index.php/SupplierManagement/addNewSupplier',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:supplier
-            })
-        },
-        EditSupplier: function(supplier){
-            return $http({
-                method: "POST",
-                url: 'index.php/SupplierManagement/editSupplier',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:supplier
-            })
-        },
-        DeleteSupplier: function(supplier){
-            return $http({
-                method: "DELETE",
-                url: 'index.php/SupplierManagement/deleteSupplier',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:supplier
-            })
-        },
-        
-        EditUser: function(user){
-            return $http({
-                method: "POST",
-                url: "index.php/UserManagement/editUser",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:user
-            });
-        },
-        DeleteUser: function(user){
-            return $http({
-                method: "DELETE",
-                url: "index.php/UserManagement/deleteUser",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:user
-            })
-        },
-        ChangePassword: function(user){
-            console.log(user);
-            return $http({
-                method: "POST",
-                url: "index.php/UserManagement/changePassword",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:user
-            })
-        },
-        /** Generate Report */
-        GenerateReport: function(report){
-            return $http({
-                method: "POST",
-                url: "index.php/ReportManagement/generateReport",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:report
-            })
-        },
-        GetOutboundDeliveryToday: function(){
-            return $http({
-                method: "GET",
-                url: "index.php/OutboundDeliveryManagement/getTransactions",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-        GetOutboundDeliveryList: function(){
-            return $http({
-                method: "GET",
-                url: "index.php/OutboundDeliveryManagement/getAllOutboundDelivery",
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        },
-
+        }
     }
 
 }]);

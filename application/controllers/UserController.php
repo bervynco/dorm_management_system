@@ -88,8 +88,8 @@ class UserController extends CI_Controller {
             $arrUser = array();
             $branch = array();
             foreach($user as $index => $row){
-                $object['branch_id'] = $row['branch_id'];
-                $object['user_branch_id'] = $row['user_branch_id'];
+                $object['branch_id'] = (int)$row['branch_id'];
+                $object['user_branch_id'] = (int)$row['user_branch_id'];
                 $object['branch_name'] = $row['branch_name'];
                 $object['role'] = $row['role'];
                 array_push($branch, $object);
