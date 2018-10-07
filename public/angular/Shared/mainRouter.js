@@ -62,14 +62,14 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             templateUrl: "public/angular/Templates/Tenant/tenant.html",
             controller: "TenantController"
         })
-        .state('service', {
+        .state('utility', {
             parent: 'site',
             data: {
                 roles: []
             },
-            url: "/service",
-            templateUrl: "public/angular/Templates/Service/service.html",
-            controller: 'ServiceController'
+            url: "/utility",
+            templateUrl: "public/angular/Templates/Utility/utility.html",
+            controller: 'UtilityController'
         })
         .state('inventory', {
             parent: 'site',

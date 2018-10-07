@@ -39,7 +39,7 @@
     <script src="public/angular/Templates/Room/roomController.js"></script>
     <script src="public/angular/Templates/User/userController.js"></script>
     <script src="public/angular/Templates/Branch/branchController.js"></script>
-    <script src="public/angular/Templates/Service/serviceController.js"></script>
+    <script src="public/angular/Templates/Utility/utilityController.js"></script>
     <!--build:css css/styles.min.css-->
     <link rel="stylesheet" href="public/assets/css/jquery.scrollbar.css">
     <link rel="stylesheet" href="public/assets/css/material.css">
@@ -101,9 +101,9 @@
                 <div flex layout layout-align="start center">Tenant Management</div>
             </div>
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
-                ng-click="ChangeState('service')">
-                <span flex="none" ng-class="currState === 'service' ? 'status-active' : 'status-inactive'"></span>
-                <div flex layout layout-align="start center">Services</div>
+                ng-click="ChangeState('utility')">
+                <span flex="none" ng-class="currState === 'utility' ? 'status-active' : 'status-inactive'"></span>
+                <div flex layout layout-align="start center">Utility Management</div>
             </div>
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch"  
                 ng-click="ChangeState('inventory')" ng-class="currState === 'inventory' ? 'state-active' : ''">

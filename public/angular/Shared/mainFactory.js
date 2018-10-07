@@ -196,6 +196,37 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 },
                 data: inventory
             })
+        },
+        /** Utility **/
+        GetUtilityList: function(id) {
+            return $http({
+                method: "POST",
+                url: "index.php/UtilityController/getAllUtility",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
+        AddNewUtility: function(utility) {
+            return $http({
+                method: "POST",
+                url: "index.php/UtilityController/addNewUtility",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: utility
+            })
+        },
+        EditUtility: function(utility) {
+            return $http({
+                method: "POST",
+                url: "index.php/UtilityController/editUtility",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: utility
+            })
         }
     }
 
