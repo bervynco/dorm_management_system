@@ -95,8 +95,8 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
                 roles: []
             },
             url: "/calendar",
-            templateUrl: "public/angular/Templates/Customer/customer.html",
-            controller: 'CustomerController'
+            templateUrl: "public/angular/Templates/Calendar/calendar.html",
+            controller: 'CalendarController'
         })
         .state('reports', {
             parent: 'site',

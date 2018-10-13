@@ -227,6 +227,37 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 },
                 data: utility
             })
+        },
+        /** Calendar **/
+        GetCalendarList: function(id) {
+            return $http({
+                method: "POST",
+                url: "index.php/CalendarController/getAllCalendar",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
+        AddNewCalendar: function(calendar) {
+            return $http({
+                method: "POST",
+                url: "index.php/CalendarController/addNewCalendar",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: calendar
+            })
+        },
+        EditCalendar: function(calendar){
+            return $http({
+                method: "POST",
+                url: "index.php/CalendarController/editCalendar",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: calendar
+            })
         }
     }
 

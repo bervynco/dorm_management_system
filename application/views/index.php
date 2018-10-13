@@ -40,6 +40,7 @@
     <script src="public/angular/Templates/User/userController.js"></script>
     <script src="public/angular/Templates/Branch/branchController.js"></script>
     <script src="public/angular/Templates/Utility/utilityController.js"></script>
+    <script src="public/angular/Templates/Calendar/calendarController.js"></script>
     <!--build:css css/styles.min.css-->
     <link rel="stylesheet" href="public/assets/css/jquery.scrollbar.css">
     <link rel="stylesheet" href="public/assets/css/material.css">
