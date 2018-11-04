@@ -238,6 +238,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: utility
             })
         },
+        DeleteUtility: function(utility){
+            return $http({
+                method: "POST",
+                url: "index.php/UtilityController/deleteUtility",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: utility
+            })
+        },
         /** Calendar **/
         GetCalendarList: function(id) {
             return $http({
@@ -305,6 +315,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
             return $http({
                 method: "POST",
                 url: "index.php/PayableController/editPayable",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: payables
+            })
+        },
+        DeletePayable: function(payables){
+            return $http({
+                method: "POST",
+                url: "index.php/PayableController/deletePayable",
                 headers: {
                     'Content-Type': 'application/json'
                 },

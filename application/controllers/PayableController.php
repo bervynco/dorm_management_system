@@ -52,4 +52,18 @@ class PayableController extends CI_Controller {
         }
     }
 
+    public function deletePayable() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $payables = $postData;
+        $payableStatus = $this->payable_model->deletePayableItem($payables['payable_id'], $payables['branch_id']);
+
+        if($payableStatus > 0) {
+            echo json_encode($this->returnArray(200, "Successfully deleted payable item", $payables));
+            
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error deleting payable item "));
+        }
+    }
+
 }

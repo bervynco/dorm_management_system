@@ -1,7 +1,7 @@
 <?php
 class payable_model extends CI_Model {
     function selectAllPayablePerBranch($branchId) {
-        $query = $this->db->where('branch_id', $branchId)->get('payables');
+        $query = $this->db->where('branch_id', $branchId)->where('status', 'active')->get('payables');
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
@@ -24,6 +24,17 @@ class payable_model extends CI_Model {
         );
         return $this->db->affected_rows();
     }
+    function deletePayableItem($payableId, $branchId) {
+        $query = $this->db->where('payable_id', $payableId)
+                        ->where('branch_id', $branchId)
+                        ->update('payables', 
+                        array(
+                            'status' => 'inactive'
+                        )
+        );
+        return $this->db->affected_rows();
+    }
+
 }
 
 ?>
