@@ -11,8 +11,7 @@
         $scope.calendar = {
             calendar_event_name: '',
             calendar_description: '',
-            calendar_start_date: '',
-            calendar_end_date:''
+            calendar_date: ''
 
         }
     }
@@ -40,8 +39,7 @@
 
     $scope.showCompleteDetails = function(calendar){
         $scope.showCompleteDetailsFlag = true;
-        calendar.calendar_start_date = new Date(calendar.calendar_start_date);
-        calendar.calendar_end_date = new Date(calendar.calendar_end_date);
+        calendar.calendar_date = new Date(calendar.calendar_date);
         $scope.calendar = calendar;
     }
 

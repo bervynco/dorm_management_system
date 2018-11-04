@@ -19,15 +19,13 @@
             <tr>
                 <th> Calendar Event Name</th>
                 <th> Calendar Description</th>
-                <th> Calendar Start Date</th>
-                <th> Calendar End Date</th>
+                <th> Calendar Date</th>
                 
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td ng-click="showCompleteDetails(row)"> {{row.calendar_event_name}} </td>
                 <td> {{row.calendar_description}} </td>
-                <td> {{row.calendar_start_date}} </td>
-                <td> {{row.calendar_end_date}} </td>
+                <td> {{row.calendar_date}} </td>
             </tr>
         </table>
     </div>
@@ -50,12 +48,8 @@
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="calendar.calendar_description">
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Calendar Start Date <i class="required"> * </i></span>
-                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="calendar.calendar_start_date">
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Calendar End Date<i class="required"> * </i></span>
-                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="calendar.calendar_end_date">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Calendar Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="calendar.calendar_date">
             </span>
         </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
@@ -82,12 +76,8 @@
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="calendar.calendar_description" ng-disabled="disable">
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Calendar Start Date <i class="required"> * </i></span>
-                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="calendar.calendar_start_date" ng-disabled="disable">
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Calendar End Date<i class="required"> * </i></span>
-                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="calendar.calendar_end_date" ng-disabled="disable">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Calendar Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="calendar.calendar_date" ng-disabled="disable">
             </span>
         </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">

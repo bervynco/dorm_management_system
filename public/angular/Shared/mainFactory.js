@@ -197,6 +197,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: inventory
             })
         },
+        DeleteInventory: function(inventory) {
+            return $http({
+                method: "POST",
+                url: "index.php/InventoryController/deleteInventory",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: inventory
+            })
+        },
         /** Utility **/
         GetUtilityList: function(id) {
             return $http({
@@ -257,6 +267,48 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                     'Content-Type': 'application/json'
                 },
                 data: calendar
+            })
+        },
+        /** Generate Report **/
+        GenerateReport: function(report){
+            return $http({
+                method: "POST",
+                url: "index.php/GenerateReport/generateReport",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: report
+            })
+        },
+        /** Payables **/
+        GetPayableList: function(id) {
+            return $http({
+                method: "POST",
+                url: "index.php/PayableController/getAllPayable",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
+        AddNewPayable: function(payables) {
+            return $http({
+                method: "POST",
+                url: "index.php/PayableController/addNewPayable",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: payables
+            })
+        },
+        EditPayable: function(payables){
+            return $http({
+                method: "POST",
+                url: "index.php/PayableController/editPayable",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: payables
             })
         }
     }

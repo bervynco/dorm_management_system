@@ -17,8 +17,7 @@ class calendar_model extends CI_Model {
                             array(
                                 'calendar_event_name'=> $calendar['calendar_event_name'], 
                                 'calendar_description' => $calendar['calendar_description'],
-                                'calendar_start_date' => $calendar['calendar_start_date'], 
-                                'calendar_end_date' => $calendar['calendar_end_date'], 
+                                'calendar_date' => $calendar['calendar_date'],
                                 'branch_id' => $calendar['branch_id']
                             )
         );

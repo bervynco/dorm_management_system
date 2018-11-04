@@ -98,14 +98,14 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             templateUrl: "public/angular/Templates/Calendar/calendar.html",
             controller: 'CalendarController'
         })
-        .state('reports', {
+        .state('report', {
             parent: 'site',
             data: {
                 roles: []
             },
-            url: "/reports",
-            templateUrl: "public/angular/Templates/Customer/customer.html",
-            controller: 'CustomerController'
+            url: "/report",
+            templateUrl: "public/angular/Templates/Report/report.html",
+            controller: 'ReportController'
         })
 
 }]);
