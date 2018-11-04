@@ -74,6 +74,14 @@
             $scope.disable = !$scope.disable;
         }
     }
+
+    $scope.deleteUtility = function(item){
+        DataFactory.DeleteUtility(item).success(function(response){
+
+        }).error(function(error){
+
+        });
+    }
     getAllData();
     initializeVariables();
 });

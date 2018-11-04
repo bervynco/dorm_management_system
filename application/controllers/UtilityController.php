@@ -57,4 +57,17 @@ class UtilityController extends CI_Controller {
             echo json_encode($this->returnArray(500, "Error updating utility"));
         }
     }
+
+    public function deleteUtility() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $status = $this->utility_model->deleteUtility($postData['utility_id'], $postData['branch_id']);
+
+        if($status > 0) {
+            echo json_encode($this->returnArray(200, "Successfully deleting utility", $postData));
+            
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error deleting utility"));
+        }
+    }
 }

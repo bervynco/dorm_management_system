@@ -111,11 +111,19 @@
             </span>
         </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-click="editUtility(disable)"> 
+            <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editUtility(disable)" > 
                 <span ng-if="disable"> Edit Utility </span>
                 <span ng-if="!disable"> Update Utility </span>
             </button>
             <span class="space-between-buttons"></span>
+            <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-if="disable" ng-click="deleteUtility(utility)"> 
+                <span> Delete Utility </span>
+            </button>
+            <button flex class="page-cancel-button" class="sidebar-form-button" ng-if="!disable" ng-click="CloseSidebar()"> 
+                <span> Cancel </span>
+            </button>
+        </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button" ng-if="disable">
             <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
     </div>
