@@ -95,6 +95,19 @@
         }
         
     }
+
+    $scope.deleteInventory = function(item){
+        DataFactory.DeleteInventory(item).success(function(response){
+            if(response.status == 200){
+                $scope.CloseSidebar();
+            }
+            else{
+
+            }
+        }).error(function(error){
+
+        });
+    }
     getAllData();
     initializeVariables();
 });

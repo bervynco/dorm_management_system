@@ -57,4 +57,18 @@ class InventoryController extends CI_Controller {
         }
     }
 
+    public function deleteInventory() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $inventory = $postData;
+        $inventoryStatus = $this->inventory_model->deleteInventoryItem($inventory['inventory_id'], $inventory['room_id'], $inventory['branch_id']);
+
+        if($inventoryStatus > 0) {
+            echo json_encode($this->returnArray(200, "Successfully deleted item in a room", $inventory));
+            
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error deleting item in a room"));
+        }
+    }
+
 }
