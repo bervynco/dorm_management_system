@@ -54,13 +54,18 @@ class TenantController extends CI_Controller {
         
     }
 
-    public function deleteTenant(){
-        $arrColumns = array('id', 'name', 'username', 'role');
+    public function deleteTenant() {
         $postData = json_decode(file_get_contents('php://input'), true);
-        $arrUserDetail = $this->assignDataToArray($postData, $arrColumns);
-        $user = $this->user_model->deleteUser($arrUserDetail);
+        $tenant = $postData;
+        $inventoryStatus = $this->tenant_model->deleteTenant($tenant['tenant_id'], $tenant['branch_id']);
 
-        echo "Successful";
+        if($inventoryStatus > 0) {
+            echo json_encode($this->returnArray(200, "Successfully deleted tenant", $tenant));
+            
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error deleting tenant"));
+        }
     }
 
     public function addNewPayment(){
