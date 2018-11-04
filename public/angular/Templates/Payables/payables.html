@@ -1,0 +1,107 @@
+<div flex layout="column" layout-align="start stretch" class="page-container">
+    <div flex="none" layout layout-align="end stretch" class="page-header">
+        <div flex="80" layout layout-align="start stretch" class="page-header-details">
+            <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
+        </div>
+        <div flex="20" layout layout-align="end stretch">
+            <button flex="none" class="flat-button" ng-click="addPayable()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Payable 
+            </button>
+            <button flex="none" class="flat-button" ng-click="downloadPage()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/download-button.png" layout layout-align="center center" >Download 
+            </button>
+        </div>
+        
+    </div>
+    <div flex layout="column" layout-align="start stretch" class="page-content">
+        <table class="page-table">
+            <tr>
+                <!-- <th> Item #</th> -->
+                <th> Payable Name</th>
+                <th> Payable Description</th>
+                <th> Payable Amount </th>
+                <th> Payable Date</th>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <!-- <td > {{row.item_number}} </td> -->
+                <td ng-click="showCompleteDetails(row)"> {{row.name}} </td>
+                <td> {{row.description}} </td>
+                <td> {{row.amount}} </td>
+                <td> {{row.payable_date}} </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <ng-form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Add New Payable</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="payables.name">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="payables.description">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Amount </span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="payables.amount">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="payables.payable_date">
+            </span>
+        </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="addNewPayable()"> Add New Payable </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+        </div>
+    </ng-form>
+</div>
+
+<div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Payable Details</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <!-- <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item # </span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" disabled>
+            </span> -->
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-disabled="disable" ng-model="payables.name">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" ng-model="payables.description">
+            </span>
+             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Amount </span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" required ng-model="payables.amount">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-disabled="disable" ng-model="payables.payable_date">
+            </span>
+        </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editPayable()" > 
+                <span ng-if="disable"> Edit Payable </span>
+                <span ng-if="!disable"> Update Payable </span>
+            </button>
+            
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+        </div>
+    </div>
+</div>
