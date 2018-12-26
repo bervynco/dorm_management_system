@@ -49,6 +49,7 @@
         $scope.currentTab = $scope.roomTabs[0];
         $scope.showCompleteDetailsFlag = true;
         DataFactory.GetTenantPerRoom(room).success(function(response){
+            console.log(response);
             if(response.status == 200)
                 $scope.tenantRows = response.data;
         }).error(function(error){

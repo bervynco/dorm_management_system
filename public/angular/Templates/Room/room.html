@@ -119,21 +119,21 @@
                 <table class="page-table">
                     <tr>
                         <th> Tenant Name</th>
-                        <th> Start Date</th>
-                        <th> End Date</th>
-                        <th> Rent </th>
-                        <th> Electricity Bill</th>
-                        <th> Water Bill</th>
-                        <th> Laundry Bill</th>
+                        <th> Start Contract</th>
+                        <th> End Contract</th>
+                        <th> Contact Number </th>
+                        <th> Emergency Contact Name</th>
+                        <th> Emergency Contact Number</th>
+                        <th> Birthday</th>
                     </tr>
                     <tr ng-repeat="row in tenantRows track by $index">
                         <td> {{row.tenant_name}} </td>
-                        <td> {{row.start_date}} </td>
-                        <td> {{row.end_date}} </td>
-                        <td> {{row.rent}} </td>
-                        <td> {{row.electricity_bill}} </td>
-                        <td> {{row.water_bill}} </td>
-                        <td> {{row.laundry_bill}} </td>
+                        <td> {{row.start_contract}} </td>
+                        <td> {{row.end_contract}} </td>
+                        <td> {{row.contact_number}} </td>
+                        <td> {{row.emergency_name}} </td>
+                        <td> {{row.emergency_number}} </td>
+                        <td> {{row.birthday}} </td>
                     </tr>
                 </table> 
             </div>
