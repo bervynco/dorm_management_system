@@ -49,8 +49,8 @@
 
         DataFactory.AddNewPayable($scope.payables).success(function(response){
             if(response.status == 200){
-                console.log(response);
-                $scope.rows.push(response.data);
+                getAllData();
+                $scope.CloseSidebar();
             }
             else {
                 console.log(response.message);
@@ -64,7 +64,13 @@
         if($scope.disable == false){
             $scope.payables.branch_id = $scope.branch.branch_id;
             DataFactory.EditPayable($scope.payables).success(function(response){
-
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else {
+                    console.log(response.message);
+                }
             }).error(function(error){
 
             });
@@ -78,7 +84,7 @@
     $scope.deletePayable = function(item){
         DataFactory.DeletePayable(item).success(function(response){
             if(response.status == 200){
-                // $scope.CloseSidebar();
+                $scope.CloseSidebar();
             }
             else{
 
