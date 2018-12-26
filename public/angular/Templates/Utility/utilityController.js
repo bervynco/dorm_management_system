@@ -78,7 +78,13 @@
             'branch_id': $scope.branch.branch_id
         }
         DataFactory.AssignUtilityToTenant($scope.assign).success(function(response){
-
+            if(response.status == 200){
+                getAllData();
+                $scope.CloseSidebar();
+            }
+            else {
+                console.log(response.message);
+            }
         }).error(function(error){
 
         });
@@ -87,8 +93,12 @@
     $scope.addUtility = function() {
         $scope.utility.branch_id = $scope.branch.branch_id;
         DataFactory.AddNewUtility($scope.utility).success(function(response){
-            if(response.status = 200){
+            if(response.status == 200){
+                getAllData();
                 $scope.CloseSidebar();
+            }
+            else {
+                console.log(response.message);
             }
         }).error(function(error){
 
@@ -99,7 +109,13 @@
         if($scope.disable == false){
             $scope.utility.branch_id = $scope.branch.branch_id;
             DataFactory.EditUtility($scope.utility).success(function(response){
-
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else {
+                    console.log(response.message);
+                }
             }).error(function(error){
 
             });
@@ -112,7 +128,13 @@
 
     $scope.deleteUtility = function(item){
         DataFactory.DeleteUtility(item).success(function(response){
-
+            if(response.status == 200){
+                getAllData();
+                $scope.CloseSidebar();
+            }
+            else {
+                console.log(response.message);
+            }
         }).error(function(error){
 
         });

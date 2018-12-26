@@ -29,8 +29,14 @@
     }
     $scope.addRoom = function() {
         $scope.room.branch_id = $scope.branch.branch_id;
-        DataFactory.AddRoom($scope.room).success(function(success){
-
+        DataFactory.AddRoom($scope.room).success(function(response){
+            if(response.status == 200){
+                getAllData();
+                $scope.CloseSidebar();
+            }
+            else {
+                console.log(response.message);
+            }
         }).error(function(error){
 
         });

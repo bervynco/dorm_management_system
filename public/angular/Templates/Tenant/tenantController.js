@@ -87,7 +87,13 @@
 
         console.log($scope.tenantPayment);
         DataFactory.AddNewPayment($scope.tenantPayment).success(function(response){
-            
+            if(response.status == 200){
+                getAllData();
+                $scope.CloseSidebar();
+            }
+            else {
+                console.log(response.message);
+            }
         }).error(function(error){
 
         });
@@ -102,7 +108,8 @@
         $scope.tenant.branch_id = $scope.branch.branch_id;
         DataFactory.AddNewTenant($scope.tenant).success(function(response){
             if(response.status == 200){
-                console.log(response);
+                getAllData();
+                $scope.CloseSidebar();
             }
             else {
                 console.log(response.message);
