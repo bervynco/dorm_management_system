@@ -68,8 +68,8 @@
 
         DataFactory.AddNewInventory($scope.inventory).success(function(response){
             if(response.status == 200){
-                console.log(response);
-                $scope.rows.push(response.data);
+                getAllData();
+                $scope.CloseSidebar();
             }
             else {
                 console.log(response.message);
@@ -84,11 +84,13 @@
             $scope.inventory.branch_id = $scope.branch.branch_id;
             $scope.inventory.room_id = $scope.selectedRoom.room_id;
             DataFactory.EditInventory($scope.inventory).success(function(response){
-
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
             }).error(function(error){
 
             });
-            $scope.CloseSidebar();
         }
         else {
             $scope.disable = !$scope.disable;
@@ -99,6 +101,7 @@
     $scope.deleteInventory = function(item){
         DataFactory.DeleteInventory(item).success(function(response){
             if(response.status == 200){
+                getAllData();
                 $scope.CloseSidebar();
             }
             else{
