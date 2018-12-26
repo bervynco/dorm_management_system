@@ -248,6 +248,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: utility
             })
         },
+        AssignUtilityToTenant: function(assign){
+            return $http({
+                method: "POST",
+                url: "index.php/UtilityController/assignUtilityToTenant",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: assign
+            })
+        },
         /** Calendar **/
         GetCalendarList: function(id) {
             return $http({
@@ -283,7 +293,7 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
         GenerateReport: function(report){
             return $http({
                 method: "POST",
-                url: "index.php/GenerateReport/generateReport",
+                url: "index.php/ReportController/generateReport",
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -329,6 +339,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                     'Content-Type': 'application/json'
                 },
                 data: payables
+            })
+        },
+        GenerateBilling: function(id) {
+            return $http({
+                method: "POST",
+                url: "index.php/ComputeController/generateBilling",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
             })
         }
     }

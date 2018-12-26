@@ -10,22 +10,29 @@
     function initializeVariables(){
         $scope.utility = {
             utility_name: '',
-            utility_description: ''
+            utility_description: '',
+            utility_amount: 0
         }
     }
     
     function getAllTenantData(){
-        DataFactory.GetUtilityList($scope.branch.branch_id).success(function(response){
-            if(response.status = 200)
+        DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
+            if(response.status = 200){
                 $scope.tenantList = response.data;
+                $scope.selectedTenant = $scope.tenantList[0];
+            }
         }).error(function(error){
 
         });
     }
+
     function getAllData(){
         DataFactory.GetUtilityList($scope.branch.branch_id).success(function(response){
-            if(response.status = 200)
+            if(response.status = 200){
                 $scope.rows = response.data;
+                $scope.selectedUtility = $scope.rows[0];
+            }
+                
         }).error(function(error){
 
         });
@@ -46,7 +53,35 @@
     $scope.showCompleteUtilityDetails = function(row){
         $scope.showCompleteDetailsFlag = true;
         $scope.utility = row;
+        $scope.utility.utility_amount = parseFloat($scope.utility.utility_amount);
         console.log($scope.utility);
+    }
+
+    $scope.assignServices = function() {
+        $scope.assignServicesToTenantFlag = true;
+        getAllTenantData();
+        getAllData();
+    }
+
+    $scope.ChangeTenantName = function(item){
+        $scope.selectedTenant = item;
+    }
+
+    $scope.ChangeUtilityName = function(item){
+        $scope.selectedUtility = item;
+    }
+
+    $scope.assignServicesToTenant = function() {
+        $scope.assign = {
+            'tenant': $scope.selectedTenant,
+            'utility': $scope.selectedUtility,
+            'branch_id': $scope.branch.branch_id
+        }
+        DataFactory.AssignUtilityToTenant($scope.assign).success(function(response){
+
+        }).error(function(error){
+
+        });
     }
 
     $scope.addUtility = function() {

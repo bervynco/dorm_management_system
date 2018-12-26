@@ -3,8 +3,8 @@
     $scope.showSideNav = false;
     $scope.showCompleteDetailsFlag = false;
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
-    $scope.roomTabs = ['Tenants', 'Inventory'];
-    $scope.currentTab = 'Tenants';
+    $scope.roomTabs = ['Room Details', 'Tenants', 'Inventory'];
+    
     function getAllData(){
         DataFactory.GetRoomList($scope.branch.branch_id).success(function(response){
             console.log(response);
@@ -19,6 +19,7 @@
             room_number: '',
             floor_number: '',
             capacity_count: '',
+            room_rate: '',
             branch_id: '',
         }
     }
@@ -39,6 +40,7 @@
     }
 
     $scope.showCompleteRoomDetails = function(room){
+        $scope.currentTab = $scope.roomTabs[0];
         $scope.showCompleteDetailsFlag = true;
         DataFactory.GetTenantPerRoom(room).success(function(response){
             if(response.status == 200)

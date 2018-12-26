@@ -1,0 +1,64 @@
+<div layout="column" layout-align="start stretch" flex>
+	<div flex="20"></div>
+    <div flex layout layout-align="center stretch" my-setter padding="10">
+		<div flex="20" layout="column" layout-align="start stretch" my-setter margin="10">
+			<div flex="20" layout layout-align="center center">Step 1. Choose report type</div>
+			<div flex="20" layout layout-align="start stretch">
+				<select flex ng-model="reportParams.selected_report" ng-change="ChangeReport(reportParams.selected_report)">
+					<option value="" disabled selected>Select report</option>
+					<option ng-repeat="list in reportList" value = "{{list.alternative}}">{{list.name}}</option> <!--  -->
+				</select>
+			</div>
+			<div flex></div>
+		</div>
+		 <div flex="20" layout="column" layout-align="start stretch" my-setter margin="10">
+			<div flex="20" layout layout-align="center center">Step 2. Choose Filter type</div>
+			<div flex="20" layout layout-align="start stretch">
+				<select flex ng-model="reportParams.selected_report_type" ng-change="ChangeReportType(reportParams.selected_report_type)">
+					<option value="" disabled selected>Select report type</option>
+					<option ng-repeat="list in reportTypeList">{{list}}</option>
+				</select>
+			</div>
+			<div flex></div>
+        </div> 
+        <div flex="20" layout="column" layout-align="start stretch" my-setter margin="10" ng-if="selectedReportType=='Monthly'">
+			<div flex="20" layout layout-align="center center">Step 3. Choose Month</div>
+			<div flex="20" layout layout-align="start stretch">
+				<select flex ng-model="reportParams.selected_month" ng-change="ChangeMonth(reportParams.selected_month)">
+					<option value="" disabled selected>Select month</option>
+					<option ng-repeat="list in monthList">{{list}}</option>
+				</select>
+			</div>
+			<div flex></div>
+        </div>
+        <div flex="20" layout="column" layout-align="start stretch" my-setter margin="10" ng-if="selectedReportType=='Quarterly'">
+			<div flex="20" layout layout-align="center center">Step 3. Choose Quarter</div>
+			<div flex="20" layout layout-align="start stretch">
+				<select flex ng-model="reportParams.selected_quarter" ng-change="ChangeQuarter(reportParams.selected_quarter)">
+					<option value="" disabled selected>Select quarter</option>
+					<option ng-repeat="list in quarterList">{{list}}</option>
+				</select>
+			</div>
+			<div flex></div>
+        </div>
+        <div flex="20" layout="column" layout-align="start stretch" my-setter margin="10" ng-if="selectedReportType == 'Monthly' || selectedReportType == 'Quarterly' || selectedReportType == 'Yearly' ">
+			<div flex="20" layout layout-align="center center">Step 4. Choose Year</div>
+			<div flex="20" layout layout-align="start stretch">
+				<select flex ng-model="reportParams.selected_year" ng-change="ChangeYear(reportParams.selected_yea)">
+					<option value="" disabled selected>Select year</option>
+					<option ng-repeat="list in yearList">{{list}}</option>
+				</select>
+			</div>
+			<div flex></div>
+		</div>
+		<div flex="20" layout="column" layout-align="center stretch" my-setter margin="10">
+			<div flex="20"></div>
+			<md-button class="md-raised button-accept" ng-click="GenerateReport()">Generate Report</md-button>
+			<a ng-href="" download="yourFilename"></a>
+			<div flex></div>
+		</div>
+	</div>
+	<div flex></div>
+    <div flex="10" layout-layout-align="start stretch"></div>
+    <div flex="5"></div>
+</div>

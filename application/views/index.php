@@ -42,6 +42,7 @@
     <script src="public/angular/Templates/Utility/utilityController.js"></script>
     <script src="public/angular/Templates/Calendar/calendarController.js"></script>
     <script src="public/angular/Templates/Report/reportController.js"></script>
+    <script src="public/angular/Templates/Compute/computeController.js"></script>
     <!--build:css css/styles.min.css-->
     <link rel="stylesheet" href="public/assets/css/jquery.scrollbar.css">
     <link rel="stylesheet" href="public/assets/css/material.css">
@@ -126,6 +127,11 @@
                 ng-click="ChangeState('report')">
                 <span flex="none" ng-class="currState === 'report' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Reports</div>
+            </div>
+            <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+                ng-click="ChangeState('compute')">
+                <span flex="none" ng-class="currState === 'compute' ? 'status-active' : 'status-inactive'"></span>
+                <div flex layout layout-align="start center">Compute Billing</div>
             </div>
         </div>
     </div>
