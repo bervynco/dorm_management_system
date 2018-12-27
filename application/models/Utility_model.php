@@ -1,7 +1,7 @@
 <?php
 class utility_model extends CI_Model {
     function selectAllUtility($branchId) {
-        $this->db->select(array('utility.utility_id' ,'utility.utility_name', 'utility.utility_description', 'utility.utility_amount', 'utility_branch.*'));
+        $this->db->select(array('utility.utility_id' ,'utility.utility_name', 'utility.utility_description', 'utility.utility_recurrence', 'utility.utility_amount', 'utility_branch.*'));
         $this->db->from('utility');
         $this->db->join('utility_branch', 'utility.utility_id = utility_branch.utility_id');
         $this->db->where('utility_branch.branch_id', $branchId);
@@ -28,7 +28,8 @@ class utility_model extends CI_Model {
                             array(
                                 'utility_name'=> $utility['utility_name'], 
                                 'utility_description' => $utility['utility_description'],
-                                'utility_amount' => $utility['utility_amount']
+                                'utility_amount' => $utility['utility_amount'],
+                                'utility_recurrence' => $utility['utility_recurrence']
                             
                             )
         );

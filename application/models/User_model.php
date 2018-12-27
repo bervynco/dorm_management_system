@@ -10,7 +10,7 @@ class user_model extends CI_Model {
     }
 
     function selectAllUsers($branchID){
-        $query = $this->db->where('user_branch_id', $branchID)->get('user_details');
+        $query = $this->db->where('branch_id', $branchID)->get('user_details');
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 

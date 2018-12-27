@@ -5,7 +5,6 @@
         password: ''
     }
     $scope.Login = function(){
-        console.log("LOGIN");
         DataFactory.SignIn($scope.user).success(function(response){
             if(response.status == 200){
                 localStorage.setItem("user", JSON.stringify(response.data[0]));

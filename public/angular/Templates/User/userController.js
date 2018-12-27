@@ -1,4 +1,4 @@
- app.controller('UserController', function ($scope, $rootScope, $interval, DataFactory, $state, $mdDialog, $mdToast, $window) {
+ app.controller('UserController', function ($scope, $rootScope, $interval, DataFactory, AppService, $state, $mdDialog, $mdToast, $window) {
     $scope.$parent.ChangeAppState('user');
     $scope.showSideNav = false;
     $scope.showCompleteDetailsFlag = false;
@@ -7,11 +7,17 @@
         name: '',
         username: '',
         password: '',
-        mobile_number: ''
+        mobile_number: '',
+        request_id: '',
+        branch_id: ''
+    }
+    $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
+    var requestId;
+    function getRequestID() {
+        requestId = AppService.getRequestId();
     }
     function getAllUsers(){
-
-        DataFactory.GetUserList(1).success(function(response){
+        DataFactory.GetUserList($scope.branch.branch_id).success(function(response){
             console.log(response);
             $scope.rows = response;
         }).error(function(error){
@@ -23,6 +29,8 @@
     }
 
     $scope.addUser = function(ev){
+        $scope.user.request_id = requestId;
+        $scope.user.branch_id = $scope.branch.branch_id;
         DataFactory.AddNewUser($scope.user).success(function(response){
             if(response.status == 200){
                 $scope.CloseSidebar($scope.user);
@@ -37,7 +45,6 @@
         if(flag == true)
             $scope.disable = false;
         else {
-            console.log("EDIT Underway");
         }
     }
     $scope.CloseSidebar = function(object) {
@@ -67,4 +74,5 @@
         });
     };
     getAllUsers();
+    getRequestID();
 });

@@ -13,8 +13,7 @@ class UserController extends CI_Controller {
     }
     public function getAllUsersPerBranch(){
         $postData = json_decode(file_get_contents('php://input'), true);
-        // print_r($postData);
-        $arrUsers = $this->user_model->selectAllUsers(1);
+        $arrUsers = $this->user_model->selectAllUsers($postData['branch_id']);
         echo json_encode($arrUsers);
     }
 
