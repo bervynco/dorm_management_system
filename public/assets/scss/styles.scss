@@ -730,21 +730,22 @@ select:focus
             }
         }
 
-        > .sidebar-form-tab {
-            @extend %large-font;
-            > div {
-                padding: $buttonPadding;
-                outline:none;
-                @extend %cursor-pointer;
-            }
-            .tab-active {
-                background-color: $sideNavColor;
-                color: $sideNavFontColor;
-            }           
-        }
+        
     }
 }
-
+.sidebar-form-tab {
+    @extend %large-font;
+    margin-bottom: 5px;
+    > div {
+        padding: $buttonPadding;
+        outline:none;
+        @extend %cursor-pointer;
+    }
+    .tab-active {
+        background-color: $sideNavColor;
+        color: $sideNavFontColor;
+    }           
+}
 .sidebar-modal-active {
     background-color: rgba(0,0,0,0.8);
 }
@@ -783,7 +784,6 @@ select:focus
     border-collapse: collapse;
     > tbody > tr {
         height: 20px;
-        
     }
     > tbody > tr > th {
         background-color: $sideNavColor;
