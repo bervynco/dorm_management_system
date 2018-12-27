@@ -2,12 +2,18 @@
 var mainFactory = angular.module('Main-Factory', []); //
 mainFactory.service('AppService', function(){
     var currBranch = {};
+    var branch = JSON.parse(sessionStorage.getItem("branch"));
     this.setCurrBranch = function(branch){
         currBranch = branch;
     }
     this.getCurrBranch = function () {
-        console.log(currBranch);
         return currBranch;
+    }
+    this.getRequestId = function() {
+        if(branch.role == 'Administrator')
+            return 2;
+        else
+            return 1;
     }
 });
 mainFactory.factory('DataFactory', ['$http', function ($http) {
@@ -22,7 +28,6 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
 
         return text;
     }
-
     var locationString = "/migatsu_api/public/api/";
     return {
         //Samples
@@ -53,14 +58,14 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
         },
         /* End of Login */
         /** User Management  **/
-        GetUserList: function(branchID){
+        GetUserList: function(id){
             return $http({
-                method: "GET",
+                method: "POST",
                 url: "index.php/UserController/getAllUsersPerBranch",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: branchID
+               data: {'branch_id' : id}
             })
         },
         AddNewUser: function(user){
