@@ -4,14 +4,16 @@
     $scope.showCompleteDetailsFlag = false;
     $scope.assignServicesToTenantFlag = false;
     $scope.disable = true;
-
+    $scope.servicesTab = ['One Time', 'Recurring'];
+    $scope.currentTab = $scope.servicesTab[0];
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
 
     function initializeVariables(){
         $scope.utility = {
             utility_name: '',
             utility_description: '',
-            utility_amount: 0
+            utility_amount: 0,
+            utility_recurrence: ''
         }
     }
     
@@ -20,6 +22,7 @@
             if(response.status = 200){
                 $scope.tenantList = response.data;
                 $scope.selectedTenant = $scope.tenantList[0];
+                
             }
         }).error(function(error){
 
@@ -29,7 +32,9 @@
     function getAllData(){
         DataFactory.GetUtilityList($scope.branch.branch_id).success(function(response){
             if(response.status = 200){
+                $scope.utilityData = response.data;
                 $scope.rows = response.data;
+                filterData($scope.currentTab);
                 $scope.selectedUtility = $scope.rows[0];
             }
                 
@@ -38,6 +43,17 @@
         });
     }
 
+    function filterData(tab){
+        $scope.rows = [];
+        $scope.rows = _.filter($scope.utilityData, function(o) { 
+            return tab.toLowerCase() == o.utility_recurrence; 
+        });
+        console.log($scope.rows);
+    }
+    $scope.ChangeServiceTab = function(tab) {
+        $scope.currentTab = tab;
+        filterData(tab);
+    }
     $scope.CloseSidebar = function() {
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
