@@ -3,16 +3,28 @@
     $scope.showSideNav = false;
     $scope.showCompleteDetailsFlag = false;
     $scope.disable = true;
+    var requestId;
+    $scope.userDetails = JSON.parse(localStorage.getItem("user"));
+    $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
+    
+    $scope.approval = {
+        approval_section: 'user',
+        approval_mode: '',
+        approval_data: '',
+        request_id: '',
+        user_id: $scope.userDetails.user_id,
+        status: 'active'
+    }
     $scope.user = {
         name: '',
         username: '',
         password: '',
         mobile_number: '',
         request_id: '',
-        branch_id: ''
+        branch_id: $scope.branch.branch_id
     }
-    $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
-    var requestId;
+    
+    
     function getRequestID() {
         requestId = AppService.getRequestId();
     }
@@ -29,17 +41,28 @@
     }
 
     $scope.addUser = function(ev){
-        $scope.user.request_id = requestId;
-        $scope.user.branch_id = $scope.branch.branch_id;
-        DataFactory.AddNewUser($scope.user).success(function(response){
-            if(response.status == 200){
-                $scope.CloseSidebar($scope.user);
-                $scope.showConfirm(ev);
+        if($scope.branch.role == "Staff"){
+            $scope.approval.approval_mode = "Add";
+            $scope.approval.request_id = requestId;
+            $scope.approval.approval_data = $scope.user;
+            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
+                if(response.status == 200){
+                    $scope.CloseSidebar($scope.approval);
+                }
+            }).error(function(error){
 
-            }
-        }).error(function(error){
+            });
+        }
+        else {
+            DataFactory.AddNewUser($scope.user).success(function(response){
+                if(response.status == 200){
+                    $scope.CloseSidebar($scope.user);
+                }
+            }).error(function(error){
 
-        });
+            });
+        }
+        
     }
     $scope.editUser = function(flag){
         if(flag == true)
@@ -57,22 +80,6 @@
         $scope.showCompleteDetailsFlag = true;
         $scope.user = user;
     }
-
-    $scope.showConfirm = function(ev) {
-        var confirm = $mdDialog.confirm()
-            .title('Would you like to add user in a branch?')
-            .textContent('You will be redirected to another page.')
-            .ariaLabel('Lucky day')
-            .targetEvent(ev)
-            .ok('Yes')
-            .cancel('Cancel');
-
-        $mdDialog.show(confirm).then(function() {
-            $scope.$parent.ChangeAppState('manage-branch');
-            $state.go('manage-branch');
-        }, function() {
-        });
-    };
     getAllUsers();
     getRequestID();
 });
