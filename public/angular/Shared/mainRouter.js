@@ -116,5 +116,14 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             templateUrl: "public/angular/Templates/Compute/compute.html",
             controller: 'ComputeController'
         })
+        .state('request', {
+            parent: 'site',
+            data: {
+                roles: []
+            },
+            url: "/request",
+            templateUrl: "public/angular/Templates/Request/request.html",
+            controller: 'RequestController'
+        })
 
 }]);

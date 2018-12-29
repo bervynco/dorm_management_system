@@ -356,6 +356,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: {'branch_id' : id}
             })
         },
+        GetRequestApprovalData: function(id) {
+             return $http({
+                method: "POST",
+                url: "index.php/ApprovalRequestController/getAllRequest",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
         AddApprovalRequest: function(data) {
             return $http({
                 method: "POST",

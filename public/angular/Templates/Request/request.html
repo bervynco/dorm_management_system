@@ -1,0 +1,76 @@
+<div flex layout="column" layout-align="start stretch" class="page-container">
+    <!-- <div flex="none" layout layout-align="end stretch" class="page-header">
+        <div flex="80" layout layout-align="start stretch" class="page-header-details">
+            <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
+        </div>
+        <div flex="20" layout layout-align="end stretch">
+            <button flex="none" class="flat-button" ng-click="assignServices()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Assign Utility to Tenant 
+            </button>
+            <button flex="none" class="flat-button" ng-click="addNewUtility()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Utility 
+            </button>
+           
+            <button flex="none" class="flat-button" ng-click="downloadPage()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/download-button.png" layout layout-align="center center" >Download 
+            </button>
+        </div>
+    </div> -->
+    <div flex="none" class="sidebar-form-tab" layout="row" layout-align="start stretch">
+        <div flex ng-repeat="tab in servicesTab" layout layout-align="center center" 
+            ng-click="ChangeServiceTab(tab)" ng-class="currentTab === tab ? 'tab-active' : ''"> 
+            {{tab}} 
+        </div>
+    </div>
+
+    <div flex="none" class="sidebar-form-accordion" layout="column" layout-align="start stretch" ng-repeat="tab in modesTab" ng-click="ChangeModeTab(tab)" ng-if="currentTab == 'User'">
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-title">
+            {{tab}} Request Section
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Add' && tab == modeTab">
+            <table class="page-table">
+                <tr>
+                    <th> Name</th>
+                    <th> Username</th>
+                    <th> Mobile Number</th>
+                    <th> Requested by </th>
+                </tr>
+                <tr ng-if="rows.length == 0" class="empty-table"> 
+                    <td colspan="4" align="center"> No Data </td>
+                </tr>
+                
+                <tr ng-repeat="row in rows track by $index">
+                    <td ng-click="showCompleteUtilityDetails(row)"> {{row.approval_data.name}} </td>
+                    <td> {{row.approval_data.username}} </td>
+                    <td> {{row.approval_data.mobile_number}} </td>
+                    <td> {{row.name}} </td>
+                </tr>
+            </table>
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Edit' && tab == modeTab">
+            EDFG
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Delete' && tab == modeTab">
+            HIJK
+        </div>
+    </div>
+    <!-- <div flex layout="column" layout-align="start stretch" class="page-content" ng-if="currentTab == 'User'">
+        <table class="page-table">
+            <tr>
+                <th> Name</th>
+                <th> Username</th>
+                <th> Mobile Number</th>
+                <th> Branch</th>
+                <th> Role</th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="4" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in JSON.parse(rows.approval_data) track by $index">
+                <td ng-click="showCompleteUtilityDetails(row)"> {{row.name}} </td>
+                <td> {{row.username}} </td>
+                <td> {{row.utility_amount}} </td>
+            </tr>
+        </table>
+    </div> -->
+</div>

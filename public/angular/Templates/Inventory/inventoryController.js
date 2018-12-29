@@ -4,7 +4,31 @@
     $scope.showCompleteDetailsFlag = false;
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     $scope.disable = true;
+    var requestId;
+    $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     
+    $scope.approval = {
+        approval_section: 'inventory',
+        approval_mode: '',
+        approval_data: '',
+        request_id: '',
+        user_id: $scope.userDetails.user_id,
+        status: 'active',
+        branch_id: $scope.branch.branch_id
+    }
+    $scope.user = {
+        name: '',
+        username: '',
+        password: '',
+        mobile_number: '',
+        request_id: '',
+        branch_id: $scope.branch.branch_id
+    }
+    
+    function getRequestID() {
+        requestId = AppService.getRequestId();
+    }
+
     function initializeVariables() {
         $scope.inventory = {
             'item_name': '',
@@ -65,18 +89,31 @@
     $scope.addNewItem = function() {
         $scope.inventory.branch_id = $scope.branch.branch_id;
         $scope.inventory.room_id = $scope.selectedRoom.room_id;
+        if($scope.branch.role == "Staff"){
+            $scope.approval.approval_mode = "Add";
+            $scope.approval.request_id = requestId;
+            $scope.approval.approval_data = $scope.inventory;
+            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
+                if(response.status == 200){
+                    $scope.CloseSidebar();
+                }
+            }).error(function(error){
 
-        DataFactory.AddNewInventory($scope.inventory).success(function(response){
-            if(response.status == 200){
-                getAllData();
-                $scope.CloseSidebar();
-            }
-            else {
-                console.log(response.message);
-            }
-        }).error(function(error){
+            });
+        }
+        else {
+            DataFactory.AddNewInventory($scope.inventory).success(function(response){
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else {
+                    console.log(response.message);
+                }
+            }).error(function(error){
 
-        });
+            });
+        }
     }
 
     $scope.editInventory = function(){

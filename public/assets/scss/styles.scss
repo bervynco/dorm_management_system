@@ -746,6 +746,23 @@ select:focus
         color: $sideNavFontColor;
     }           
 }
+.sidebar-form-accordion {
+    @extend %large-font;
+    border: 1px solid rgba(150,150,150,0.5);
+    > .sidebar-accordion-title {
+        margin-bottom: 5px;
+        background-color: $sideNavColor;
+        color: $sideNavFontColor;
+        padding: $buttonPadding;
+        outline:none;
+        @extend %cursor-pointer;
+    }
+    > .sidebar-accordion-content {
+        margin: $pagePadding;
+    }
+    margin-bottom: 5px;
+    
+}
 .sidebar-modal-active {
     background-color: rgba(0,0,0,0.8);
 }

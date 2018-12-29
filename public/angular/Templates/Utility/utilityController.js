@@ -1,4 +1,4 @@
- app.controller('UtilityController', function ($scope, $rootScope, $interval, DataFactory, $state, $mdDialog, $mdToast, $window) {
+ app.controller('UtilityController', function ($scope, $rootScope, $interval, DataFactory, AppService, $state, $mdDialog, $mdToast, $window) {
     $scope.$parent.ChangeAppState('utility');
     $scope.showSideNav = false;
     $scope.showCompleteDetailsFlag = false;
@@ -7,7 +7,8 @@
     $scope.servicesTab = ['One Time', 'Recurring'];
     $scope.currentTab = $scope.servicesTab[0];
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
-
+    var requestId;
+    $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     function initializeVariables(){
         $scope.utility = {
             utility_name: '',
@@ -17,6 +18,20 @@
         }
     }
     
+    $scope.approval = {
+        approval_section: 'utility',
+        approval_mode: '',
+        approval_data: '',
+        request_id: '',
+        user_id: $scope.userDetails.user_id,
+        status: 'active',
+        branch_id: $scope.branch.branch_id
+    }
+
+    function getRequestID() {
+        requestId = AppService.getRequestId();
+    }
+
     function getAllTenantData(){
         DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
             if(response.status = 200){
@@ -108,17 +123,31 @@
 
     $scope.addUtility = function() {
         $scope.utility.branch_id = $scope.branch.branch_id;
-        DataFactory.AddNewUtility($scope.utility).success(function(response){
-            if(response.status == 200){
-                getAllData();
-                $scope.CloseSidebar();
-            }
-            else {
-                console.log(response.message);
-            }
-        }).error(function(error){
+        if($scope.branch.role == "Staff"){
+            $scope.approval.approval_mode = "Add";
+            $scope.approval.request_id = requestId;
+            $scope.approval.approval_data = $scope.utility;
+            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
+                if(response.status == 200){
+                    $scope.CloseSidebar();
+                }
+            }).error(function(error){
 
-        });
+            });
+        }
+        else {
+            DataFactory.AddNewUtility($scope.utility).success(function(response){
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else {
+                    console.log(response.message);
+                }
+            }).error(function(error){
+
+            });
+        }
     }
 
     $scope.editUtility = function(disable) {

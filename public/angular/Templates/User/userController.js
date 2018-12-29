@@ -13,7 +13,8 @@
         approval_data: '',
         request_id: '',
         user_id: $scope.userDetails.user_id,
-        status: 'active'
+        status: 'active',
+        branch_id: $scope.branch.branch_id
     }
     $scope.user = {
         name: '',
@@ -30,7 +31,6 @@
     }
     function getAllUsers(){
         DataFactory.GetUserList($scope.branch.branch_id).success(function(response){
-            console.log(response);
             $scope.rows = response;
         }).error(function(error){
 

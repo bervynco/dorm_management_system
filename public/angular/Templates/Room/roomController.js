@@ -4,7 +4,31 @@
     $scope.showCompleteDetailsFlag = false;
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     $scope.roomTabs = ['Room Details', 'Tenants', 'Inventory'];
+    var requestId;
+    $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     
+    $scope.approval = {
+        approval_section: 'room',
+        approval_mode: '',
+        approval_data: '',
+        request_id: '',
+        user_id: $scope.userDetails.user_id,
+        status: 'active',
+        branch_id: $scope.branch.branch_id
+    }
+    $scope.user = {
+        name: '',
+        username: '',
+        password: '',
+        mobile_number: '',
+        request_id: '',
+        branch_id: $scope.branch.branch_id
+    }
+    
+    function getRequestID() {
+        requestId = AppService.getRequestId();
+    }
+
     function getAllData(){
         DataFactory.GetRoomList($scope.branch.branch_id).success(function(response){
             console.log(response);
@@ -29,17 +53,31 @@
     }
     $scope.addRoom = function() {
         $scope.room.branch_id = $scope.branch.branch_id;
-        DataFactory.AddRoom($scope.room).success(function(response){
-            if(response.status == 200){
-                getAllData();
-                $scope.CloseSidebar();
-            }
-            else {
-                console.log(response.message);
-            }
-        }).error(function(error){
+        if($scope.branch.role == "Staff"){
+            $scope.approval.approval_mode = "Add";
+            $scope.approval.request_id = requestId;
+            $scope.approval.approval_data = $scope.room;
+            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
+                if(response.status == 200){
+                    $scope.CloseSidebar();
+                }
+            }).error(function(error){
 
-        });
+            });
+        }
+        else {
+            DataFactory.AddRoom($scope.room).success(function(response){
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else {
+                    console.log(response.message);
+                }
+            }).error(function(error){
+
+            });
+        }
     }
     $scope.addNewRoom = function(){
         $scope.showSideNav = true;

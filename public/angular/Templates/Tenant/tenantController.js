@@ -5,6 +5,22 @@
     $scope.addPaymentFlag = false;
     $scope.displayFlag = false;
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
+    var requestId;
+    $scope.userDetails = JSON.parse(localStorage.getItem("user"));
+    $scope.approval = {
+        approval_section: 'tenant',
+        approval_mode: '',
+        approval_data: '',
+        request_id: '',
+        user_id: $scope.userDetails.user_id,
+        status: 'active',
+        branch_id: $scope.branch.branch_id
+    }
+
+    function getRequestID() {
+        requestId = AppService.getRequestId();
+    }
+
     function getTenantPerRoomPerBranch(){
         DataFactory.GetCountTenantPerRoomPerBranch($scope.branch.branch_id).success(function(response){
             console.log(response);
@@ -106,17 +122,31 @@
 
     $scope.addTenant = function(ev){
         $scope.tenant.branch_id = $scope.branch.branch_id;
-        DataFactory.AddNewTenant($scope.tenant).success(function(response){
-            if(response.status == 200){
-                getAllData();
-                $scope.CloseSidebar();
-            }
-            else {
-                console.log(response.message);
-            }
-        }).error(function(error){
+        if($scope.branch.role == "Staff"){
+            $scope.approval.approval_mode = "Add";
+            $scope.approval.request_id = requestId;
+            $scope.approval.approval_data = $scope.tenant;
+            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
+                if(response.status == 200){
+                    $scope.CloseSidebar();
+                }
+            }).error(function(error){
 
-        })
+            });
+        }
+        else {
+            DataFactory.AddNewTenant($scope.tenant).success(function(response){
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else {
+                    console.log(response.message);
+                }
+            }).error(function(error){
+
+            });
+        }
     }
 
     $scope.CloseSidebar = function() {

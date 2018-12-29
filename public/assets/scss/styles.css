@@ -210,7 +210,7 @@
   font-size: 24px;
 }
 
-.panel-steps .step, .page-container > .page-header > .page-header-details, .sidebar-form-tab, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-defined-details > .defined-header, #side-menubar > #sidebar-content > .sidebar-content-item, .page-cancel-button, .page-add-button:disabled, .page-add-button {
+.panel-steps .step, .page-container > .page-header > .page-header-details, .sidebar-form-accordion, .sidebar-form-tab, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-defined-details > .defined-header, #side-menubar > #sidebar-content > .sidebar-content-item, .page-cancel-button, .page-add-button:disabled, .page-add-button {
   font-family: opensans;
   font-size: 18px;
 }
@@ -220,7 +220,7 @@
   font-size: 14px;
 }
 
-.page-table > tbody > tr > td:first-child, .sidebar-form-tab > div, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .page-table > tbody > tr > td:first-child, .sidebar-default-modal > .sidebar-form > .sidebar-form-header > .sidebar-form-close, #side-menubar > #sidebar-content > .sidebar-content-item:hover, #side-menubar > #sidebar-content .state-active, .flat-button:hover, .page-cancel-button:hover, .page-add-button:disabled:hover, .page-add-button:hover {
+.page-table > tbody > tr > td:first-child, .sidebar-form-accordion > .sidebar-accordion-title, .sidebar-form-tab > div, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .page-table > tbody > tr > td:first-child, .sidebar-default-modal > .sidebar-form > .sidebar-form-header > .sidebar-form-close, #side-menubar > #sidebar-content > .sidebar-content-item:hover, #side-menubar > #sidebar-content .state-active, .flat-button:hover, .page-cancel-button:hover, .page-add-button:disabled:hover, .page-add-button:hover {
   cursor: pointer;
 }
 
@@ -540,6 +540,21 @@ select:focus {
 .sidebar-form-tab .tab-active {
   background-color: #222d32;
   color: rgba(255, 255, 255, 0.75);
+}
+
+.sidebar-form-accordion {
+  border: 1px solid rgba(150, 150, 150, 0.5);
+  margin-bottom: 5px;
+}
+.sidebar-form-accordion > .sidebar-accordion-title {
+  margin-bottom: 5px;
+  background-color: #222d32;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 12px;
+  outline: none;
+}
+.sidebar-form-accordion > .sidebar-accordion-content {
+  margin: 7.5px;
 }
 
 .sidebar-modal-active {
