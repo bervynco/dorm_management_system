@@ -16,6 +16,16 @@ class request_model extends CI_Model {
 
         return $this->db->insert_id();
     }
+
+    function editApprovalRequest($request) {
+        $query = $this->db->where('approval_request_id', $request['approval_request_id'])
+                          ->update('approval_request', 
+                            array(
+                                'status'=> $request['status']
+                            )
+        );
+        return $this->db->affected_rows();
+    }
 }
 
 ?>

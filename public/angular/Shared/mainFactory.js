@@ -150,17 +150,6 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:room
             })
         },
-        /** Service */
-        AddService: function(service){
-            return $http({
-                method: "POST",
-                url: "index.php/ServiceController/addService",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data:service
-            })
-        },
         /** Inventory  **/
         GetInventoryList: function(id) {
             return $http({
@@ -263,6 +252,27 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: assign
             })
         },
+        /** Service **/
+        AddService: function(service){
+            return $http({
+                method: "POST",
+                url: "index.php/ServiceController/addService",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:service
+            })
+        },
+        AssignServiceToTenant: function(data){
+            return $http({
+                method: "POST",
+                url: "index.php/UtilityController/assignServiceToTenant",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
         /** Calendar **/
         GetCalendarList: function(id) {
             return $http({
@@ -356,6 +366,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: {'branch_id' : id}
             })
         },
+        AddNewBilling: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/ComputeController/addNewBilling",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
         GetRequestApprovalData: function(id) {
              return $http({
                 method: "POST",
@@ -370,6 +390,26 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
             return $http({
                 method: "POST",
                 url: "index.php/ApprovalRequestController/addApprovalRequest",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
+        EditApprovalRequest: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/ApprovalRequestController/editApprovalRequest",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
+        DownloadPage: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/DownloadController/downloadPage",
                 headers: {
                     'Content-Type': 'application/json'
                 },

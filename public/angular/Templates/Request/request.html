@@ -34,6 +34,7 @@
                     <th> Username</th>
                     <th> Mobile Number</th>
                     <th> Requested by </th>
+                    <th> </th>
                 </tr>
                 <tr ng-if="rows.length == 0" class="empty-table"> 
                     <td colspan="4" align="center"> No Data </td>
@@ -44,6 +45,267 @@
                     <td> {{row.approval_data.username}} </td>
                     <td> {{row.approval_data.mobile_number}} </td>
                     <td> {{row.name}} </td>
+                    <td layout="row" layout-align="center stretch"> 
+                        <button flex="none" class="flat-button" ng-click="acceptChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/checked.png" layout layout-align="center center" >Accept 
+                        </button>
+                        <div flex="10"></div>
+                        <button flex="none" class="flat-button" ng-click="rejectChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/close.png" layout layout-align="center center" >Reject
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Edit' && tab == modeTab">
+            EDFG
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Delete' && tab == modeTab">
+            HIJK
+        </div>
+    </div>
+    <div flex="none" class="sidebar-form-accordion" layout="column" layout-align="start stretch" ng-repeat="tab in modesTab" ng-click="ChangeModeTab(tab)" ng-if="currentTab == 'Room'">
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-title">
+            {{tab}} Request Section
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Add' && tab == modeTab">
+            <table class="page-table">
+                <tr>
+                    <th> Room #</th>
+                    <th> Floor #</th>
+                    <th> Capacity Count</th>
+                    <th> Room rate per person </th>
+                    <th> Requested by </th>
+                    <th> </th>
+                </tr>
+                <tr ng-if="rows.length == 0" class="empty-table"> 
+                    <td colspan="4" align="center"> No Data </td>
+                </tr>
+                
+                <tr ng-repeat="row in rows track by $index">
+                    <td ng-click="showCompleteUtilityDetails(row)"> {{row.approval_data.room_number}} </td>
+                    <td> {{row.approval_data.floor_number}} </td> 
+                    <td> {{row.approval_data.capacity_count}} </td> 
+                    <td> {{row.approval_data.room_rate}} </td> 
+                    <td> {{row.name}} </td>
+                </tr>
+            </table>
+        </div>       
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Edit' && tab == modeTab">
+            HIJK
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Delete' && tab == modeTab">
+            HIJK
+        </div>
+    </div>
+    <div flex="none" class="sidebar-form-accordion" layout="column" layout-align="start stretch" ng-repeat="tab in modesTab" ng-click="ChangeModeTab(tab)" ng-if="currentTab == 'Tenant'">
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-title">
+            {{tab}} Request Section
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Add' && tab == modeTab">
+            <table class="page-table">
+                <tr>
+                    <th> Bank</th>
+                    <th> Tenant Name</th>
+                    <th> Birthday</th>
+                    <th> Contact Number</th>
+                    <th> Emergency Contact Name</th>
+                    <th> Emergency Contact Number</th>
+                    <th> Start of Contract</th>
+                    <th> End of Contract</th>
+                    <th> Address</th>
+                    <th> Requested by </th>
+                    <th> </th>
+                </tr>
+                <tr ng-if="rows.length == 0" class="empty-table"> 
+                    <td colspan="4" align="center"> No Data </td>
+                </tr>
+                
+                <tr ng-repeat="row in rows track by $index">
+                    <td ng-click="showCompleteDetails(row)"> {{row.approval_data.tenant_name}} </td>
+                    <td> {{row.approval_data.birthday}} </td>
+                    <td> {{row.approval_data.contact_number}} </td>
+                    <td> {{row.approval_data.emergency_name}} </td>
+                    <td> {{row.approval_data.emergency_number}} </td>
+                    <td> {{row.approval_data.start_contract}} </td>
+                    <td> {{row.approval_data.end_contract}} </td>
+                    <td> {{row.approval_data.address}} </td>
+                    <td> {{row.approval_data.name}} </td>
+                    <td layout="row" layout-align="center stretch"> 
+                        <button flex="none" class="flat-button" ng-click="acceptChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/checked.png" layout layout-align="center center" >Accept 
+                        </button>
+                        <div flex="10"></div>
+                        <button flex="none" class="flat-button" ng-click="rejectChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/close.png" layout layout-align="center center" >Reject
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Edit' && tab == modeTab">
+            EDFG
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Delete' && tab == modeTab">
+            HIJK
+        </div>
+    </div>
+    <div flex="none" class="sidebar-form-accordion" layout="column" layout-align="start stretch" ng-repeat="tab in modesTab" ng-click="ChangeModeTab(tab)" ng-if="currentTab == 'Utility'">
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-title">
+            {{tab}} Request Section
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Add' && tab == modeTab">
+            <table class="page-table">
+                <tr>
+                    <th> Utility Name</th>
+                    <th> Utility Description</th>
+                    <th> Utility Amount Per Unit</th>
+                    <th> Requested by </th>
+                    <th></th>
+                </tr>
+                <tr ng-if="rows.length == 0" class="empty-table"> 
+                    <td colspan="4" align="center"> No Data </td>
+                </tr>
+                
+                <tr ng-repeat="row in rows track by $index">
+                    <td ng-click="showCompleteUtilityDetails(row)"> {{row.approval_data.utility_name}} </td>
+                    <td> {{row.approval_data.utility_description}} </td>
+                    <td> {{row.approval_data.utility_amount}} </td>
+                    <td> {{row.name}} </td>
+                    <td layout="row" layout-align="center stretch"> 
+                        <button flex="none" class="flat-button" ng-click="acceptChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/checked.png" layout layout-align="center center" >Accept 
+                        </button>
+                        <div flex="10"></div>
+                        <button flex="none" class="flat-button" ng-click="rejectChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/close.png" layout layout-align="center center" >Reject
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Edit' && tab == modeTab">
+            EDFG
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Delete' && tab == modeTab">
+            HIJK
+        </div>
+    </div>
+    <div flex="none" class="sidebar-form-accordion" layout="column" layout-align="start stretch" ng-repeat="tab in modesTab" ng-click="ChangeModeTab(tab)" ng-if="currentTab == 'Payables'">
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-title">
+            {{tab}} Request Section
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Add' && tab == modeTab">
+            <table class="page-table">
+                <tr>
+                    <th> Payable Name</th>
+                    <th> Payable Description</th>
+                    <th> Payable Amount </th>
+                    <th> Payable Date</th>
+                    <th> Requested by </th>
+                    <th> </th>
+                </tr>
+                <tr ng-if="rows.length == 0" class="empty-table"> 
+                    <td colspan="4" align="center"> No Data </td>
+                </tr>
+                
+                <tr ng-repeat="row in rows track by $index">
+                    <td ng-click="showCompleteDetails(row)"> {{row.approval_data.name}} </td>
+                    <td> {{row.approval_data.description}} </td>
+                    <td> {{row.approval_data.amount}} </td>
+                    <td> {{row.approval_data.payable_date}} </td>
+                    <td> {{row.name}} </td>
+                    <td layout="row" layout-align="center stretch"> 
+                        <button flex="none" class="flat-button" ng-click="acceptChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/checked.png" layout layout-align="center center" >Accept 
+                        </button>
+                        <div flex="10"></div>
+                        <button flex="none" class="flat-button" ng-click="rejectChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/close.png" layout layout-align="center center" >Reject
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Edit' && tab == modeTab">
+            EDFG
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Delete' && tab == modeTab">
+            HIJK
+        </div>
+    </div>
+    <div flex="none" class="sidebar-form-accordion" layout="column" layout-align="start stretch" ng-repeat="tab in modesTab" ng-click="ChangeModeTab(tab)" ng-if="currentTab == 'Inventory'">
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-title">
+            {{tab}} Request Section
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Add' && tab == modeTab">
+            <table class="page-table">
+                <tr>
+                    <th> Item Name</th>
+                    <th> Room</th>
+                    <th> Description</th>
+                    <th> Requested by </th>
+                    <th> </th>
+                </tr>
+                <tr ng-if="rows.length == 0" class="empty-table"> 
+                    <td colspan="4" align="center"> No Data </td>
+                </tr>
+                
+                <tr ng-repeat="row in rows track by $index">
+                    <td ng-click="showCompleteDetails(row)"> {{row.approval_data.item_name}} </td>
+                    <td> {{row.approval_data.room_number}} </td>
+                    <td> {{row.approval_data.description}} </td>
+                    <td> {{row.name}} </td>
+                    <td layout="row" layout-align="center stretch"> 
+                        <button flex="none" class="flat-button" ng-click="acceptChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/checked.png" layout layout-align="center center" >Accept 
+                        </button>
+                        <div flex="10"></div>
+                        <button flex="none" class="flat-button" ng-click="rejectChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/close.png" layout layout-align="center center" >Reject
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Edit' && tab == modeTab">
+            EDFG
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Delete' && tab == modeTab">
+            HIJK
+        </div>
+    </div>
+    <div flex="none" class="sidebar-form-accordion" layout="column" layout-align="start stretch" ng-repeat="tab in modesTab" ng-click="ChangeModeTab(tab)" ng-if="currentTab == 'Calendar'">
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-title">
+            {{tab}} Request Section
+        </div>
+        <div flex layout="column" layout-align="start stretch" class="sidebar-accordion-content" ng-if="modeTab == 'Add' && tab == modeTab">
+            <table class="page-table">
+                <tr>
+                    <th> Calendar Event Name</th>
+                    <th> Calendar Description</th>
+                    <th> Calendar Date</th>
+                    <th> Requested by </th>
+                    <th> </th>
+                </tr>
+                <tr ng-if="rows.length == 0" class="empty-table"> 
+                    <td colspan="4" align="center"> No Data </td>
+                </tr>
+                
+                <tr ng-repeat="row in rows track by $index">
+                    <td ng-click="showCompleteDetails(row)"> {{row.approval_data.calendar_event_name}} </td>
+                    <td> {{row.approval_data.calendar_description}} </td>
+                    <td> {{row.approval_data.calendar_date}} </td>
+                    <td> {{row.name}} </td>
+                    <td layout="row" layout-align="center stretch"> 
+                        <button flex="none" class="flat-button" ng-click="acceptChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/checked.png" layout layout-align="center center" >Accept 
+                        </button>
+                        <div flex="10"></div>
+                        <button flex="none" class="flat-button" ng-click="rejectChanges(row)" layout layout-align="center stretch">
+                            <img flex="none" src="public/assets/images/icons/close.png" layout layout-align="center center" >Reject
+                        </button>
+                    </td>
                 </tr>
             </table>
         </div>

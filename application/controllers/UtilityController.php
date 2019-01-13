@@ -48,6 +48,26 @@ class UtilityController extends CI_Controller {
         }
     }
 
+    public function assignServiceToTenant(){
+        $postData = json_decode(file_get_contents('php://input'), true);
+        // $arrUtility['branch_id'] = $postData['branch_id'];
+        // $arrUtility['tenant_id'] = $postData['tenant']['tenant_id'];
+        // $arrUtility['utility_id'] = $postData['utility']['utility_id'];
+
+        // $status = $this->checkDuplicate($arrUtility);
+        // if($status > 0){
+        //     echo json_encode($this->returnArray(500, "Duplicate entry", $arrUtility));
+        // }
+        // else {
+        //     $utilityTenantId = $this->utility_model->insertUtilityTenant($arrUtility);
+        //     if($utilityTenantId > 0)
+        //         echo json_encode($this->returnArray(200, "Successful inserting utility list", $postData));
+        //     else
+        //         echo json_encode($this->returnArray(500, "Error inserting utility list"));
+
+        // }
+    }
+
     public function addNewUtility(){
         $arrUtilityBranch = array();
         $postData = json_decode(file_get_contents('php://input'), true);

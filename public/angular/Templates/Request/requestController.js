@@ -55,6 +55,68 @@
         initializeVariables();
     }
 
+    $scope.acceptChanges = function(data) {
+        var webservice = "";
+        switch(data.approval_section){
+            case "user":
+                webservice = "AddNewUser";
+                break;
+            case "room":
+                webservice = "AddRoom";
+                break;
+            case "tenant":
+                webservice = "AddNewTenant";
+                break;
+            case "utility":
+                webservice = "AddNewUtility";
+                break;
+            case "inventory":
+                webservice = "AddNewInventory";
+                break;
+            case "payables":
+                webservice = "AddNewPayable";
+                break;
+            case "calendar":
+                webservice = "AddNewCalendar";
+                break;
+            case "billing":
+                // code block
+                break;
+            default:
+                // code block
+        }
+        data['status'] = "approved";
+        DataFactory[webservice](data.approval_data).success(function(response){
+            console.log(response);
+            if(response.status == 200){
+                updateApprovalRequest(data);
+            }
+            else{
+
+            }
+        }).error(function(error){
+
+        }); 
+        
+    }
+
+    $scope.rejectChanges = function(data) {
+        data['status'] = "approved";
+        updateApprovalRequest(data);
+    }
+
+    function updateApprovalRequest(data) {
+        DataFactory.EditApprovalRequest(data).success(function(response){
+            if(response.status == 200){
+                window.location.reload();
+            }
+            else{
+                
+            }
+        }).error(function(error){
+
+        });
+    }
     getAllData();
     initializeVariables();
 });

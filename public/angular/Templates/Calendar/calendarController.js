@@ -69,7 +69,7 @@
     $scope.addCalendar = function() {
         $scope.calendar.branch_id = $scope.branch.branch_id;
         if($scope.branch.role == "Staff"){
-            $scope.approval.approval_mode = "Add";
+            $scope.approval.approval_mode = "add";
             $scope.approval.request_id = requestId;
             $scope.approval.approval_data = $scope.calendar;
             DataFactory.AddApprovalRequest($scope.approval).success(function(response){
@@ -107,6 +107,14 @@
         else {
             $scope.disable = !$scope.disable;
         }
+    }
+    $scope.downloadPage = function(page) {
+        var object = {'page': page, 'branch_id': $scope.branch.branch_id}
+        DataFactory.DownloadPage(object).success(function(response){
+            $window.location.href = response;
+        }).error(function(error){
+
+        });
     }
     getAllData();
     initializeVariables();

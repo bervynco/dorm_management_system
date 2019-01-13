@@ -123,7 +123,7 @@
     $scope.addTenant = function(ev){
         $scope.tenant.branch_id = $scope.branch.branch_id;
         if($scope.branch.role == "Staff"){
-            $scope.approval.approval_mode = "Add";
+            $scope.approval.approval_mode = "add";
             $scope.approval.request_id = requestId;
             $scope.approval.approval_data = $scope.tenant;
             DataFactory.AddApprovalRequest($scope.approval).success(function(response){
@@ -160,7 +160,14 @@
         $scope.showCompleteDetailsFlag = true;
         $scope.tenant = row;
     }
+    $scope.downloadPage = function(page) {
+        var object = {'page': page, 'branch_id': $scope.branch.branch_id}
+        DataFactory.DownloadPage(object).success(function(response){
+            $window.location.href = response;
+        }).error(function(error){
 
+        });
+    }
     getAllData();
     initializeVariables();
 });

@@ -1,10 +1,12 @@
  app.controller('UtilityController', function ($scope, $rootScope, $interval, DataFactory, AppService, $state, $mdDialog, $mdToast, $window) {
     $scope.$parent.ChangeAppState('utility');
     $scope.showSideNav = false;
+    $scope.showSideNeavService = false;
     $scope.showCompleteDetailsFlag = false;
+    $scope.assignUtilityToTenantFlag = false;
     $scope.assignServicesToTenantFlag = false;
     $scope.disable = true;
-    $scope.servicesTab = ['One Time', 'Recurring'];
+    $scope.servicesTab = ['Utility', 'Services'];
     $scope.currentTab = $scope.servicesTab[0];
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     var requestId;
@@ -14,7 +16,12 @@
             utility_name: '',
             utility_description: '',
             utility_amount: 0,
-            utility_recurrence: ''
+        }
+
+        $scope.service = {
+            service_name: '',
+            service_description: '',
+            service_fee: 0,
         }
     }
     
@@ -49,7 +56,7 @@
             if(response.status = 200){
                 $scope.utilityData = response.data;
                 $scope.rows = response.data;
-                filterData($scope.currentTab);
+                // filterData($scope.currentTab);
                 $scope.selectedUtility = $scope.rows[0];
             }
                 
@@ -67,11 +74,13 @@
     }
     $scope.ChangeServiceTab = function(tab) {
         $scope.currentTab = tab;
-        filterData(tab);
+        // filterData(tab);
     }
     $scope.CloseSidebar = function() {
         $scope.showSideNav = false;
+        $scope.showSideNavService = false;
         $scope.showCompleteDetailsFlag = false;
+        $scope.assignUtilityToTenantFlag = false;
         $scope.assignServicesToTenantFlag = false;
         $scope.disable = true;
         initializeVariables();
@@ -81,6 +90,10 @@
         $scope.showSideNav = true;
     }
 
+    $scope.addNewService = function() {
+        $scope.showSideNavService = true;
+    }
+
     $scope.showCompleteUtilityDetails = function(row){
         $scope.showCompleteDetailsFlag = true;
         $scope.utility = row;
@@ -88,12 +101,15 @@
         console.log($scope.utility);
     }
 
-    $scope.assignServices = function() {
-        $scope.assignServicesToTenantFlag = true;
+    $scope.assignUtility = function() {
+        $scope.assignUtilityToTenantFlag = true;
         getAllTenantData();
         getAllData();
     }
-
+    $scope.assignServices = function() {
+        $scope.assignServicesToTenantFlag = true;
+        getAllTenantData();
+    }
     $scope.ChangeTenantName = function(item){
         $scope.selectedTenant = item;
     }
@@ -102,7 +118,7 @@
         $scope.selectedUtility = item;
     }
 
-    $scope.assignServicesToTenant = function() {
+    $scope.assignUtilityToTenant = function() {
         $scope.assign = {
             'tenant': $scope.selectedTenant,
             'utility': $scope.selectedUtility,
@@ -121,10 +137,54 @@
         });
     }
 
+    $scope.assignServiceToTenant = function() {
+        DataFactory.AssignServiceToTenant($scope.service).success(function(response){
+            if(response.status == 200){
+                getAllData();
+                $scope.CloseSidebar();
+            }
+            else {
+                console.log(response.message);
+            }
+        }).error(function(error){
+
+        });
+    }
+
+    $scope.addService = function() {
+        $scope.service.branch_id = $scope.branch.branch_id;
+        if($scope.branch.role == "Staff"){
+            $scope.approval.approval_section = "service";
+            $scope.approval.approval_mode = "add";
+            $scope.approval.request_id = requestId;
+            $scope.approval.approval_data = $scope.service;
+            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
+                if(response.status == 200){
+                    $scope.CloseSidebar();
+                }
+            }).error(function(error){
+
+            });
+        }
+        else {
+            DataFactory.AddService($scope.service).success(function(response){
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else {
+                    console.log(response.message);
+                }
+            }).error(function(error){
+
+            });
+        }
+    }
+
     $scope.addUtility = function() {
         $scope.utility.branch_id = $scope.branch.branch_id;
         if($scope.branch.role == "Staff"){
-            $scope.approval.approval_mode = "Add";
+            $scope.approval.approval_mode = "add";
             $scope.approval.request_id = requestId;
             $scope.approval.approval_data = $scope.utility;
             DataFactory.AddApprovalRequest($scope.approval).success(function(response){
@@ -180,6 +240,14 @@
             else {
                 console.log(response.message);
             }
+        }).error(function(error){
+
+        });
+    }
+    $scope.downloadPage = function(page) {
+        var object = {'page': page, 'branch_id': $scope.branch.branch_id}
+        DataFactory.DownloadPage(object).success(function(response){
+            $window.location.href = response;
         }).error(function(error){
 
         });

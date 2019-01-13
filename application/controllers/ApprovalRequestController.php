@@ -40,4 +40,19 @@ class ApprovalRequestController extends CI_Controller {
             echo json_encode($this->returnArray(200, "Error inserting request"));
     }
 
+    public function editApprovalRequest() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $arrRequest = $postData;
+
+        $status = $this->request_model->editApprovalRequest($arrRequest);
+
+        if($status > 0) {
+            echo json_encode($this->returnArray(200, "Successfully ".$arrRequest['status'] ." item in a room", $arrRequest));
+            
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error ".$arrRequest['status'] ." request"));
+        }
+    }
+
 }

@@ -41,7 +41,6 @@ class UserController extends CI_Controller {
         }
         else
             echo json_encode($this->returnArray(500, "Username already exists"));
-        
     }
 
     public function editUser(){
