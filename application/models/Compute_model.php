@@ -17,8 +17,14 @@ class compute_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
-    function insertBilling($billing){
+    function insertBillingInformation($billing){
+        $query = $this->db->insert('billing', $billing);
+        return $this->db->insert_id();
+    }
 
+    function getBillingPerDate($branchId, $month, $year) {
+        $query = $this->db->where('branch_id', $branchId)->where('month', $month)->where('year', $year)->get("billing");
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 }
 

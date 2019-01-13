@@ -4,10 +4,10 @@
             <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
         </div>
         <div flex="20" layout layout-align="end stretch">
-            <button flex="none" class="flat-button" ng-click="generateBilling()" layout layout-align="center stretch">
-                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Generate Billing
+            <button flex="none" class="flat-button" ng-click="addNewBilling()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Create Billing
             </button>
-            <button flex="none" class="flat-button" ng-click="downloadPage()" layout layout-align="center stretch">
+            <button flex="none" class="flat-button" ng-click="downloadPage('compute')" layout layout-align="center stretch">
                 <img flex="none" src="public/assets/images/icons/download-button.png" layout layout-align="center center" >Download 
             </button>
         </div>
@@ -17,15 +17,15 @@
         <table class="page-table">
             <tr>
                 <!-- <th> Item #</th> -->
-                <th> Tenant Name</th>
-                <th> Total Bill</th>
-                <th> Description</th>
+                <th> Billing Name</th>
+                <th> Billing Description</th>
+                <th> Billing Month/Year </th>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <!-- <td > {{row.item_number}} </td> -->
-                <td ng-click="showCompleteDetails(row)"> {{row.tenant_name}} </td>
-                <td> {{row.total_bill}} </td>
-                <td> {{row.description}} </td>
+                <td ng-click="showCompleteDetails(row)"> {{row.billing}} </td>
+                <td> {{row.billing_description}} </td>
+                <td> {{row.month}}/{{row.year}} </td>
             </tr>
         </table>
     </div>
@@ -33,8 +33,8 @@
 <div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
     <div flex="none" class="sidebar-white-space"></div>
     <ng-form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
-        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
-            <span flex layout layout-align="start center" >Add New Inventory</span>
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header" ng-click="addBilling()"> 
+            <span flex layout layout-align="start center" >Generate Billing</span>
             <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
         </span>
         <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
@@ -43,27 +43,16 @@
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
             </span> -->
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Name <i class="required"> * </i></span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventory.item_name">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center">Billing Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="billing.billing_name">
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventory.description">
-            </span>
-            <!-- <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Status </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
-            </span> -->
-            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Room <i class="required"> * </i></span>
-                <select layout layout-align="start stretch" class="sidebar-form-input" 
-                    ng-model="selectedRoom" ng-init="selectedRoom" ng-options="room as room.room_number for room in roomList" 
-                    ng-selected="selectedRoom" ng-change="ChangeInventoryRoom(selectedRoom)">
-                </select>
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Billing Description</span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="billing.billing_description">
             </span>
         </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-click="addNewItem()"> Add New Item </button>
+            <button flex class="page-add-button" ng-click="addBilling()"> Add New Billing </button>
             <span class="space-between-buttons"></span>
             <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
