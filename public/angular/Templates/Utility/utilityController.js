@@ -22,6 +22,7 @@
             service_name: '',
             service_description: '',
             service_fee: 0,
+            tenant_id: ''
         }
     }
     
@@ -91,6 +92,7 @@
     }
 
     $scope.addNewService = function() {
+        getAllTenantData();
         $scope.showSideNavService = true;
     }
 
@@ -153,6 +155,7 @@
 
     $scope.addService = function() {
         $scope.service.branch_id = $scope.branch.branch_id;
+        $scope.service.tenant_id = $scope.selectedTenant.tenant_id;
         if($scope.branch.role == "Staff"){
             $scope.approval.approval_section = "service";
             $scope.approval.approval_mode = "add";
