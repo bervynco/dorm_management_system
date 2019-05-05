@@ -6,7 +6,7 @@
     $scope.roomTabs = ['Room Details', 'Tenants', 'Inventory'];
     var requestId;
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
-    
+    $scope.errorNotification = null;
     $scope.approval = {
         approval_section: 'room',
         approval_mode: '',
@@ -61,6 +61,9 @@
                 if(response.status == 200){
                     $scope.CloseSidebar();
                 }
+                else{
+                    $scope.errorNotification = response.message;
+                }
             }).error(function(error){
 
             });
@@ -72,7 +75,7 @@
                     $scope.CloseSidebar();
                 }
                 else {
-                    console.log(response.message);
+                    $scope.errorNotification = response.message;
                 }
             }).error(function(error){
 
@@ -105,15 +108,9 @@
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
         initializeVariables();
+        $scope.errorNotification = null;
     }
-    $scope.downloadPage = function(page) {
-        var object = {'page': page, 'branch_id': $scope.branch.branch_id}
-        DataFactory.DownloadPage(object).success(function(response){
-            $window.location.href = response;
-        }).error(function(error){
-
-        });
-    }
+    
     getAllData();
     initializeVariables();
 });

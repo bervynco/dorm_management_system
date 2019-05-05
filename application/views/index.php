@@ -15,6 +15,7 @@
     
     <!-- <script src="public/assets/libraries/Highcharts/highcharts.js"></script>
     <script src="public/assets/libraries/Highcharts/highcharts-custom.js"></script> -->
+    <script src="public/assets/js/calendar.js"></script>
     <script src="public/assets/js/peity.js"></script>
     <script src="public/assets/js/tinycolor.js"></script>
     <script src="public/assets/js/md-color-picker.js"></script>
@@ -22,6 +23,7 @@
     <script src="public/assets/js/moment.js"></script>
     <script src="public/assets/js/lodash.js"></script>
     <script src="public/assets/js/angular-local-storage.js"></script>
+    
     <!-- endbuild -->
     <!--build:js angular/angular.min.js -->
     <script src="public/angular/Shared/mainContentManager.js"></script>
@@ -44,13 +46,14 @@
     <script src="public/angular/Templates/Report/reportController.js"></script>
     <script src="public/angular/Templates/Compute/computeController.js"></script>
     <script src="public/angular/Templates/Request/requestController.js"></script>
+    <script src="public/angular/Templates/Service/serviceController.js"></script>
     <!--build:css css/styles.min.css-->
     <link rel="stylesheet" href="public/assets/css/jquery.scrollbar.css">
     <link rel="stylesheet" href="public/assets/css/material.css">
+    <link rel="stylesheet" href="public/assets/css/calendar.css">
     <!-- <link rel="stylesheet" href="public/assets/css/styles.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css">
     <link rel="stylesheet" href="public/assets/scss/styles.css">
-    <link rel="stylesheet" href="public/assets/css/md-color-picker.css">
-    <link rel="stylesheet" href="public/assets/css/RGraph.css">
     <!-- <link rel="stylesheet" href="public/assets/css/mainstyle.css"> -->
 
     <!--endbuild-->
@@ -89,11 +92,11 @@
                 <span flex="none" ng-class="currState === 'user' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">User Management</div>
             </div>
-             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+             <!-- <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('manage-branch')">
                 <span flex="none" ng-class="currState === 'manage-branch' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Branch Management</div>
-            </div> 
+            </div>  -->
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('manage-room')">
                 <span flex="none" ng-class="currState === 'manage-room' ? 'status-active' : 'status-inactive'"></span>
@@ -107,7 +110,12 @@
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('utility')">
                 <span flex="none" ng-class="currState === 'utility' ? 'status-active' : 'status-inactive'"></span>
-                <div flex layout layout-align="start center">Utility Management</div>
+                <div flex layout layout-align="start center">Utility</div>
+            </div>
+            <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+                ng-click="ChangeState('service')">
+                <span flex="none" ng-class="currState === 'service' ? 'status-active' : 'status-inactive'"></span>
+                <div flex layout layout-align="start center">Services</div>
             </div>
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch"  
                 ng-click="ChangeState('inventory')" ng-class="currState === 'inventory' ? 'state-active' : ''">
@@ -119,11 +127,11 @@
                 <span flex="none" ng-class="currState === 'payables' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Payables</div>
             </div>
-            <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+            <!-- <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('calendar')">
                 <span flex="none" ng-class="currState === 'calendar' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Calendar</div>
-            </div>
+            </div> -->
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('report')">
                 <span flex="none" ng-class="currState === 'report' ? 'status-active' : 'status-inactive'"></span>
@@ -134,6 +142,7 @@
                 <span flex="none" ng-class="currState === 'request' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Request Management</div>
             </div>
+            
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('compute')">
                 <span flex="none" ng-class="currState === 'compute' ? 'status-active' : 'status-inactive'"></span>

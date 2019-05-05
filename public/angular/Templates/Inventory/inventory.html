@@ -7,32 +7,86 @@
             <button flex="none" class="flat-button" ng-click="addNewInventory()" layout layout-align="center stretch">
                 <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Inventory 
             </button>
-            <button flex="none" class="flat-button" ng-click="downloadPage('inventory')" layout layout-align="center stretch">
-                <img flex="none" src="public/assets/images/icons/download-button.png" layout layout-align="center center" >Download 
+            <button flex="none" class="flat-button" ng-click="assignToRoom()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Assign Inventory Item to Room 
+            </button>
+            <button flex="none" class="flat-button" ng-click="assignToTenant()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Assign Inventory Item to Tenant 
             </button>
         </div>
         
     </div>
+     <div flex="none" class="sidebar-form-tab" layout="row" layout-align="start stretch">
+        <div flex ng-repeat="tab in inventoryTab" layout layout-align="center center" 
+            ng-click="ChangePageTab(tab)" ng-class="currentTab.name === tab.name ? 'tab-active' : ''"> 
+            {{tab.text}} 
+        </div>
+    </div>
     <div flex layout="column" layout-align="start stretch" class="page-content">
-        <table class="page-table">
+        <table class="page-table" ng-if="currentTab.text == 'Assigned to Room'">
             <tr>
-                <!-- <th> Item #</th> -->
+                <th> Item Code #</th>
                 <th> Item Name</th>
-                <th> Room</th>
                 <th> Description</th>
+                <th> Room # </th>
+                <th> Status </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="4" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
-                <!-- <td > {{row.item_number}} </td> -->
-                <td ng-click="showCompleteDetails(row)"> {{row.item_name}} </td>
-                <td> {{row.room_number}} </td>
+                <td ng-click="showCompleteUtilityDetails(row)"> {{row.item_code}} </td>
+                <td> {{row.item_name}} </td>
                 <td> {{row.description}} </td>
+                <td> {{row.room_number}} </td>
+                <td> {{row.status}} </td>
+            </tr>
+        </table>
+        <table class="page-table" ng-if="currentTab.text == 'Rented by Tenant'">
+            <tr>
+                <th> Item Code #</th>
+                <th> Item Name</th>
+                <th> Item Description</th>
+                <th> Rent Start Date </th>
+                <th> Rent End Date </th>
+                <th> Rent Amount </th>
+                <th> Status </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="4" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td ng-click="showCompleteUtilityDetails(row)"> {{row.item_code}} </td>
+                <td> {{row.item_name}} </td>
+                <td> {{row.description}} </td>
+                <td> {{row.start_date}} </td>
+                <td> {{row.end_date}} </td>
+                <td> {{row.rent_amount}} </td>
+                <td> {{row.status}} </td>
+            </tr>
+        </table>
+        <table class="page-table" ng-if="currentTab.text == 'Current Inventory Stock'">
+            <tr>
+                <th> Item Code #</th>
+                <th> Item Name</th>
+                <th> Item Description</th>
+                <th> Status </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="4" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td ng-click="showCompleteUtilityDetails(row)"> {{row.item_code}} </td>
+                <td> {{row.item_name}} </td>
+                <td> {{row.description}} </td>
+                <td> {{row.status}} </td>
             </tr>
         </table>
     </div>
 </div>
 <div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
     <div flex="none" class="sidebar-white-space"></div>
-    <ng-form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+    <form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
         <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
             <span flex layout layout-align="start center" >Add New Inventory</span>
             <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
@@ -43,8 +97,12 @@
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
             </span> -->
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Code <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventory.item_code" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Name <i class="required"> * </i></span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventory.item_name">
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventory.item_name" required>
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
@@ -54,22 +112,99 @@
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Status </span>
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
             </span> -->
-            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+            <!-- <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Room <i class="required"> * </i></span>
                 <select layout layout-align="start stretch" class="sidebar-form-input" 
                     ng-model="selectedRoom" ng-init="selectedRoom" ng-options="room as room.room_number for room in roomList" 
                     ng-selected="selectedRoom" ng-change="ChangeInventoryRoom(selectedRoom)">
                 </select>
-            </span>
+            </span> -->
         </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-click="addNewItem()"> Add New Item </button>
+            <button flex class="page-add-button" ng-click="addNewItem()" ng-disabled="addForm.$error.required.lengtj > 0"> Add New Item </button>
             <span class="space-between-buttons"></span>
             <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
-    </ng-form>
+    </form>
 </div>
-
+<div ng-if="showSideNavAssignToTenant" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Assign an Inventory Item to Tenant</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentInventoryItem" ng-init="currentInventoryItem" ng-options="inventoryItem as inventoryItem.item_code for inventoryItem in inventoryList" 
+                    ng-selected="currentInventoryItem" ng-change="ChangeInventoryItem(currentInventoryItem)" required>
+                </select>
+            </span>
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentTenant" ng-init="currentTenant" ng-options="tenant as tenant.tenant_name for tenant in tenantList" 
+                    ng-selected="currentTenant" ng-change="ChangeTenant(currentTenant)" required>
+                </select>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Rent Amount <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventoryAssignment.rent_amount" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Rent Start Date </span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventoryAssignment.start_date">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Rent End Date </span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventoryAssignment.end_date">
+            </span>
+        </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="assignInventoryToTenant()" ng-disabled="addForm.$error.required.length > 0"> Assign to Tenant </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+        </div>
+    </form>
+</div>
+<div ng-if="showSideNavAssignToRoom" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Assign Inventory Item to Room</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentInventoryItem" ng-init="currentInventoryItem" ng-options="inventoryItem as inventoryItem.item_code for inventoryItem in inventoryList" 
+                    ng-selected="currentInventoryItem" ng-change="ChangeInventoryItem(currentInventoryItem)" required>
+                </select>
+            </span>
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Room <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentRoom" ng-init="currentRoom" ng-options="room as room.room_number for room in roomList" 
+                    ng-selected="currentRoom" ng-change="ChangeInventoryRoom(currentRoom)" required>
+                </select>
+            </span> 
+        </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="assignInventoryToRoom()" ng-disabled="addForm.$error.required.length > 0"> Assign to Room </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+        </div>
+    </form>
+</div>
 <div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
     <div flex="none" class="sidebar-white-space"></div>
     <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
@@ -83,8 +218,8 @@
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch" disabled>
             </span> -->
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Name </span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" ng-model="inventory.item_name">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" ng-model="inventory.item_name" required>
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
@@ -98,10 +233,12 @@
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Room <i class="required"> * </i></span>
                 <select layout layout-align="start stretch" class="sidebar-form-input" ng-model="selectedRoom" ng-init="selectedRoom" 
                     ng-options="room as room.room_number for room in roomList" 
-                    ng-selected="selectedRoom" ng-change="ChangeInventoryRoom(selectedRoom)" ng-disable="disable">
+                    ng-selected="selectedRoom" ng-change="ChangeInventoryRoom(selectedRoom)" ng-disable="disable" required>
                 </select>
             </span>
         </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
             <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editInventory()" > 
                 <span ng-if="disable"> Edit Inventory </span>
@@ -109,7 +246,8 @@
             </button>
             <span class="space-between-buttons"></span>
             <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-if="disable" ng-click="deleteInventory(inventory)"> 
-                <span> Delete Inventory </span>
+                <span ng-if="(currentTab.name =='room' || currentTab.name == 'rent')"> Move back to Stock </span>
+                <span ng-if="currentTab.name =='stock'"> Delete Inventory </span>
             </button>
             <button flex class="page-cancel-button" class="sidebar-form-button" ng-if="!disable" ng-click="CloseSidebar()"> 
                 <span> Cancel </span>

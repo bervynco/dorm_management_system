@@ -6,7 +6,7 @@
     var requestId;
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
-    
+    $scope.errorNotification = null;
     $scope.approval = {
         approval_section: 'user',
         approval_mode: '',
@@ -41,27 +41,36 @@
     }
 
     $scope.addUser = function(ev){
-        if($scope.branch.role == "Staff"){
-            $scope.approval.approval_mode = "add";
-            $scope.approval.request_id = requestId;
-            $scope.approval.approval_data = $scope.user;
-            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
-                if(response.status == 200){
-                    $scope.CloseSidebar($scope.approval);
-                }
-            }).error(function(error){
+        DataFactory.AddNewUser($scope.user).success(function(response){
+            if(response.status == 200){
+                getAllUser();
+                $scope.CloseSidebar();
+            }
+            else{
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
 
-            });
-        }
-        else {
-            DataFactory.AddNewUser($scope.user).success(function(response){
-                if(response.status == 200){
-                    $scope.CloseSidebar($scope.user);
-                }
-            }).error(function(error){
+        });
+        // if($scope.branch.role == "Staff"){
+        //     $scope.approval.approval_mode = "add";
+        //     $scope.approval.request_id = requestId;
+        //     $scope.approval.approval_data = $scope.user;
+        //     DataFactory.AddApprovalRequest($scope.approval).success(function(response){
+        //         if(response.status == 200){
+        //             getAllUser();
+        //             $scope.CloseSidebar($scope.approval);
+        //         }
+        //         else{
+        //             $scope.errorNotification = response.message;
+        //         }
+        //     }).error(function(error){
 
-            });
-        }
+        //     });
+        // }
+        // else {
+            
+        // }
         
     }
     $scope.editUser = function(flag){
@@ -74,20 +83,13 @@
         $scope[object] = null;
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
+        $scope.user = null;
+        $scope.errorNotification = null;
     }
 
     $scope.showCompeleteDetails = function(user){
         $scope.showCompleteDetailsFlag = true;
         $scope.user = user;
-    }
-
-    $scope.downloadPage = function(page) {
-        var object = {'page': page, 'branch_id': $scope.branch.branch_id}
-        DataFactory.DownloadPage(object).success(function(response){
-            $window.location.href = response;
-        }).error(function(error){
-
-        });
     }
     getAllUsers();
     getRequestID();

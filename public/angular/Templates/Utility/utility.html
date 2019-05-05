@@ -4,18 +4,17 @@
             <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
         </div>
         <div flex="20" layout layout-align="end stretch">
-            <button flex="none" class="flat-button" ng-click="assignUtility()" layout layout-align="center stretch">
+            <!-- <button flex="none" class="flat-button" ng-click="assignUtility()" layout layout-align="center stretch">
                 <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Assign Utility to Tenant 
-            </button>
-            <button flex="none" class="flat-button" ng-click="addNewService()" layout layout-align="center stretch">
-                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Service 
-            </button>
+            </button> -->
             <button flex="none" class="flat-button" ng-click="addNewUtility()" layout layout-align="center stretch">
                 <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Utility 
             </button>
-           
-            <button flex="none" class="flat-button" ng-click="downloadPage('utility')" layout layout-align="center stretch">
-                <img flex="none" src="public/assets/images/icons/download-button.png" layout layout-align="center center" >Download 
+            <button flex="none" class="flat-button" ng-click="addPricePerUnit()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add Price Per Unit 
+            </button>
+            <button flex="none" class="flat-button" ng-click="addCurrentReading()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add Current Reading 
             </button>
         </div>
     </div>
@@ -26,25 +25,31 @@
         </div>
     </div>
     <div flex layout="column" layout-align="start stretch" class="page-content">
-        <table class="page-table" ng-if="currentTab == 'Utility'">
+        <table class="page-table">
             <tr>
                 <th> Utility Name</th>
                 <th> Utility Description</th>
-                <th> Utility Amount Per Unit</th>
+                <th> Previous Reading </th>
+                <th> Current Reading </th>
+                <th> Previous Price per Unit </th>
+                <th> Current Price per Unit </th>
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
-                <td colspan="4" align="center"> No Data </td>
+                <td colspan="6" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td ng-click="showCompleteUtilityDetails(row)"> {{row.utility_name}} </td>
                 <td> {{row.utility_description}} </td>
-                <td> {{row.utility_amount}} </td>
+                <td> {{row.previous_reading}} </td>
+                <td> {{row.current_reading}} </td>
+                <td> {{row.previous_price}} </td>
+                <td> {{row.current_price}} </td>
             </tr>
         </table>
     </div>
 </div>
 
-<div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
+<div ng-if="showSideNavUtilityAdd" layout layout-align="start stretch" class="sidebar-default-modal">
     <div flex="none" class="sidebar-white-space"></div>
     <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
         <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
@@ -60,164 +65,143 @@
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Description</span>
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utility.utility_description">
             </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Price Per Unit</span>
-                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utility.utility_amount">
-            <!-- </span>
-            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant <i class="required"> * </i></span>
-                <select layout layout-align="start stretch" class="sidebar-form-input" ng-model="selectedTenant" ng-init="selectedTenant = rows[0]" ng-options="tenant.tenant_name for tenant in rows track by tenant.tenant_id" ng-selected="selectedTenant" ng-change="ChangeTenant(selectedTenant)"></select>
-            </span> -->
         </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
             <button flex class="page-add-button" ng-click="addUtility()" ng-disabled="addForm.$error.required.length > 0" > Add New Utility </button>
             <span class="space-between-buttons"></span>
-            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
     </form>
 </div>
-<div ng-if="showSideNavService" layout layout-align="start stretch" class="sidebar-default-modal">
+<div ng-if="showSideNavUtilityChangeReading" layout layout-align="start stretch" class="sidebar-default-modal">
     <div flex="none" class="sidebar-white-space"></div>
     <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
         <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
-            <span flex layout layout-align="start center" >Add New Service</span>
+            <span flex layout layout-align="start center" >Change Utility Reading</span>
             <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
         </span>
         <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Name <i class="required"> * </i></span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="service.service_name">
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Description</span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.service_description">
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Fee</span>
-                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.service_fee">
-            </span>
             <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant Name <i class="required"> * </i></span>
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility <i class="required"> * </i></span>
                 <select layout layout-align="start stretch" class="sidebar-form-input" 
-                        ng-model="selectedTenant" ng-init="selectedTenant" ng-options="tenant as tenant.tenant_name for tenant in tenantList" 
-                        ng-selected="selectedTenant" ng-change="ChangeTenantName(selectedTenant)">
+                    ng-model="currentUtility" ng-init="currentUtility" ng-options="utility as utility.utility_name for utility in utilityData" 
+                    ng-selected="currentUtility" ng-change="ChangeUtility(currentUtility)" required>
                 </select>
             </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Reading <i class="required"> * </i></span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utilityReading.current_reading" required>
+            </span>
         </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-click="addService()" ng-disabled="addForm.$error.required.length > 0" > Add New Service </button>
+            <button flex class="page-add-button" ng-click="addUtilityReading()" ng-disabled="addForm.$error.required.length > 0" > Add New Utility Reading</button>
             <span class="space-between-buttons"></span>
-            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+        </div>
+    </form>
+</div>
+<div ng-if="showSideNavUtilityChangePrice" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Change Utility Price</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentUtility" ng-init="currentUtility" ng-options="utility as utility.utility_name for utility in utilityData" 
+                    ng-selected="currentUtility" ng-change="ChangeUtility(currentUtility)" required>
+                </select>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Price Per Unit <i class="required"> * </i></span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utilityPrice.price" required>
+            </span>
+        </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="addUtilityPrice()" ng-disabled="addForm.$error.required.length > 0" > Add New Utility Price </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
     </form>
 </div>
 <div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
-    <div flex="none" class="sidebar-white-space"></div>
-    <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+    <div flex="none" class="sidebar-special-white-space"></div>
+    <form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
         <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
-            <span flex layout layout-align="start center" >Utility Details</span>
-            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar(branch)"></span>
+            <span flex layout layout-align="start center" >Show Complete Details for {{currentUtility}} </span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
         </span>
-        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Name <i class="required"> * </i></span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="utility.utility_name" ng-disabled="disable">
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Description</span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utility.utility_description"  ng-disabled="disable">
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Price Per Unit</span>
-                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utility.utility_amount" ng-disabled="disable">
-            </span>
+        <div flex layout="row" layout-align="start stretch" class="sidebar-form-content">
+            <div flex layout="column" layout-align="start stretch" class="sidebar-form-defined-details">
+                <span flex="none" class="defined-header">Basic Utility Information for {{currentUtility}}</span>
+                <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content form-padding" >
+                    <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                        <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Name <i class="required"> * </i></span>
+                        <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utility.utility_name" ng-disabled="disable" required>
+                    </span>
+                    <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                        <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Description </span>
+                        <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utility.utility_description" ng-disabled="disable">
+                    </span>
+                </div>
+                <div flex="none" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+                <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+                    <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editUtility()" > 
+                        <span ng-if="disable"> Edit Utility Details </span>
+                        <span ng-if="!disable"> Update Utility Details </span>
+                    </button>
+                    <span class="space-between-buttons"></span>
+                    <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-if="disable" ng-click="deleteUtility(tenant)"> 
+                        <span> Delete Utility </span>
+                    </button>
+                    <button flex class="page-cancel-button" class="sidebar-form-button" ng-if="!disable" ng-click="CloseSidebar()"> 
+                        <span> Cancel </span>
+                    </button>
+                </div>
+                <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button" ng-if="disable">
+                    <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+                </div>
+            </div>
+            <div flex="60" layout="column" layout-align="start stretch" class="sidebar-form-defined-details">
+                <span flex="none" class="defined-header">Pricing and Reading Information for {{currentUtility}} </span>
+                <div flex="none" class="sidebar-form-tab" layout="row" layout-align="start stretch">
+                    <div flex ng-repeat="tab in utilityTab" layout layout-align="center center" 
+                        ng-click="ChangeUtilityTab(tab)" ng-class="currentTab === tab ? 'tab-active' : ''"> 
+                        {{tab}} 
+                    </div>
+                </div>
+                <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content form-padding" >
+                    <table class="page-table" ng-if="currentTab == 'Reading'">
+                        <tr>
+                            <th> Reading </th>
+                            <th> Date Added </th>
+                        </tr>
+                        <tr ng-repeat="row in filteredData track by $index"> <!--ng-repeat="row in modalRows track by $index"-->
+                            <td> {{row.value}} </td>
+                            <td> {{row.timestamp}} </td>
+                        </tr>
+                    </table>
+                    <table class="page-table" ng-if="currentTab == 'Pricing'">
+                        <tr>
+                            <th> Price</th>
+                            <th> Date Added</th>
+                        </tr>
+                        <tr ng-repeat="row in filteredData track by $index"> <!--ng-repeat="row in modalRows track by $index"-->
+                            <td> {{row.value}} </td>
+                            <td> {{row.timestamp}} </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editUtility(disable)" > 
-                <span ng-if="disable"> Edit Utility </span>
-                <span ng-if="!disable"> Update Utility </span>
-            </button>
-            <span class="space-between-buttons"></span>
-            <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-if="disable" ng-click="deleteUtility(utility)"> 
-                <span> Delete Utility </span>
-            </button>
-            <button flex class="page-cancel-button" class="sidebar-form-button" ng-if="!disable" ng-click="CloseSidebar()"> 
-                <span> Cancel </span>
-            </button>
-        </div>
-        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button" ng-if="disable">
-            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
-        </div>
-    </div>
+    </form>
 </div>
-
-<div ng-if="assignUtilityToTenantFlag" layout layout-align="start stretch" class="sidebar-default-modal">
-    <div flex="none" class="sidebar-white-space"></div>
-    <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
-        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
-            <span flex layout layout-align="start center" >Utility Details</span>
-            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar(branch)"></span>
-        </span>
-        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
-            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Utility Name <i class="required"> * </i></span>
-                <select layout layout-align="start stretch" class="sidebar-form-input" 
-                        ng-model="selectedUtility" ng-init="selectedUtility" ng-options="row as row.utility_name for row in rows" 
-                        ng-selected="selectedUtility" ng-change="ChangeUtilityName(selectedUtility)">
-                    </select>
-            </span>
-            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant Name <i class="required"> * </i></span>
-                <select layout layout-align="start stretch" class="sidebar-form-input" 
-                        ng-model="selectedTenant" ng-init="selectedTenant" ng-options="tenant as tenant.tenant_name for tenant in tenantList" 
-                        ng-selected="selectedTenant" ng-change="ChangeTenantName(selectedTenant)">
-                </select>
-            </span>
-        </div>
-        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="assignUtilityToTenant()"> 
-                <span> Submit </span>
-            </button>
-            <button flex class="page-cancel-button" class="sidebar-form-button" ng-click="CloseSidebar()"> 
-                <span> Cancel </span>
-            </button>
-        </div>
-    </div>
-</div>
-<div ng-if="assignServicesToTenantFlag" layout layout-align="start stretch" class="sidebar-default-modal">
-    <div flex="none" class="sidebar-white-space"></div>
-    <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
-        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
-            <span flex layout layout-align="start center" >Add Service Details</span>
-            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar(branch)"></span>
-        </span>
-        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
-            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Name <i class="required"> * </i></span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.service_name"  ng-disabled="disable">
-            </span>
-                <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant Name <i class="required"> * </i></span>
-                <select layout layout-align="start stretch" class="sidebar-form-input" 
-                        ng-model="selectedTenant" ng-init="selectedTenant" ng-options="tenant as tenant.tenant_name for tenant in tenantList" 
-                        ng-selected="selectedTenant" ng-change="ChangeTenantName(selectedTenant)">
-                </select>
-            </span>
-        </div>
-        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="assignServiceToTenant()"> 
-                <span> Submit </span>
-            </button>
-            <button flex class="page-cancel-button" class="sidebar-form-button" ng-click="CloseSidebar()"> 
-                <span> Cancel </span>
-            </button>
-        </div>
-    </div>
-</div>
-<!--<span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Room <i class="required"> * </i></span>
-                <select layout layout-align="start stretch" class="sidebar-form-input" 
-                    ng-model="selectedRoom" ng-init="selectedRoom" ng-options="room as room.room_number for room in roomList" 
-                    ng-selected="selectedRoom" ng-change="ChangeInventoryRoom(selectedRoom)">
-                </select>
-            </span>-->

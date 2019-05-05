@@ -26,7 +26,6 @@ class payable_model extends CI_Model {
     }
     function deletePayableItem($payableId, $branchId) {
         $query = $this->db->where('payable_id', $payableId)
-                        ->where('branch_id', $branchId)
                         ->update('payables', 
                         array(
                             'status' => 'inactive'

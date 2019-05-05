@@ -7,6 +7,7 @@
     $scope.modesTab = ['Add', 'Edit', 'Delete'];
     $scope.currentTab = $scope.servicesTab[0];
     $scope.modeTab = $scope.modesTab[0];
+    $scope.errorNotification = null;
     function getAllData(){
         DataFactory.GetRequestApprovalData($scope.branch.branch_id).success(function(response){
             $scope.requestData = response.data;
@@ -47,6 +48,7 @@
         $scope.assignServicesToTenantFlag = false;
         $scope.disable = true;
         initializeVariables();
+        $scope.errorNotification = null;
     }
     
     $scope.CloseSidebar = function() {
@@ -92,7 +94,7 @@
                 updateApprovalRequest(data);
             }
             else{
-
+                $scope.errorNotification = response.message
             }
         }).error(function(error){
 
@@ -111,7 +113,7 @@
                 window.location.reload();
             }
             else{
-                
+                $scope.errorNotification = response.message;
             }
         }).error(function(error){
 

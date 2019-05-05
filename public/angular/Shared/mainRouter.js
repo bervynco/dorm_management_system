@@ -17,6 +17,15 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             templateUrl: "public/angular/Templates/Login/login.html",
             controller: "LoginController"
         })
+        .state('service', {
+            parent: 'site',
+            data: {
+                roles: []
+            },
+            url: "/service",
+            templateUrl: "public/angular/Templates/Service/service.html",
+            controller: "ServiceController"
+        })
         .state('home', {
             parent: 'site',
             data: {

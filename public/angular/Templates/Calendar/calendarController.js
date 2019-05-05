@@ -108,14 +108,6 @@
             $scope.disable = !$scope.disable;
         }
     }
-    $scope.downloadPage = function(page) {
-        var object = {'page': page, 'branch_id': $scope.branch.branch_id}
-        DataFactory.DownloadPage(object).success(function(response){
-            $window.location.href = response;
-        }).error(function(error){
-
-        });
-    }
     getAllData();
     initializeVariables();
 });

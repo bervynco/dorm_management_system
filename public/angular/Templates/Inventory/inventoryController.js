@@ -1,29 +1,28 @@
  app.controller('InventoryController', function ($scope, $rootScope, $interval, DataFactory, $state, $mdDialog, $mdToast, $window) {
+    var requestId;
     $scope.$parent.ChangeAppState('inventory');
     $scope.showSideNav = false;
+    $scope.showSideNavAssignToTenant = false;
+    $scope.showSideNavAssignToRoom = false;
     $scope.showCompleteDetailsFlag = false;
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     $scope.disable = true;
-    var requestId;
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
-    
-    $scope.approval = {
-        approval_section: 'inventory',
-        approval_mode: '',
-        approval_data: '',
-        request_id: '',
-        user_id: $scope.userDetails.user_id,
-        status: 'active',
-        branch_id: $scope.branch.branch_id
-    }
-    $scope.user = {
-        name: '',
-        username: '',
-        password: '',
-        mobile_number: '',
-        request_id: '',
-        branch_id: $scope.branch.branch_id
-    }
+    $scope.errorNotification = null;
+    $scope.inventoryTab = [
+                            {
+                                'name': "room",
+                                'text': "Assigned to Room" 
+                            },
+                            {
+                                'name': "rent",
+                                'text': "Rented by Tenant"
+                            },
+                            {
+                                'name': "stock",
+                                'text': "Current Inventory Stock"
+                            }];
+    $scope.currentTab = $scope.inventoryTab[0];
     
     function getRequestID() {
         requestId = AppService.getRequestId();
@@ -31,27 +30,72 @@
 
     function initializeVariables() {
         $scope.inventory = {
-            'item_name': '',
-            'description': '',
-            'branch_id':'',
-            'room_id': ''
+            item_code: "",
+            item_name: "",
+            description: "",
+            inventory_transaction_type: "",
+            room_id: "",
+            branch_id: $scope.branch.branch_id,
+            tenant_id: "",
+            status: "active",
+            start_date: null,
+            end_date: null,
+            rent_amount: ""
         }
-
-        
+        $scope.approval = {
+            approval_section: 'inventory',
+            approval_mode: '',
+            approval_data: '',
+            request_id: '',
+            user_id: $scope.userDetails.user_id,
+            status: 'active',
+            branch_id: $scope.branch.branch_id
+        }
+        $scope.user = {
+            name: '',
+            username: '',
+            password: '',
+            mobile_number: '',
+            request_id: '',
+            branch_id: $scope.branch.branch_id
+        }
+        $scope.inventoryAssignment = {
+            inventory_transaction_id: "",
+            inventory_transaction_type: "",
+            rent_amount: "",
+            start_date: "",
+            end_date: "",
+            room_id: "",
+            tenant_id: ""
+        }
     }
 
+    function filterData(data, currentTab) {
+        return _.filter(data, function(o) { 
+            return currentTab == o.inventory_transaction_type; 
+        });
+    }
     function getAllData(){
-        DataFactory.GetInventoryList($scope.branch.branch_id).success(function(response){
-            console.log(response);
-            $scope.rows = response.data;
+
+        DataFactory.GetInventoryTransactions($scope.branch.branch_id).success(function(response){
+            console.log(response.data);
+            $scope.originalData = response.data;
+            $scope.rows = filterData(response.data, $scope.currentTab.name);
+            $scope.inventoryList = filterData(response.data, "stock");
+            $scope.currentInventoryItem = $scope.inventoryList[0];
+        }).error(function(error){
+
+        });
+        DataFactory.GetRoomList($scope.branch.branch_id).success(function(response){
+            $scope.roomList = response.data;
+            $scope.currentRoom = $scope.roomList[0];
         }).error(function(error){
 
         });
 
-        DataFactory.GetRoomList($scope.branch.branch_id).success(function(response){
-            console.log(response);
-            $scope.roomList = response.data;
-            $scope.selectedRoom = $scope.roomList[0];
+        DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
+            $scope.tenantList = response.data;
+            $scope.currentTenant = $scope.tenantList[0];
         }).error(function(error){
 
         });
@@ -61,10 +105,26 @@
         $scope.showSideNav = true;
     }
 
+    $scope.assignToRoom = function(){
+        $scope.showSideNavAssignToRoom = true;
+    }
+
+    $scope.assignToTenant = function(){
+        $scope.showSideNavAssignToTenant = true;
+    }
+    
+    $scope.ChangePageTab = function(tab) {
+        $scope.currentTab = tab;
+        $scope.rows = filterData($scope.originalData, $scope.currentTab.name);
+        
+    }
     $scope.CloseSidebar = function() {
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
+        $scope.showSideNavAssignToRoom = false;
+        $scope.showSideNavAssignToTenant = false;
         $scope.disable = true;
+        $scope.errorNotification = null;
         initializeVariables();
     }
 
@@ -82,13 +142,57 @@
         $scope.selectedRoom = $scope.roomList[roomIndex];
     }
 
-    $scope.ChangeInventoryRoom = function(selectedRoom){
-        $scope.selectedRoom = selectedRoom;
+    $scope.ChangeInventoryRoom = function(room){
+        $scope.currentRoom = room;
+    }
+
+    $scope.ChangeInventoryItem = function(inventoryItem){
+        $scope.currentInventoryItem = inventoryItem;
+    }
+    
+    $scope.ChangeTenant = function(tenant){
+        $scope.currentTenant = tenant;
+        console.log($scope.currentTenant)
+    }
+    $scope.assignInventoryToTenant = function() {
+        $scope.inventoryAssignment['tenant_id'] = $scope.currentTenant['tenant_id'];
+        $scope.inventoryAssignment['inventory_transaction_id'] = $scope.currentInventoryItem['inventory_transaction_id'];
+        $scope.inventoryAssignment['inventory_transaction_type'] = "rent";
+        $scope.inventoryAssignment['start_date'] = moment($scope.inventoryAssignment['start_date']).format("YYYY-MM-DD HH:mm");
+        $scope.inventoryAssignment['end_date'] = moment($scope.inventoryAssignment['end_date']).format("YYYY-MM-DD HH:mm");
+        DataFactory.ModifyInventoryTransaction($scope.inventoryAssignment).success(function(response){
+            if(response.status == 200){
+                $scope.CloseSidebar();
+            }
+            else{
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
+    }
+
+    $scope.assignInventoryToRoom = function() {
+        $scope.inventoryAssignment['room_id'] = $scope.currentRoom['room_id'];
+        $scope.inventoryAssignment['inventory_transaction_id'] = $scope.currentInventoryItem['inventory_transaction_id'];
+        $scope.inventoryAssignment['inventory_transaction_type'] = "room";
+        $scope.inventoryAssignment['start_date'] = moment($scope.inventoryAssignment['start_date']).format("YYYY-MM-DD HH:mm");
+        $scope.inventoryAssignment['end_date'] = moment($scope.inventoryAssignment['end_date']).format("YYYY-MM-DD HH:mm");
+        DataFactory.ModifyInventoryTransaction($scope.inventoryAssignment).success(function(response){
+            if(response.status == 200){
+                $scope.CloseSidebar();
+            }
+            else {
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
     }
 
     $scope.addNewItem = function() {
         $scope.inventory.branch_id = $scope.branch.branch_id;
-        $scope.inventory.room_id = $scope.selectedRoom.room_id;
+        $scope.inventory.inventory_transaction_type = "stock";
         if($scope.branch.role == "Staff"){
             $scope.approval.approval_mode = "add";
             $scope.approval.request_id = requestId;
@@ -96,6 +200,9 @@
             DataFactory.AddApprovalRequest($scope.approval).success(function(response){
                 if(response.status == 200){
                     $scope.CloseSidebar();
+                }
+                else {
+                    $scope.errorNotification = response.message;
                 }
             }).error(function(error){
 
@@ -108,7 +215,7 @@
                     $scope.CloseSidebar();
                 }
                 else {
-                    console.log(response.message);
+                    $scope.errorNotification = response.message;
                 }
             }).error(function(error){
 
@@ -125,6 +232,9 @@
                     getAllData();
                     $scope.CloseSidebar();
                 }
+                else {
+                    $scope.errorNotification = response.message;
+                }
             }).error(function(error){
 
             });
@@ -136,26 +246,67 @@
     }
 
     $scope.deleteInventory = function(item){
-        DataFactory.DeleteInventory(item).success(function(response){
-            if(response.status == 200){
-                getAllData();
-                $scope.CloseSidebar();
-            }
-            else{
+        console.log(item);
+        if($scope.currentTab.name == 'stock'){
+            DataFactory.DeleteInventory(item).success(function(response){
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else{
+                    $scope.errorNotification = response.message;
+                }
+            }).error(function(error){
 
-            }
-        }).error(function(error){
+            });
+        }
+        else {
+            console.log("Move back to stock");
+            
+            item['inventory_transaction_type'] = 'stock';
+            item['tenant_id'] = 0;
+            item['room_id'] = 0;
+            item['start_date'] = null;
+            item['end_date'] = null;
+            item['rent_amount'] = null;
+            console.log(item);
+            DataFactory.ModifyInventoryTransaction(item).success(function(response){
+                if(response.status == 200){
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else {
+                    $scope.errorNotification = response.message;
+                }
+            }).error(function(error){
 
-        });
+            });
+        }
+        
     }
-    $scope.downloadPage = function(page) {
-        var object = {'page': page, 'branch_id': $scope.branch.branch_id}
-        DataFactory.DownloadPage(object).success(function(response){
-            $window.location.href = response;
-        }).error(function(error){
+    $scope.showCompleteUtilityDetails = function(inventory){
+        $scope.inventory = inventory;
+        $scope.showCompleteDetailsFlag = true;
+        if($scope.currentTab.name == "room"){
 
-        });
+        } 
+        else if($scope.currentTab.name == "rent"){
+
+        }
+        else{
+            
+        }
     }
+    // $scope.downloadPage = function(page) {
+    //     var object = {'page': page, 'branch_id': $scope.branch.branch_id}
+    //     DataFactory.DownloadPage(object).success(function(response){
+    //         $window.location.href = response;
+    //     }).error(function(error){
+
+    //     });
+    // }
+
+    
     getAllData();
     initializeVariables();
 });

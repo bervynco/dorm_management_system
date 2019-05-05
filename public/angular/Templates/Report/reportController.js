@@ -4,7 +4,7 @@
     $scope.showCompleteDetailsFlag = false;
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     $scope.disable = true;
-    
+    $scope.errorNotification = null;
     
     $scope.reportList = ['User', 'Utility', 'Tenant', 'Room', 'Payable', 'Logs', 'Inventory', 'Calendar', 'Branch'];
     $scope.reportList = [
@@ -43,6 +43,10 @@
         {
             'name': 'Branch',
             'alternative': 'branch'
+        },
+        {
+            'name': 'Inventory Summary Count',
+            'alternative': 'summary_inventory'
         }
     ]
     
@@ -87,6 +91,9 @@
         DataFactory.GenerateReport($scope.reportParams).success(function(respose){
             if(response.status == 200){
                 $window.location.href = response;
+            }
+            else {
+                $scope.errorNotification = response.message;
             }
         }).error(function(error){
 

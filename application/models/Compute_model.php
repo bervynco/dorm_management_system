@@ -26,6 +26,16 @@ class compute_model extends CI_Model {
         $query = $this->db->where('branch_id', $branchId)->where('month', $month)->where('year', $year)->get("billing");
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
+
+    function checkDuplicateBilling($month, $year, $branchId) {
+        $this->db->select("billing.*");
+        $this->db->from("billing");
+        $this->db->where("billing.branch_id", $branchId);
+        $this->db->where("billing.month", $month);
+        $this->db->where("billing.year", $year);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
 }
 
 ?>

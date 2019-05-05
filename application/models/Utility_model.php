@@ -1,23 +1,92 @@
 <?php
 class utility_model extends CI_Model {
+
+    function selectAllUtilityPerBranch($branchId) {
+        $this->db->select(array('utility.*', 'utility_reading.*'));
+        $this->db->from('utility_reading');
+        $this->db->join('utility', 'utility_reading.utility_id = utility.utility_id');
+        $this->db->where('utility.branch_id', $branchId);
+        $this->db->where('utility_reading.status', "active");
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
     function selectAllUtility($branchId) {
-        $this->db->select(array('utility.utility_id' ,'utility.utility_name', 'utility.utility_description', 'utility.utility_amount', 'utility_branch.*'));
+        $this->db->select(array('utility.utility_id' ,'utility.utility_name', 'utility.utility_description', 'utility.branch_id'));
         $this->db->from('utility');
-        $this->db->join('utility_branch', 'utility.utility_id = utility_branch.utility_id');
-        $this->db->where('utility_branch.branch_id', $branchId);
-        $this->db->where('utility_branch.status', "active");
+        $this->db->where('utility.branch_id', $branchId);
+        $this->db->where('utility.status', "active");
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
+    function selectPreviousAndCurrentReading($utilityId, $branchId) {
+        $this->db->select(array('utility.*', 'utility_reading.*'));
+        $this->db->from('utility_reading');
+        $this->db->join('utility', 'utility_reading.utility_id = utility.utility_id');
+        $this->db->where('utility_reading.utility_id', $utilityId);
+        $this->db->where('utility.branch_id', $branchId);
+        $this->db->order_by('utility_reading.timestamp', 'desc');
+        $this->db->limit(2);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+    function selectCurrentActiveReading($utilityId, $branchId){
+        $this->db->select(array('utility.*', 'utility_reading.*'));
+        $this->db->from('utility_reading');
+        $this->db->join('utility', 'utility_reading.utility_id = utility.utility_id');
+        $this->db->where('utility_reading.utility_id', $utilityId);
+        $this->db->where('utility.branch_id', $branchId);
+        $this->db->where('utility_reading.status', "active");
+        $this->db->order_by('utility_reading.timestamp', 'desc');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+    function selectPreviousAndCurrentPrice($utilityId, $branchId){
+        $this->db->select(array('utility.*', 'utility_price.*'));
+        $this->db->from('utility_price');
+        $this->db->join('utility', 'utility_price.utility_id = utility.utility_id');
+        $this->db->where('utility_price.utility_id', $utilityId);
+        $this->db->where('utility.branch_id', $branchId);
+        $this->db->order_by('utility_price.timestamp', 'desc');
+        $this->db->limit(2);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+    function selectCurrentActivePrice($utilityId, $branchId){
+        $this->db->select(array('utility.*', 'utility_price.*'));
+        $this->db->from('utility_price');
+        $this->db->join('utility', 'utility_price.utility_id = utility.utility_id');
+        $this->db->where('utility_price.utility_id', $utilityId);
+        $this->db->where('utility.branch_id', $branchId);
+        $this->db->where('utility_price.status', "active");
+        $this->db->order_by('utility_price.timestamp', 'desc');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+    function selectAllReadings($utilityId, $branchId){
+        $this->db->select(array('utility.*', 'utility_reading.*'));
+        $this->db->from('utility_reading');
+        $this->db->join('utility', 'utility_reading.utility_id = utility.utility_id');
+        $this->db->where('utility_reading.utility_id', $utilityId);
+        $this->db->where('utility.branch_id', $branchId);
+        $this->db->order_by('utility_reading.timestamp', 'desc');
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+    function selectAllPricings($utilityId, $branchId){
+         $this->db->select(array('utility.*', 'utility_price.*'));
+        $this->db->from('utility_price');
+        $this->db->join('utility', 'utility_price.utility_id = utility.utility_id');
+        $this->db->where('utility_price.utility_id', $utilityId);
+        $this->db->where('utility.branch_id', $branchId);
+        $this->db->order_by('utility_price.timestamp', 'desc');
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
     function insertUtility($utility) {
         $query = $this->db->insert('utility', $utility);
-
-        return $this->db->insert_id();
-    }
-
-    function insertUtilityPerBranch($utility) {
-        $query = $this->db->insert('utility_branch', $utility);
 
         return $this->db->insert_id();
     }
@@ -27,15 +96,21 @@ class utility_model extends CI_Model {
                           ->update('utility', 
                             array(
                                 'utility_name'=> $utility['utility_name'], 
-                                'utility_description' => $utility['utility_description'],
-                                'utility_amount' => $utility['utility_amount'],
-                                'utility_recurrence' => $utility['utility_recurrence']
-                            
+                                'utility_description' => $utility['utility_description']
                             )
         );
         return $this->db->affected_rows();
     }
 
+    function updateUtilityStatus($fieldName, $tableName, $utilityId, $status){
+        $query = $this->db->where($fieldName, $utilityId)
+                            ->update($tableName, 
+                            array(
+                                'status' => $status
+                            )
+        );
+        return $this->db->affected_rows();
+    }
     function deleteUtility($utilityId, $branchId){
         $query = $this->db->where('utility_id', $utilityId)
                         ->where('utility_id', $utilityId)
@@ -48,19 +123,23 @@ class utility_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
-
-    function checkDuplicateTenantUtility($utility){
-        $query = $this->db->where('utility_id', $utility['utility_id'])
-                ->where('tenant_id', $utility['tenant_id'])
+    function checkDuplicateUtility($utility) {
+        $query = $this->db->where('utility_name', $utility['utility_name'])
                 ->where('branch_id', $utility['branch_id'])
                 ->where('status','active');
         
-        $query = $this->db->get('utility_tenant');
+        $query = $this->db->get('utility');
         return $query->num_rows();
-
     }
-    function insertUtilityTenant($utility){
-        $query = $this->db->insert('utility_tenant', $utility);
+
+    function insertUtilityPrice($utility) {
+        $query = $this->db->insert('utility_price', $utility);
+
+        return $this->db->insert_id();
+    }
+
+    function insertUtilityReading($utility) {
+        $query = $this->db->insert('utility_reading', $utility);
 
         return $this->db->insert_id();
     }

@@ -2,8 +2,11 @@
     $scope.$parent.ChangeAppState('tenant');
     $scope.showSideNav = false;
     $scope.showCompleteDetailsFlag = false;
+    $scope.errorNotification = null;
     $scope.addPaymentFlag = false;
     $scope.displayFlag = false;
+    $scope.tenantTab = ['Details', 'Inventory', 'Payment History', 'Services'];
+    $scope.currentTab = $scope.tenantTab[0];
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     var requestId;
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
@@ -41,12 +44,44 @@
     function getAllData(){
         DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
             console.log(response);
-            $scope.rows = response.data;
+            $scope.tenantData = response.data;
+            $scope.rows = $scope.tenantData;
         }).error(function(error){
 
         });
     }
 
+    function getModalData(branchID, tenantID){
+        var params = {'branch_id': branchID, 'tenant_id': tenantID};
+        DataFactory.GetInventoryPerTenant(branchID, tenantID).success(function(response){
+            if(response.status == 200){
+                $scope.inventoryPerTenant = response.data;
+                console.log(response.data);
+            }
+            
+        }).error(function(error){
+
+        });
+        DataFactory.GetServicePerTenant(params).success(function(response){
+            if(response.status == 200){
+                $scope.servicePerTenant = response.data;
+                console.log(response.data);
+            }
+            
+        }).error(function(error){
+
+        });
+
+        DataFactory.GetPaymentDetailsPerTenant(params).success(function(response){
+            if(response.status == 200){
+                $scope.inventoryPerTenant = response.data;
+                console.log(response.data);
+            }
+            
+        }).error(function(error){
+
+        });
+    }
     function initializeVariables () {
         $scope.tenant = {
             tenant_name: '',
@@ -101,14 +136,13 @@
         $scope.tenantPayment.mode = $scope.selectedPaymentMethod;
         $scope.tenantPayment.paymentDetails = $scope.paymentDetails;
 
-        console.log($scope.tenantPayment);
         DataFactory.AddNewPayment($scope.tenantPayment).success(function(response){
             if(response.status == 200){
                 getAllData();
                 $scope.CloseSidebar();
             }
             else {
-                console.log(response.message);
+                $scope.errorNotification = response.message;
             }
         }).error(function(error){
 
@@ -130,6 +164,9 @@
                 if(response.status == 200){
                     $scope.CloseSidebar();
                 }
+                else{
+                    $scope.errorNotification = response.message;
+                }
             }).error(function(error){
 
             });
@@ -141,7 +178,7 @@
                     $scope.CloseSidebar();
                 }
                 else {
-                    console.log(response.message);
+                    $scope.errorNotification = response.message;
                 }
             }).error(function(error){
 
@@ -153,20 +190,32 @@
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
         $scope.addPaymentFlag = false;
+        $scope.rows = $scope.tenantData;
+        $scope.currentTab = $scope.tenantTab[0];
         initializeVariables();
+        $scope.errorNotification = null;
     }
 
     $scope.showCompleteDetails = function(row){
         $scope.showCompleteDetailsFlag = true;
         $scope.tenant = row;
+        getModalData($scope.branch.branch_id, $scope.tenant.tenant_id);
     }
-    $scope.downloadPage = function(page) {
-        var object = {'page': page, 'branch_id': $scope.branch.branch_id}
-        DataFactory.DownloadPage(object).success(function(response){
-            $window.location.href = response;
-        }).error(function(error){
 
-        });
+    $scope.ChangeTenantTab = function(tab){
+        $scope.currentTab = tab;
+        if(tab == 'Inventory'){
+            $scope.rows = $scope.inventoryPerTenant;
+        }
+        else if(tab == 'Payment History'){
+
+        }
+        else if(tab == 'Services'){
+            $scope.rows = $scope.servicePerTenant;
+        }
+        else {
+            $scope.rows = $scope.tenantData;
+        }
     }
     getAllData();
     initializeVariables();

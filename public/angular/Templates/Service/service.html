@@ -1,0 +1,205 @@
+<div flex layout="column" layout-align="start stretch" class="page-container">
+    <div flex="none" layout layout-align="end stretch" class="page-header">
+        <div flex="80" layout layout-align="start stretch" class="page-header-details">
+            <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
+        </div>
+        <div flex="20" layout layout-align="end stretch">
+            <!-- <button flex="none" class="flat-button" ng-click="assignUtility()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Assign Utility to Tenant 
+            </button> -->
+            <button flex="none" class="flat-button" ng-click="addNewService()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Service 
+            </button>
+        </div>
+    </div>
+    <div flex="none" class="sidebar-form-tab" layout="row" layout-align="start stretch">
+        <div flex ng-repeat="tab in servicesTab" layout layout-align="center center" 
+            ng-click="ChangeServiceTab(tab)" ng-class="currentTab === tab ? 'tab-active' : ''"> 
+            {{tab}} 
+        </div>
+    </div>
+    <div flex layout="column" layout-align="start stretch" class="page-content">
+        <table class="page-table" ng-if="currentTab == 'One Time'">
+            <tr>
+                <th> Service Name</th>
+                <th> Service Description</th>
+                <th> Service Fee</th>
+                <th> Tenant Name </th>
+                <th> Service Start Date </th>
+                <th> Service End Date </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="7" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td ng-click="showCompleteUtilityDetails(row)"> {{row.service_name}} </td>
+                <td> {{row.service_description}} </td>
+                <td> {{row.service_fee}} </td>
+                <td> {{row.tenant_name}} </td>
+                <td> {{row.start_date}} </td>
+                <td> {{row.end_date}} </td>
+            </tr>
+        </table>
+        <table class="page-table" ng-if="currentTab == 'Weekly'">
+            <tr>
+                <th> Service Name</th>
+                <th> Service Description</th>
+                <th> Service Fee</th>
+                <th> Tenant Name </th>
+                <th> Service Start Date </th>
+                <th> Service End Date </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="7" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td ng-click="showCompleteUtilityDetails(row)"> {{row.service_name}} </td>
+                <td> {{row.service_description}} </td>
+                <td> {{row.service_fee}} </td>
+                <td> {{row.tenant_name}} </td>
+                <td> {{row.start_date}} </td>
+                <td> {{row.end_date}} </td>
+            </tr>
+        </table>
+        <table class="page-table" ng-if="currentTab == 'Monthly'">
+            <tr>
+                <th> Service Name</th>
+                <th> Service Description</th>
+                <th> Service Fee</th>
+                <th> Tenant Name </th>
+                <th> Service Start Date </th>
+                <th> Service End Date </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="7" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td ng-click="showCompleteUtilityDetails(row)"> {{row.service_name}} </td>
+                <td> {{row.service_description}} </td>
+                <td> {{row.service_fee}} </td>
+                <td> {{row.tenant_name}} </td>
+                <td> {{row.start_date}} </td>
+                <td> {{row.end_date}} </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div ng-if="showSideNavAddService" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Add New Service to Tenant</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="service.service_name" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Description</span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.service_description">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Fee <i class="required"> * </i></span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.service_fee" required>
+            </span>
+             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Start Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.start_date" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service End Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.end_date" required>
+            </span>
+             <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Recurrence <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentTab" ng-init="currentTab" ng-options="service for service in servicesTab" 
+                    ng-selected="currentTab" ng-change="ChangeRecurrence(currentTab)" required>
+                </select>
+            </span>
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentTenant" ng-init="currentTenant" ng-options="tenant as tenant.tenant_name for tenant in tenantList" 
+                    ng-selected="currentTenant" ng-change="ChangeTenant(currentTenant)">
+                </select>
+            </span>
+        </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="addService()" ng-disabled="addForm.$error.required.length > 0" > Add New Service </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+        </div>
+    </form>
+</div>
+<div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Edit Service for {{service.tenant_name}} </span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="service.service_name" ng-disabled="disable" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Description</span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.service_description" ng-disabled="disable">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Fee <i class="required"> * </i></span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.service_fee" ng-disabled="disable" required>
+            </span>
+             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Start Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.start_contract" ng-disabled="disable" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service End Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.end_contract" ng-disabled="disable" requried>
+            </span>
+             <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Recurrence <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentTab" ng-init="currentTab" ng-options="service for service in servicesTab" 
+                    ng-selected="currentTab" ng-change="ChangeRecurrence(currentTab)" ng-disabled="disable" required>
+                </select>
+            </span>
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentTenant" ng-init="currentTenant" ng-options="tenant as tenant.tenant_name for tenant in tenantList" 
+                    ng-selected="currentTenant" ng-change="ChangeTenant(currentTenant)" ng-disabled="disable" required>
+                </select>
+            </span>
+           
+        </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
+            <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+                <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editService()" > 
+                    <span ng-if="disable"> Edit Service Details </span>
+                    <span ng-if="!disable"> Update Service Details </span>
+                </button>
+                <span class="space-between-buttons"></span>
+                <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-click="deleteService(service)"> 
+                    <span> Delete Service </span>
+                </button>
+                <button flex class="page-cancel-button" class="sidebar-form-button" ng-click="CloseSidebar()"> 
+                    <span> Cancel </span>
+                </button>
+            </div>
+        </div>
+        <!-- <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="addService()" ng-disabled="addForm.$error.required.length > 0" > Add New Service </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+        </div> -->
+    </form>
+</div>

@@ -9,7 +9,8 @@ var app = angular.module('MainApplication', [
     'ngAnimate',
     "ngMaterial",
     "jQueryScrollbar",
-    "LocalStorageModule"]); //
+    "LocalStorageModule",
+    "ui.rCalendar"]); //
 app.controller('MainController', function ($mdDialog, $mdToast, $state, $mdSidenav, $rootScope, $scope, $log, AppService, DataFactory, ConfigurableItems) {
     $scope.currState = 'login';
 

@@ -9,9 +9,6 @@
             <button flex="none" class="flat-button" ng-click="addNewUser()" layout layout-align="center stretch">
                 <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New User 
             </button>
-            <button flex="none" class="flat-button" ng-click="downloadPage('user')" layout layout-align="center stretch">
-                <img flex="none" src="public/assets/images/icons/download-button.png" layout layout-align="center center" >Download 
-            </button>
         </div>
         
     </div>
@@ -70,6 +67,8 @@
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Mobile Number </span>
                 <input type="text" name="mobile_number"ng-model="user.mobile_number"  class="sidebar-form-input" layout layout-align="start stretch">
             </span>
+            <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
             <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
                 <button type="submit" flex class="page-add-button" ng-click="addUser($event)" ng-disabled="addForm.$error.required.length > 0 || user.password != confirmPassword"> Add New User </button>
                 <span class="space-between-buttons"></span>
