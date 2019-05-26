@@ -1,35 +1,28 @@
- app.controller('LogController', function ($scope, $rootScope, $interval, DataFactory, $state, $mdDialog) {
-    $scope.SVG = $scope.ConfigurableItems.SVG;
-    $scope.$parent.CheckSessionData("logs");
-
-    $scope.tableFieldNames = ['Employee Name', 'Page', 'Action', 'Timestamp'];
+ app.controller('LogsController', function ($scope, $rootScope, $interval, DataFactory, AppService, $state, $mdDialog, $mdToast, $window) {
+    $scope.$parent.ChangeAppState('logs');
+    $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
-    $scope.logDetails = {name: $scope.userDetails.name, page: 'System Logs Page', action: 'View'};
 
-    $scope.currentPage = 0;
-    DataFactory.SetPageLog($scope.logDetails).success(function(response){
-        console.log(response);
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Logs",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
     }).error(function(error){
 
     });
 
-    DataFactory.GetPageLogs().success(function(response){
-        $scope.logList = response;
-    }).error(function(error){
-        
-    });
+    function getAllData(){
+        DataFactory.GetAllLogs($scope.branch.branch_id).success(function(response){
+            console.log(response.data);
+            $scope.rows = response.data;
+        }).error(function(error){
 
-    $scope.ChangePage = function(i){
+        });
     }
-    $scope.NextPage = function(i){
-        if(($scope.currentPage + 1 )* 15 <= $scope.filtered.length){
-            $scope.currentPage = $scope.currentPage + 1;
-        }
-        
-    }
-    $scope.PreviousPage = function(i){
-        if($scope.currentPage != 0){
-            $scope.currentPage = $scope.currentPage - 1;
-        }
-    }
+
+   
+    getAllData();
 });

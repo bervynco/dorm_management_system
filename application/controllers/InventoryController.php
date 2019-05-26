@@ -118,14 +118,8 @@ class InventoryController extends CI_Controller {
         $postData = json_decode(file_get_contents('php://input'), true);
         $inventory = $postData;
         $inventoryStatus = $this->inventory_model->updateInventoryItem($inventory);
-
-        if($inventoryStatus > 0) {
-            echo json_encode($this->returnArray(200, "Successfully edited item in a room", $inventory));
-            
-        }
-        else {
-            echo json_encode($this->returnArray(500, "Error updating item in a room"));
-        }
+        $inventoryTransactionStatus = $this->inventory_model->updateInventoryTransactionItem($inventory);
+        echo json_encode($this->returnArray(200, "Successfully edited item in a room"));
     }
 
     public function deleteInventory() {

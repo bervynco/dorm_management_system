@@ -7,6 +7,9 @@
             <!-- <button flex="none" class="flat-button" ng-click="assignUtility()" layout layout-align="center stretch">
                 <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Assign Utility to Tenant 
             </button> -->
+            <button flex="none" class="flat-button" ng-click="makePayment()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Make Payment 
+            </button>
             <button flex="none" class="flat-button" ng-click="addNewService()" layout layout-align="center stretch">
                 <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Service 
             </button>
@@ -158,11 +161,11 @@
             </span>
              <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service Start Date <i class="required"> * </i></span>
-                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.start_contract" ng-disabled="disable" required>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.start_date" ng-disabled="disable" required>
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service End Date <i class="required"> * </i></span>
-                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.end_contract" ng-disabled="disable" requried>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.end_date" ng-disabled="disable" requried>
             </span>
              <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Recurrence <i class="required"> * </i></span>
@@ -201,5 +204,48 @@
             <span class="space-between-buttons"></span>
             <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
         </div> -->
+    </form>
+</div>
+<div ng-if="showSideNavMakePayment" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Make Payment</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentService" ng-init="currentService" ng-options="service as service.service_name + ' - ' + service.tenant_name + ' - ' + service.start_date  + ' to ' + service.end_date for service in serviceData" 
+                    ng-selected="currentService" ng-change="ChangeService(currentService)">
+                </select>
+            </span>
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payment Type <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentPayment" ng-init="currentPayment" ng-options="payment as payment.payment_name for payment in paymentList" 
+                    ng-selected="currentPayment" ng-change="ChangePayment(currentPayment)">
+                </select>
+            </span>
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input" ng-if="currentPayment.payment_name == 'Cheque'">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Cheque from Tenant <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="currentCheque" ng-init="currentCheque" ng-options="cheque as cheque.cheque_number + ' - ' + cheque.cheque_amount for cheque in chequeDetails" 
+                    ng-selected="currentCheque" ng-change="ChangeCheque(currentCheque)">
+                </select>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payment Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="service.start_date" required>
+            </span>
+        </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="addService()" ng-disabled="addForm.$error.required.length > 0" > Make Payment </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+        </div>
     </form>
 </div>

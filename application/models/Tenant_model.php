@@ -23,6 +23,13 @@ class tenant_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
+    function selectAllChequePerTenant($tenantId){
+        $this->db->where('tenant_id', $tenantId)->where('status', "active")->where('tenant_id', $tenantId);
+        
+        $query = $this->db->get('tenant_payment');
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+
     function insertPayment($payment) {
         $query = $this->db->insert('tenant_payment', $payment);
 

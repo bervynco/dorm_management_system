@@ -3,6 +3,7 @@
     $scope.showSideNavAddService = false;
     $scope.addServiceFlag = false;
     $scope.showCompleteDetailsFlag = false;
+    $scope.showSideNavMakePayment = false;
     $scope.disable = true;
     $scope.rentInventoryFlag = false;
     $scope.servicesTab = ['One Time', 'Weekly', 'Monthly'];
@@ -57,6 +58,7 @@
             console.log(response);
             if(response.status = 200){
                 $scope.serviceData = response.data;
+                $scope.currentService = response.data[0];
                 filterData($scope.currentTab);
             }
                 
@@ -72,9 +74,19 @@
         });
     }
 
+    function getPaymentTypes() {
+        DataFactory.GetPaymentTypes().success(function(response){
+            $scope.paymentList = response;
+            $scope.currentPayment = response[0];
+                
+        }).error(function(error){
+
+        });
+    }
     $scope.CloseSidebar = function() {
         console.log("Close Sidebar");
         $scope.showSideNavAddService = false;
+        $scope.showSideNavMakePayment = false;
         $scope.showCompleteDetailsFlag = false;
         $scope.disable = true;
         initializeVariables();
@@ -89,13 +101,25 @@
         $scope.showSideNavAddService = true;
     }
 
+    $scope.makePayment = function() {
+        $scope.showSideNavMakePayment = true;
+        if($scope.currentPayment.payment_name == 'Cheque'){
+            DataFactory.GetChequePaymentDetails($scope.currentService).success(function(response){
+                $scope.chequeDetails = response.data;
+                $scope.currentCheque = response.data[0];
+            }).error(function(error){
+
+            });
+        }
+    }
+
     $scope.showCompleteUtilityDetails = function(row){
         $scope.showCompleteDetailsFlag = true;
-        $scope.service = row;
+        $scope.service = angular.copy(row);
         $scope.service.service_fee = parseFloat($scope.service.service_fee);
-        $scope.service.start_contract = new Date($scope.service.start_contract);
-        $scope.service.end_contract = new Date($scope.service.end_contract);
-        // console.log($scope.utility);
+        $scope.service.start_date = new Date($scope.service.start_date);
+        $scope.service.end_date = new Date($scope.service.end_date);
+        console.log($scope.service);
     }
 
     // tenant dropdown list
@@ -110,6 +134,23 @@
         
     }
 
+    $scope.ChangeService = function(service){
+        $scope.currentService = service;
+        DataFactory.GetChequePaymentDetails(service).success(function(response){
+            $scope.chequeDetails = response.data;
+            $scope.currentCheque = response.data[0];
+        }).error(function(error){
+
+        });
+    }
+
+    $scope.ChangePayment = function(payment){
+        $scope.currentPayment = payment;
+    }
+
+    $scope.ChangeCheque = function(cheque){
+        $scope.currentCheque = cheque;
+    }
     //recurrence dropdown list in add new service
     $scope.ChangeRecurrence = function(recurrence){
         $scope.currentTab = recurrence;
@@ -126,9 +167,6 @@
             }
             else{
                 $scope.errorNotification = response.message;
-            }
-            else {
-                console.log(response.message);
             }
         }).error(function(error){
 
@@ -166,13 +204,10 @@
     // }
 
     $scope.editService = function(disable) {
-        console.log($scope.service);
          if($scope.disable == false){
-            $scope.utility.branch_id = $scope.branch.branch_id;
-            
             DataFactory.EditService($scope.service).success(function(response){
                 if(response.status == 200){
-                    getAllData();
+                    getServiceData();
                     $scope.CloseSidebar();
                 }
                 else {
@@ -190,7 +225,7 @@
     $scope.deleteService = function(service) {
         DataFactory.DeleteService($scope.service.service_id).success(function(response){
             if(response.status == 200){
-                getAllData();
+                getServiceData();
                 $scope.CloseSidebar();
             }
             else {
@@ -200,7 +235,7 @@
 
         });
     }
-    
+    getPaymentTypes();
     getServiceData();
     getAllTenantData();
     initializeVariables();

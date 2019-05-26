@@ -19,23 +19,81 @@ class ServiceController extends CI_Controller {
     }
 
     public function addService() {
+        $errorFlag = false;
         $object = array();
         $postData = json_decode(file_get_contents('php://input'), true);
 
-        $serviceId = $this->service_model->insertNewService($postData);
+        if($postData['recurrence'] == 'One Time'){
+            $serviceId = $this->service_model->insertNewService($postData);
 
-        if($serviceId != 0){
-            echo json_encode($this->returnArray(200, "Successfully added new service"));
+            if($serviceId != 0){
+                echo json_encode($this->returnArray(200, "Successfully added new service"));
+            }
+            else {
+                echo json_encode($this->returnArray(500, "Error inserting new service"));
+            }
         }
-        else {
-            echo json_encode($this->returnArray(500, "Error inserting new service"));
+        else if($postData['recurrence'] == 'Weekly'){
+            $startDate = new DateTime($postData['start_date']);
+            $endDate = new DateTime($postData['end_date']);
+            while($startDate != $endDate){
+                $postData['start_date'] = $startDate->format('Y-m-d H:i:s');
+                $postData['end_date'] = $startDate->add(new DateInterval('P7D'))->format('Y-m-d H:i:s');
+                $serviceId = $this->service_model->insertNewService($postData);
+                if($serviceId == 0){
+                    $errorFlag = true;
+                    break;
+                }
+            }
+            if($errorFlag == true){
+                echo json_encode($this->returnArray(500, "Error inserting new service"));
+            }
+            else{
+                echo json_encode($this->returnArray(200, "Successfully added new service"));
+            }
         }
+        else if($postData['recurrence'] == 'Monthly'){
+            $startDate = new DateTime($postData['start_date']);
+            $endDate = new DateTime($postData['end_date']);
+            while($startDate != $endDate){
+                $postData['start_date'] = $startDate->format('Y-m-d H:i:s');
+                $postData['end_date'] = $startDate->add(new DateInterval('P1M'))->format('Y-m-d H:i:s');
+                $serviceId = $this->service_model->insertNewService($postData);
+                if($serviceId == 0){
+                    $errorFlag = true;
+                    break;
+                }
+            }
+            if($errorFlag == true){
+                echo json_encode($this->returnArray(500, "Error inserting new service"));
+            }
+            else{
+                echo json_encode($this->returnArray(200, "Successfully added new service"));
+            }
+        }
+        
     }
 
     public function editService() {
         $postData = json_decode(file_get_contents('php://input'), true);
 
-        $this->service_model->updateService();
+        $status = $this->service_model->deleteService($postData['service_id']);
+
+        if($status > 0){
+            unset($postData['service_id']);
+            unset($postData['tenant_name']);
+            $serviceId = $this->service_model->insertNewService($postData);
+
+            if($serviceId != 0){
+                echo json_encode($this->returnArray(200, "Successfully added new service"));
+            }
+            else {
+                echo json_encode($this->returnArray(500, "Error inserting new service"));
+            }
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error editing service"));
+        }
     }
 
     public function deleteService() {

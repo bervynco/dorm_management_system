@@ -5,6 +5,11 @@ class payable_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
+    function selectAllPayablePerBranchWithDues($branchId, $previousWeek, $nextWeek) {
+        $where = "(status='active' AND payable_date >='".$previousWeek."' AND payable_date <='".$nextWeek."') OR (status='active' AND payable_date <='".$previousWeek."')";
+        $query = $this->db->where('branch_id', $branchId)->where($where)->get('payables');
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
     function insertPayableItem($payables) {
         $query = $this->db->insert('payables', $payables);
 

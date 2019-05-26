@@ -1,0 +1,94 @@
+<div flex layout="column" layout-align="start stretch" class="page-container">
+    <div flex="none" layout layout-align="end stretch" class="page-header">
+        <div flex="80" layout layout-align="start stretch" class="page-header-details">
+            <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
+        </div>
+        <div flex="20" layout layout-align="end stretch"></div>
+    </div>
+     <div flex="none" class="sidebar-form-tab" layout="row" layout-align="start stretch">
+        <div flex ng-repeat="tab in viewTab" layout layout-align="center center" 
+            ng-click="ChangeViewTab(tab)" ng-class="currentTab === tab ? 'tab-active' : ''"> 
+            {{tab}} 
+        </div>
+    </div>
+    <div flex layout="column" layout-align="start stretch" class="page-content">
+        <table class="page-table" ng-if="currentTab == 'Tenant'">
+            <tr>
+                <th> Tenant Name</th>
+                <th> Birthday</th>
+                <th> Contact Number</th>
+                <th> Emergency Contact Name</th>
+                <th> Emergency Contact Number</th>
+                <th> Start of Contract</th>
+                <th> End of Contract</th>
+                <th> Address</th>
+                <th> Active </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="9" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td> {{row.tenant_name}} </td>
+                <td> {{row.birthday}} </td>
+                <td> {{row.contact_number}} </td>
+                <td> {{row.emergency_name}} </td>
+                <td> {{row.emergency_number}} </td>
+                <td> {{row.start_contract}} </td>
+                <td> {{row.end_contract}} </td>
+                <td> {{row.address}} </td>
+                <td> <div class="warning-status">active</div> </td>
+            </tr>
+        </table>
+        <table class="page-table" ng-if="currentTab == 'Payables'">
+            <tr>
+                <th> Payable Name</th>
+                <th> Payable Description</th>
+                <th> Payable Amount </th>
+                <th> Payable Date</th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="4" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td> {{row.name}} </td>
+                <td> {{row.description}} </td>
+                <td> {{row.amount}} </td>
+                <td> {{row.payable_date}} </td>
+            </tr>
+        </table>
+        <table class="page-table" ng-if="currentTab.text == 'Billing'">
+            <tr>
+                <th> Item Code #</th>
+                <th> Item Name</th>
+                <th> Item Description</th>
+                <th> Status </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="4" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td> {{row.item_code}} </td>
+                <td> {{row.item_name}} </td>
+                <td> {{row.description}} </td>
+                <td> {{row.status}} </td>
+            </tr>
+        </table>
+        <table class="page-table" ng-if="currentTab.text == 'Request'">
+            <tr>
+                <th> Item Code #</th>
+                <th> Item Name</th>
+                <th> Item Description</th>
+                <th> Status </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="4" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td> {{row.item_code}} </td>
+                <td> {{row.item_name}} </td>
+                <td> {{row.description}} </td>
+                <td> {{row.status}} </td>
+            </tr>
+        </table>
+    </div>
+</div>

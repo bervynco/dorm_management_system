@@ -17,11 +17,33 @@ class compute_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
+    function closeBilling($billingId){
+        $query = $this->db->where('billing_id', $billingId)
+                          ->update('billing', 
+                            array(
+                                'status' => 'inactive'
+                            )
+        );
+        return $this->db->affected_rows();
+    }
     function insertBillingInformation($billing){
         $query = $this->db->insert('billing', $billing);
         return $this->db->insert_id();
     }
+    function inserBillingDetails($billing){
+        $query = $this->db->insert('billing_data', $billing);
+        return $this->db->insert_id();
+    }
 
+    function getBillingDetails($branchId){
+        $query = $this->db->where('branch_id', $branchId)->where('status', 'active')->get("billing_data");
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+    function getBillingDetailsPerBillingSummary($billingId){
+        $sql = "SELECT billing_id, status, count(status) as 'status_count' FROM dorm_management.billing_data where billing_id = ". $billingId." group by status";
+        $query = $this->db->query($sql);
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
     function getBillingPerDate($branchId, $month, $year) {
         $query = $this->db->where('branch_id', $branchId)->where('month', $month)->where('year', $year)->get("billing");
         return ($query->num_rows() > 0) ? $query->result_array(): array();

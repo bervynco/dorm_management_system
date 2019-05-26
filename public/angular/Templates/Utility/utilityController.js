@@ -60,10 +60,14 @@
     function getUtilityData(){
         DataFactory.GetUtilityList($scope.branch.branch_id).success(function(response){
             if(response.status = 200){
+                console.log(response.data);
                 $scope.utilityData = response.data;
                 $scope.rows = response.data;
                 // filterData($scope.currentTab);
-                $scope.currentUtility = $scope.rows[0];
+                if($scope.rows.length > 0){
+                    $scope.currentUtility = $scope.rows[0];
+                }
+                
             }
                 
         }).error(function(error){

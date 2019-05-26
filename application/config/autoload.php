@@ -134,4 +134,4 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array('user_model', 'tenant_model', 
 'room_model', 'service_model', 'inventory_model', 
-'utility_model', 'calendar_model', 'report_model', 'payable_model', 'compute_model', 'request_model');
+'utility_model', 'calendar_model', 'report_model', 'payable_model', 'compute_model', 'request_model', 'payment_model', 'log_model');

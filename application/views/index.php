@@ -15,7 +15,7 @@
     
     <!-- <script src="public/assets/libraries/Highcharts/highcharts.js"></script>
     <script src="public/assets/libraries/Highcharts/highcharts-custom.js"></script> -->
-    <script src="public/assets/js/calendar.js"></script>
+    <!-- <script src="public/assets/js/calendar.js"></script> -->
     <script src="public/assets/js/peity.js"></script>
     <script src="public/assets/js/tinycolor.js"></script>
     <script src="public/assets/js/md-color-picker.js"></script>
@@ -33,6 +33,8 @@
     <script src="public/angular/main.js"></script>
 
     <!-- Project -->
+    <script src="public/angular/Templates/Billing/billingController.js"></script>
+    <script src="public/angular/Templates/Dashboard/dashboardController.js"></script>
     <script src="public/angular/Templates/Login/loginController.js"></script>
     <script src="public/angular/Templates/Logs/logsController.js"></script>
     <script src="public/angular/Templates/Inventory/inventoryController.js"></script>
@@ -52,7 +54,7 @@
     <link rel="stylesheet" href="public/assets/css/material.css">
     <link rel="stylesheet" href="public/assets/css/calendar.css">
     <!-- <link rel="stylesheet" href="public/assets/css/styles.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css"> -->
     <link rel="stylesheet" href="public/assets/scss/styles.css">
     <!-- <link rel="stylesheet" href="public/assets/css/mainstyle.css"> -->
 
@@ -74,12 +76,6 @@
             <span id="sidebar-text" flex layout layout-align="center center"> Management </span>
         </div>
         <!-- -->
-        <div flex="none" id="sidebar-profile form" layout layout-align="start stretch">
-            <select ng-model="selectedBranch" ng-options="branch.branch_name for branch in userDetails.branch track by branch.user_branch_id" ng-selected="selectedBranch" ng-change="ChangeBranch(selectedBranch)"></select>
-            <!-- <select ng-change="ChangeBranch()" ng-model="selectedBranch">
-                <option ng-repeat="branch in userDetails.branch" ng-value="branch.branch_id">{{branch.branch_name}}</option>
-            </select> -->
-        </div>
         <div flex="none" id="sidebar-content" layout="column" layout-align="start stretch">
             
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
@@ -137,22 +133,36 @@
                 <span flex="none" ng-class="currState === 'report' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Reports</div>
             </div>
-            <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+            <!-- <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('request')">
                 <span flex="none" ng-class="currState === 'request' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Request Management</div>
-            </div>
-            
+            </div> -->
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('compute')">
                 <span flex="none" ng-class="currState === 'compute' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Compute Billing</div>
             </div>
+            <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+                ng-click="ChangeState('billing')">
+                <span flex="none" ng-class="currState === 'billing' ? 'status-active' : 'status-inactive'"></span>
+                <div flex layout layout-align="start center">Billing Data</div>
+            </div>
+            <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+                ng-click="ChangeState('logs')">
+                <span flex="none" ng-class="currState === 'logs' ? 'status-active' : 'status-inactive'"></span>
+                <div flex layout layout-align="start center">Logs</div>
+            </div>
         </div>
     </div>
     <div flex layout="column" layout-align="start stretch">
-        <div flex="none" id="navbar" layout layout-align="start stretch" ng-if="currState != 'login'">
-
+        <div flex="none" id="navbar" layout layout-align="end stretch" ng-if="currState != 'login'">
+            <div flex="none" id="navbar-dropdown" layout layout-align="start stretch">
+                <select ng-model="selectedBranch" ng-options="branch.branch_name for branch in userDetails.branch track by branch.user_branch_id" ng-selected="selectedBranch" ng-change="ChangeBranch(selectedBranch)"></select>
+                <!-- <select ng-change="ChangeBranch()" ng-model="selectedBranch">
+                    <option ng-repeat="branch in userDetails.branch" ng-value="branch.branch_id">{{branch.branch_name}}</option>
+                </select> -->
+            </div>
         </div>
         <div flex ui-view layout class="main-container" layout-align="start stretch"></div>
     </div>

@@ -109,6 +109,26 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:tenant
             })
         },
+        GetChequePaymentDetails: function(data){
+            return $http({
+                method: "POST",
+                url: "index.php/TenantController/getChequeDetails",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:data
+            })
+        },
+        GetAggregatedTenantList: function(id){
+            return $http({
+                method: "POST",
+                url: "index.php/TenantController/getAggregatedTenantList",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
         /** Room **/
         GetRoomList: function(id) {
             return $http({
@@ -148,6 +168,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                     'Content-Type': 'application/json'
                 },
                 data:room
+            })
+        },
+        GetAggregatedRoomList: function(id){
+            return $http({
+                method: "POST",
+                url: "index.php/RoomController/getAggregatedRoomList",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
             })
         },
         /** Inventory  **/
@@ -437,6 +467,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: {'branch_id' : id}
             })
         },
+        GetPayableDues: function(id) {
+            return $http({
+                method: "POST",
+                url: "index.php/PayableController/getAllPayableDues",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
         AddNewPayable: function(payables) {
             return $http({
                 method: "POST",
@@ -521,6 +561,37 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
             return $http({
                 method: "POST",
                 url: "index.php/ApprovalRequestController/editApprovalRequest",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
+        /** Payment **/
+        GetPaymentTypes: function() {
+            return $http({
+                method: "POST",
+                url: "index.php/PaymentController/getPaymentTypes",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        /** Logs */
+        GetAllLogs: function(id){
+            return $http({
+                method: "POST",
+                url: "index.php/LogsController/getAllLogs",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
+        AddPageLog: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/LogsController/addPageLog",
                 headers: {
                     'Content-Type': 'application/json'
                 },

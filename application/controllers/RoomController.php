@@ -46,6 +46,10 @@ class RoomController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successful retrieiving tenant list", $arrData));
     }
 
+    public function getAggregatedRoomList() {
+
+    }
+
     public function getTenantWithNoRoom(){
         
     }

@@ -81,10 +81,6 @@ class inventory_model extends CI_Model {
                             )
         );
         return $this->db->affected_rows();
-
-        $query = $this->db->insert('inventory_transaction', $inventoryTransaction);
-
-        return $this->db->insert_id();
     }
 
     function insertInventoryTransactionItem($inventoryTransaction) {
@@ -97,14 +93,12 @@ class inventory_model extends CI_Model {
                           ->update('inventory', 
                             array(
                                 'item_name'=> $inventory['item_name'], 
-                                'description' => $inventory['description'], 
-                                'branch_id' => $inventory['branch_id'],
-                                'room_id' => $inventory['room_id']
+                                'item_code'=> $inventory['item_code'],
+                                'description' => $inventory['description']
                             )
         );
         return $this->db->affected_rows();
     }
-    
     function deleteInventoryItem($inventoryId, $branchId) {
         $query = $this->db->where('inventory_id', $inventoryId)
                         ->where('branch_id', $branchId)

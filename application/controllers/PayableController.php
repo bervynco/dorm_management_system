@@ -24,6 +24,17 @@ class PayableController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successful retrieiving payable list", $arrPayables));
     }
 
+    public function getAllPayableDues() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $dateNow = new DateTime();
+        $datePreviousWeek = new DateTime();
+        $dateNextWeek = new DateTime();
+        $datePreviousWeek = $datePreviousWeek->sub(new DateInterval('P7D'))->format('Y-m-d');
+        $dateNextWeek = $dateNextWeek->add(new DateInterval('P7D'))->format('Y-m-d');
+
+        $arrPayables = $this->payable_model->selectAllPayablePerBranchWithDues($postData['branch_id'], $datePreviousWeek, $dateNextWeek);
+        echo json_encode($this->returnArray(200, "Successful retrieiving payable list", $arrPayables));
+    }
     public function addNewPayable(){
         $postData = json_decode(file_get_contents('php://input'), true);
         $payables = $postData;

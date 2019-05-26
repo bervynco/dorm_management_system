@@ -129,17 +129,29 @@
     }
 
     $scope.showCompleteDetails = function(item){
-        LoadDropdown(item);
+        $scope.inventory = angular.copy(item);
+        if("start_date" in $scope.inventory && "end_date" in $scope.inventory){
+            $scope.inventory.start_date = new Date(item.start_date);
+            $scope.inventory.end_date = new Date(item.end_date);
+        }
         $scope.showCompleteDetailsFlag = true;
-        $scope.inventory = item;
+        LoadDropdown(item, $scope.currentTab.name);
     }
 
-    function LoadDropdown(item) {
-        var roomIndex = 0;
-        var roomIndex = _.findIndex($scope.roomList, function(o){
-            return o.room_number == item.room_number;
-        });
-        $scope.selectedRoom = $scope.roomList[roomIndex];
+    function LoadDropdown(item, tabName){
+        var index = 0;
+        if(tabName == 'room'){
+            var index = _.findIndex($scope.roomList, function(o){
+                return o.room_id == item.room_id;
+            });
+            $scope.currentRoom = $scope.roomList[index];
+        }
+        else{
+            var index = _.findIndex($scope.tenantList, function(o){
+                return o.tenant_id == item.tenant_id;
+            });
+            $scope.currentTenant = $scope.tenantList[index];
+        }
     }
 
     $scope.ChangeInventoryRoom = function(room){
@@ -224,9 +236,17 @@
     }
 
     $scope.editInventory = function(){
-        if($scope.disable == false){
-            $scope.inventory.branch_id = $scope.branch.branch_id;
-            $scope.inventory.room_id = $scope.selectedRoom.room_id;
+        if($scope.disable == false){    
+            if($scope.currentTab.name == 'rent'){
+                $scope.inventory.tenant_id = $scope.currentTenant.tenant_id;
+            }
+            else if($scope.currentTab.name == 'room'){
+                $scope.inventory.room_id = $scope.currentRoom.room_id;
+            }
+            else{
+                $scope.inventory.tenant_id = 0;
+                $scope.inventory.room_id = 0;
+            }
             DataFactory.EditInventory($scope.inventory).success(function(response){
                 if(response.status == 200){
                     getAllData();
@@ -284,19 +304,9 @@
         }
         
     }
-    $scope.showCompleteUtilityDetails = function(inventory){
-        $scope.inventory = inventory;
-        $scope.showCompleteDetailsFlag = true;
-        if($scope.currentTab.name == "room"){
-
-        } 
-        else if($scope.currentTab.name == "rent"){
-
-        }
-        else{
-            
-        }
-    }
+    // $scope.showCompleteUtilityDetails = function(inventory){
+        
+    // }
     // $scope.downloadPage = function(page) {
     //     var object = {'page': page, 'branch_id': $scope.branch.branch_id}
     //     DataFactory.DownloadPage(object).success(function(response){

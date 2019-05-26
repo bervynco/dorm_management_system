@@ -1,60 +1,169 @@
-
-<div layout="column" layout-align="start stretch" flex style="background-color:whitesmoke">
-    <div flex="10" class="assessment-card" layout="column" layout-align="start stretch" my-setter padding="10">
-        <div flex layout="column" layout-align="start stretch">
-            <span class="header-title">System Logs Page</span>
+<div flex layout="column" layout-align="start stretch" class="page-container">
+    <div flex="none" layout layout-align="end stretch" class="page-header">
+        <div flex="80" layout layout-align="start stretch" class="page-header-details">
+            <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
         </div>
-        <div flex></div>
-        <div flex layout layout-align="start stretch">
-            <span class="header-subtitle">Page for viewing actions of users in the system</span>
+        <div flex="20" layout layout-align="end stretch">
+            <button flex="none" class="flat-button" ng-click="addPayable()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Payable 
+            </button>
         </div>
+        
     </div>
-    <div flex layout layout-align="start stretch" my-setter padding="10">
-        <div layout="column" flex layout layout-align="start stretch">
-            <div flex="none" layout="row" layout-align="center stretch" class="table-menu">
-                <div flex="20"></div> 
-                <div flex="50" layout="row" layout-align="center stretch">
-                    <div flex="15" layout layout-align="center center">
-                        <md-icon md-svg-src="{{SVG.left}}" layout layout-align="center center" flex ng-class="currentPage == 0 ? 'not-allowed' : 'pointer'" ng-click="PreviousPage()"></md-icon>
-                        <!-- <div flex
-                            ng-options="i for i in _.range(1,(filtered.length/10))">
-                        </div> -->
-                        <div flex layout layout-align="center center"> {{currentPage + 1}} </div>
-                        <md-icon md-svg-src="{{SVG.right}}" layout layout-align="center center" flex ng-class="(currentPage + 1)*15 >= filtered.length ? 'not-allowed': 'pointer'" ng-click="NextPage()"></md-icon>
-                    </div>
+    <div flex layout="column" layout-align="start stretch" class="page-content">
+        <table class="page-table">
+            <tr>
+                <!-- <th> Item #</th> -->
+                <th> Employee Username</th>
+                <th> Employee Name</th>
+                <th> Page Access</th>
+                <th> Page Action </th>
+                <th> Timestamp </th>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td> {{row.username}} </td>
+                <td> {{row.name}} </td>
+                <td> {{row.page_name}} </td>
+                <td> {{row.page_action}} </td>
+                <td> {{row.timestamp}} </td>
+            </tr>
+        </table>
+        <!-- <div class="content" style="margin-top: 70px;" ng-if="currentTab == 'Calendar'">
+    <div class="container">
+        <div ng-init="loadEvents()">
+            <div class="alert alert-success" ng-show="event">Event selected:{{event.startTime|date:
+                'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
+            </div>
+
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" ng-class="{active:mode==='month'}"
+                            ng-click="changeMode('month')">
+                        Month
+                    </button>
+                    <button type="button" class="btn btn-default" ng-class="{active:mode==='week'}"
+                            ng-click="changeMode('week')">
+                        Week
+                    </button>
+                    <button type="button" class="btn btn-default" ng-class="{active:mode==='day'}"
+                            ng-click="changeMode('day')">
+                        Day
+                    </button>
                 </div>
-                <div flex></div> 
-                <div flex="20" layout layout-align="end stretch">
-                    <div flex layout layout-align="start stretch">
-                        <md-icon md-svg-src="{{SVG.search}}" my-setter padding="10"></md-icon>
-                        <input type="text" flex placeholder="What are you looking for?" ng-model="searchLogs">
-                    </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" ng-disabled="isToday()"
+                            ng-click="today()">
+                        Today
+                    </button>
                 </div>
             </div>
-            <div flex layout layout-align="start stretch" style="overflow-y:auto">
-                <table class="data-table">
-                    <tr>
-                        <th class=""> Employee Name </th>
-                        <th class=""> Page </th>
-                        <th class=""> Action </th>
-                        <th class=""> Access Date </th>
-                    </tr>
-                    <tr class="values no-animation" ng-repeat="log in filtered=(logList | filter: searchLogs) | limitTo:15:(currentPage-1)*15">
-                        <td>{{log.name}}</td>
-                        <td>{{log.page}}</td>
-                        <td>{{log.action}}</td>
-                        <td>{{log.timestamp}}</td>
-                    </tr>
-                </table>
-            </div>        
+            <div class="well well-sm">
+                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
+                          range-changed="reloadSource(startTime, endTime)"
+                          event-selected="onEventSelected(event)"
+                          time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
+            </div>
         </div>
     </div>
-    <!-- <div flex="10" layout="row" layout-align="center stretch">
-        <div flex="15" layout layout-align="center center">
-            <md-icon md-svg-src="{{SVG.left}}" layout layout-align="center center" flex ng-class="currentPage == 1 ? 'not-allowed' : 'pointer'" ng-click="PreviousPage()"></md-icon>
-            <div flex layout layout-align="center center"> {{currentPage}} </div>
-            <md-icon md-svg-src="{{SVG.right}}" layout layout-align="center center" flex ng-class="(currentPage + 1)*14 >= filtered.length ? 'not-allowed': 'pointer'" ng-click="NextPage()"></md-icon>
+</div> -->
+        <!-- <div ng-if="currentTab == 'Calendar'" class="well well-sm">
+                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
+                          range-changed="reloadSource(startTime, endTime)"
+                          event-selected="onEventSelected(event)"
+                          time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
+            </div>
+    </div> -->
+</div>
+<div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <ng-form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Add New Payable</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="payables.name" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="payables.description">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Amount <i class="required"> * </i></span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="payables.amount" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="payables.payable_date" required>
+            </span>
         </div>
-    </div>
-    <div flex="5"></div> -->
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="addNewPayable()" ng-disabled="addForm.$error.required.length > 0"> Add New Payable </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+        </div>
+    </ng-form>
+</div>
+
+<div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
+    <div flex="none" class="sidebar-white-space"></div>
+    <form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Payable Details</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
+        </span>
+        <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
+            <!-- <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item # </span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" disabled>
+            </span> -->
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Name <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-disabled="disable" ng-model="payables.name">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" ng-model="payables.description">
+            </span>
+             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Amount </span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" required ng-model="payables.amount">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Date <i class="required"> * </i></span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-disabled="disable" ng-model="payables.payable_date">
+            </span>
+        </div>
+        <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
+        <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editPayable()" > 
+                <span ng-if="disable"> Edit Payable </span>
+                <span ng-if="!disable"> Update Payable </span>
+            </button>
+            <span class="space-between-buttons"></span>
+            <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-if="disable" ng-click="deletePayable(payables)"> 
+                <span> Delete Payable </span>
+            </button>
+            <button flex class="page-cancel-button" class="sidebar-form-button" ng-if="!disable" ng-click="CloseSidebar()"> 
+                <span> Cancel </span>
+            </button>
+        </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button" ng-if="disable">
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+        </div>
+        <!-- <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editPayable()" > 
+                <span ng-if="disable"> Edit Payable </span>
+                <span ng-if="!disable"> Update Payable </span>
+            </button>
+            
+            <span class="space-between-buttons"></span>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+        </div> -->
+    </form>
 </div>

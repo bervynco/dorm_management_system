@@ -7,6 +7,24 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             'abstract': true,
             template: '<div ui-view layout flex/>'
         })
+        .state('billing', {
+            parent: 'site',
+            data: {
+                roles: []
+            },
+            url: "/billing",
+            templateUrl: "public/angular/Templates/Billing/billing.html",
+            controller: "BillingController"
+        })
+        .state('home', {
+            parent: 'site',
+            data: {
+                roles: []
+            },
+            url: "/home",
+            templateUrl: "public/angular/Templates/Dashboard/dashboard.html",
+            controller: "DashboardController"
+        })
         //Login
         .state('login', {
             parent: 'site',
@@ -25,15 +43,6 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             url: "/service",
             templateUrl: "public/angular/Templates/Service/service.html",
             controller: "ServiceController"
-        })
-        .state('home', {
-            parent: 'site',
-            data: {
-                roles: []
-            },
-            url: "/home",
-            templateUrl: "public/angular/Templates/Home/home.html",
-            controller: "HomeController"
         })
         .state('user', {
             parent: 'site',
@@ -133,6 +142,15 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             url: "/request",
             templateUrl: "public/angular/Templates/Request/request.html",
             controller: 'RequestController'
+        })
+        .state('logs', {
+            parent: 'site',
+            data: {
+                roles: []
+            },
+            url: "/logs",
+            templateUrl: "public/angular/Templates/Logs/logs.html",
+            controller: 'LogsController'
         })
 
 }]);

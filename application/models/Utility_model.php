@@ -1,6 +1,10 @@
 <?php
 class utility_model extends CI_Model {
-
+    function selectAllUtilityPerTenant($branchId) {
+        $sql = "SELECT utility.*, utility_reading.utility_reading_id, utility_reading.current_reading, utility_price.utility_price_id, utility_price.price FROM dorm_management.utility LEFT JOIN utility_reading on utility.utility_id = utility_reading.utility_id LEFT JOIN utility_price on utility.utility_id = utility_price.utility_id where utility_reading.status = 'active' and utility_price.status = 'active'";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
     function selectAllUtilityPerBranch($branchId) {
         $this->db->select(array('utility.*', 'utility_reading.*'));
         $this->db->from('utility_reading');

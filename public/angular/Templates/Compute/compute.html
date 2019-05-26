@@ -17,12 +17,14 @@
                 <th> Billing Name</th>
                 <th> Billing Description</th>
                 <th> Billing Month/Year </th>
+                <th> Percentage Completion </th>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <!-- <td > {{row.item_number}} </td> -->
                 <td ng-click="showCompleteDetails(row)"> {{row.billing_name}} </td>
                 <td> {{row.billing_description}} </td>
                 <td> {{row.month}}/{{row.year}} </td>
+                <td> {{row.completion}}% </td>
             </tr>
         </table>
     </div>

@@ -18,12 +18,24 @@ class TenantController extends CI_Controller {
         return array('status' => $status, 'message' => $message, 'data' => $data);
     }
     
+    public function getTenantPerBranchWithStatus() {
+        
+    }
     public function getAllTenantsPerBranch(){
         $postData = json_decode(file_get_contents('php://input'), true);
         $arrTenants = $this->tenant_model->selectAllTenantsPerBranch($postData['branch_id']);
         echo json_encode($this->returnArray(200, "Successful retrieiving tenant list", $arrTenants));
     }
 
+    public function getChequeDetails(){
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $arrPaymentDetails = $this->tenant_model->selectAllChequePerTenant($postData['tenant_id']);
+        echo json_encode($this->returnArray(200, "Successful retrieiving tenant list", $arrPaymentDetails));
+    }
+
+    public function getAggregatedTenantList() {
+
+    }
     public function addNewTenant(){
         // $arrColumns = array('name', 'username', 'role', 'password');
         $postData = json_decode(file_get_contents('php://input'), true);
@@ -103,11 +115,6 @@ class TenantController extends CI_Controller {
         else {
             echo json_encode($this->returnArray(500, "Error inserting new payment"));
         }
-        
-
-        
-        // $this->tenant_model->insertPaymentDetails($postData['paymentDetails']);
-
         
     }
 

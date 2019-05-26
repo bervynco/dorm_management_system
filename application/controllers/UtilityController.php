@@ -24,16 +24,48 @@ class UtilityController extends CI_Controller {
         foreach($arrUtility as $index => $utility){
             $readings = $this->utility_model->selectPreviousAndCurrentReading($arrUtility[$index]['utility_id'], $arrUtility[$index]['branch_id']);
             $prices = $this->utility_model->selectPreviousAndCurrentPrice($arrUtility[$index]['utility_id'], $arrUtility[$index]['branch_id']);
-            $arrUtility[$index]['current_reading'] = $readings[0]['current_reading'];
-            $arrUtility[$index]['current_price'] = $prices[0]['price'];
-            if(sizeof($readings) > 1)
-                $arrUtility[$index]['previous_reading'] = $readings[1]['current_reading'];
-            else
+            // if(count($readings) == 0){
+            //     $arrUtility[$index]['current_reading'] = 0;
+            // }
+            // else{
+            //     $arrUtility[$index]['current_reading'] = $readings[0]['current_reading'];
+            // }
+            
+            // if(count($prices) == 0){
+            //     $arrUtility[$index]['current_price'] = 0
+            // }
+            // else{
+            //     $arrUtility[$index]['current_price'] = $prices[0]['price'];
+            // }
+            
+            if(sizeof($readings) >= 1){
+                $arrUtility[$index]['current_reading'] = $readings[0]['current_reading'];
+                
+                if(sizeof($readings == 1)){
+                    $arrUtility[$index]['previous_reading'] = 0;
+                }
+                else{
+                    $arrUtility[$index]['previous_reading'] = $readings[1]['current_reading'];
+                }
+            }
+            else{
+                $arrUtility[$index]['current_reading'] = 0;
                 $arrUtility[$index]['previous_reading'] = 0;
-            if(sizeof($prices) > 1)
-                $arrUtility[$index]['previous_price'] = $prices[1]['price'];
-            else
+            } 
+            if(sizeof($prices) >= 1){
+                $arrUtility[$index]['current_price'] = $prices[0]['price'];
+                
+                if(sizeof($prices == 1)){
+                    $arrUtility[$index]['previous_price'] = 0;
+                }   
+                else{
+                    $arrUtility[$index]['previous_price'] = $prices[1]['price'];
+                }
+            }
+            else{
+                $arrUtility[$index]['current_price'] = 0;
                 $arrUtility[$index]['previous_price'] = 0;
+            }
         }
         echo json_encode($this->returnArray(200, "Successful retrieiving utility list", $arrUtility));
     }
