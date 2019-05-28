@@ -4,7 +4,9 @@
             <div flex layout layout-align="start center"> <span class="emphasize">{{rows.length > 0 ? rows.length : 0}}</span> Items</div>
         </div>
         <div flex="20" layout layout-align="end stretch">
-     
+            <button flex="none" class="flat-button" ng-click="addPayment()" layout layout-align="center stretch">
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Upload Cheques 
+            </button>
         </div>
         
     </div>
@@ -12,99 +14,75 @@
         <table class="page-table">
             <tr>
                 <!-- <th> Item #</th> -->
-                <th> Employee Username</th>
-                <th> Employee Name</th>
-                <th> Page Access</th>
-                <th> Page Action </th>
-                <th> Timestamp </th>
+                <th> Tenant Name</th>
+                <th> Cheque Number</th>
+                <th> Cheque Amount </th>
+                <th> Cheque Bank</th>
+                <th> Cheque Date</th>
             </tr>
             <tr ng-repeat="row in rows track by $index">
-                <td> {{row.username}} </td>
-                <td> {{row.name}} </td>
-                <td> {{row.page_name}} </td>
-                <td> {{row.page_action}} </td>
-                <td> {{row.timestamp}} </td>
+                <!-- <td > {{row.item_number}} </td> -->
+                <td ng-click="showCompleteDetails(row)"> {{row.tenant_name}} </td>
+                <td> {{row.cheque_number}} </td>
+                <td> {{row.cheque_amount}} </td>
+                <td> {{row.cheque_bank}} </td>
+                <td> {{row.cheque_date}} </td>
             </tr>
         </table>
-        <!-- <div class="content" style="margin-top: 70px;" ng-if="currentTab == 'Calendar'">
-    <div class="container">
-        <div ng-init="loadEvents()">
-            <div class="alert alert-success" ng-show="event">Event selected:{{event.startTime|date:
-                'MMM/dd,yyyy,HH:mm'}} - {{event.endTime|date:'MMM/dd,yyyy,HH:mm'}}, {{event.title}}
-            </div>
-
-            <div class="btn-toolbar">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" ng-class="{active:mode==='month'}"
-                            ng-click="changeMode('month')">
-                        Month
-                    </button>
-                    <button type="button" class="btn btn-default" ng-class="{active:mode==='week'}"
-                            ng-click="changeMode('week')">
-                        Week
-                    </button>
-                    <button type="button" class="btn btn-default" ng-class="{active:mode==='day'}"
-                            ng-click="changeMode('day')">
-                        Day
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" ng-disabled="isToday()"
-                            ng-click="today()">
-                        Today
-                    </button>
-                </div>
-            </div>
-            <div class="well well-sm">
-                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
-                          range-changed="reloadSource(startTime, endTime)"
-                          event-selected="onEventSelected(event)"
-                          time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
-            </div>
-        </div>
     </div>
-</div> -->
-        <!-- <div ng-if="currentTab == 'Calendar'" class="well well-sm">
-                <calendar ng-model="currentDate" calendar-mode="mode" event-source="eventSource"
-                          range-changed="reloadSource(startTime, endTime)"
-                          event-selected="onEventSelected(event)"
-                          time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
-            </div>
-    </div> -->
 </div>
-<div ng-if="showSideNav" layout layout-align="start stretch" class="sidebar-default-modal">
+<div ng-if="showSideNavAddPaymentFlag" layout layout-align="start stretch" class="sidebar-default-modal">
     <div flex="none" class="sidebar-white-space"></div>
-    <ng-form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+    <form name="addForm" flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
         <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
-            <span flex layout layout-align="start center" >Add New Payable</span>
+            <span flex layout layout-align="start center" >Upload Cheques to Tenant</span>
             <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
         </span>
         <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Name <i class="required"> * </i></span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="payables.name" required>
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" ng-model="selectedTenant" ng-init="selectedTenant = tenantList[0]" ng-options="tenant.tenant_name for tenant in tenantList track by tenant.tenant_id" ng-selected="selectedTenant" ng-change="ChangeTenant(selectedTenant)"></select>
             </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="payables.description">
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Amount <i class="required"> * </i></span>
-                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="payables.amount" required>
-            </span>
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Date <i class="required"> * </i></span>
-                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-model="payables.payable_date" required>
+
+            <!-- <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payment Method <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" ng-model="selectedPaymentMethod" ng-init="selectedPaymentMethod = paymentMethod[0]" ng-options="method for method in paymentMethod" ng-selected="selectedTenant" ng-change="ChangePaymentMethod(selectedPaymentMethod)"></select>
+            </span> -->
+            
+            <span flex="none" layout="column" layout-align="start stretch" class="sidebar-form-input-group">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Cheque Details <i class="required"> * </i></span>
+                <span flex="none" layout layout-align="start stretch" class="sidebar-form-group" ng-repeat="paymentDetail in paymentDetails track by $index">
+                    <span flex="none" layout layout-align="start stretch" style="width:25%">
+                        <input type="text" placeholder="Cheque Number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="paymentDetail.cheque_number" required>
+                    </span>
+                    <span flex="none" my-setter width-in-percent="1"></span>
+                    <span flex="none" layout layout-align="center stretch">
+                        <input type="text" placeholder="Bank" class="sidebar-form-input" layout layout-align="start stretch" ng-model="paymentDetail.cheque_bank" required>
+                    </span>
+                    <span flex="none" my-setter width-in-percent="1"></span>
+                    <span flex="none" layout layout-align="center stretch" >
+                        <input type="date" placeholder="Date mm/dd/yyyy" class="sidebar-form-input" layout layout-align="center center" ng-model="paymentDetail.cheque_date" required>
+                    </span>
+                    <span flex="none" my-setter width-in-percent="1"></span>
+                    <span flex="none" layout layout-align="center stretch" >
+                        <input type="number" placeholder="Amount" class="sidebar-form-input" layout layout-align="start stretch" ng-model="paymentDetail.cheque_amount" required>
+                    </span>
+                </span>
+            <span>
+            <span flex="none" layout layout-align="start stretch">
+                <div flex layout layout-align="start stretch">
+                    <md-button flex class="md-raised buttons-submit" ng-click="AddNewPaymentDetail()"> Add New Cheque </md-button>
+                </div>
             </span>
         </div>
         <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
         <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-click="addNewPayable()" ng-disabled="addForm.$error.required.length > 0"> Add New Payable </button>
+            <button flex class="page-add-button" ng-click="uploadCheques($event)" ng-disabled="addForm.$error.required.length > 0"> Upload Cheques </button>
             <span class="space-between-buttons"></span>
-            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
-        </div>
-    </ng-form>
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button>
+        </div> 
+    </form>
 </div>
 
 <div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">

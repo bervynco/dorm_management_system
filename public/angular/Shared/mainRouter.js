@@ -152,5 +152,14 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             templateUrl: "public/angular/Templates/Logs/logs.html",
             controller: 'LogsController'
         })
+        .state('uploadpayment', {
+            parent: 'site',
+            data: {
+                roles: []
+            },
+            url: "/uploadpayment",
+            templateUrl: "public/angular/Templates/Upload Payment/payment.html",
+            controller: 'UploadPaymentController'
+        })
 
 }]);

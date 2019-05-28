@@ -5,7 +5,7 @@
         </div>
         <div flex="20" layout layout-align="end stretch">
              <button flex="none" class="flat-button" ng-click="addPayment()" layout layout-align="center stretch">
-                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add Mode of Payment 
+                <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add Cheque Payment 
             </button> 
             <button flex="none" class="flat-button" ng-click="addNewTenant()" layout layout-align="center stretch">
                 <img flex="none" src="public/assets/images/icons/add.png" layout layout-align="center center" >Add New Tenant 
@@ -233,12 +233,12 @@
                 <select layout layout-align="start stretch" class="sidebar-form-input" ng-model="selectedTenant" ng-init="selectedTenant = rows[0]" ng-options="tenant.tenant_name for tenant in rows track by tenant.tenant_id" ng-selected="selectedTenant" ng-change="ChangeTenant(selectedTenant)"></select>
             </span>
 
-            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+            <!-- <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payment Method <i class="required"> * </i></span>
                 <select layout layout-align="start stretch" class="sidebar-form-input" ng-model="selectedPaymentMethod" ng-init="selectedPaymentMethod = paymentMethod[0]" ng-options="method for method in paymentMethod" ng-selected="selectedTenant" ng-change="ChangePaymentMethod(selectedPaymentMethod)"></select>
-            </span>
+            </span> -->
             
-            <span flex="none" layout="column" layout-align="start stretch" class="sidebar-form-input-group" ng-if="selectedPaymentMethod == 'Cheque'">
+            <span flex="none" layout="column" layout-align="start stretch" class="sidebar-form-input-group">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Cheque Details <i class="required"> * </i></span>
                 <span flex="none" layout layout-align="start stretch" class="sidebar-form-group" ng-repeat="paymentDetail in paymentDetails track by $index">
                     <span flex="none" layout layout-align="start stretch" style="width:250px">

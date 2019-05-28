@@ -49,6 +49,7 @@
     <script src="public/angular/Templates/Compute/computeController.js"></script>
     <script src="public/angular/Templates/Request/requestController.js"></script>
     <script src="public/angular/Templates/Service/serviceController.js"></script>
+    <script src="public/angular/Templates/Upload Payment/paymentController.js"></script>
     <!--build:css css/styles.min.css-->
     <link rel="stylesheet" href="public/assets/css/jquery.scrollbar.css">
     <link rel="stylesheet" href="public/assets/css/material.css">
@@ -123,6 +124,11 @@
                 <span flex="none" ng-class="currState === 'payables' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Payables</div>
             </div>
+            <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+                ng-click="ChangeState('uploadpayment')">
+                <span flex="none" ng-class="currState === 'uploadpayment' ? 'status-active' : 'status-inactive'"></span>
+                <div flex layout layout-align="start center">Upload Cheque Payment</div>
+            </div>
             <!-- <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('calendar')">
                 <span flex="none" ng-class="currState === 'calendar' ? 'status-active' : 'status-inactive'"></span>
@@ -156,13 +162,23 @@
         </div>
     </div>
     <div flex layout="column" layout-align="start stretch">
-        <div flex="none" id="navbar" layout layout-align="end stretch" ng-if="currState != 'login'">
-            <div flex="none" id="navbar-dropdown" layout layout-align="start stretch">
+        <div flex="none" id="navbar" layout layout-align="start stretch" ng-if="currState != 'login'">
+            <div flex="none" class="navbar-dropdown" layout layout-align="start stretch">
                 <select ng-model="selectedBranch" ng-options="branch.branch_name for branch in userDetails.branch track by branch.user_branch_id" ng-selected="selectedBranch" ng-change="ChangeBranch(selectedBranch)"></select>
+                
                 <!-- <select ng-change="ChangeBranch()" ng-model="selectedBranch">
                     <option ng-repeat="branch in userDetails.branch" ng-value="branch.branch_id">{{branch.branch_name}}</option>
                 </select> -->
             </div>
+            <div flex="85"></div>
+            <div flex="10" class="navbar-dropdown" layout layout-align="start stretch">
+                <div flex="none" layout layout-align="center center"> Hi, <div id="profile-details">{{userDetails.name}} </div></div>
+            </div>
+            <div flex="5" class="navbar-dropdown" layout layout-align="center center">
+                <img flex="none" id="signout-icon"src="public/assets/images/icons/sign-out-option.png" width="35" height="35" ng-click="SignOut()">
+            </div>
+
+            
         </div>
         <div flex ui-view layout class="main-container" layout-align="start stretch"></div>
     </div>

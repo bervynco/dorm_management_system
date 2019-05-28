@@ -34,6 +34,12 @@ app.controller('MainController', function ($mdDialog, $mdToast, $state, $mdSiden
         sessionStorage.setItem("branch", JSON.stringify(branch));
         window.location.reload();
     }
+    $scope.SignOut = function(){
+        sessionStorage.removeItem("branch");
+        localStorage.removeItem("user");
+        $scope.currState = "login";
+        $state.go("login");
+    }
     $scope.LoadSessionData();
     $scope.LoadSelectedBranch();
     

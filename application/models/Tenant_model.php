@@ -30,17 +30,17 @@ class tenant_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
-    function insertPayment($payment) {
-        $query = $this->db->insert('tenant_payment', $payment);
+    // function insertPayment($payment) {
+    //     $query = $this->db->insert('tenant_payment', $payment);
 
-        return $this->db->insert_id();
-    }
+    //     return $this->db->insert_id();
+    // }
 
-    function insertPaymentDetails($paymentDetails) {
-        $query = $this->db->insert('tenant_payment_detail', $paymentDetails);
+    // function insertPaymentDetails($paymentDetails) {
+    //     $query = $this->db->insert('tenant_payment_detail', $paymentDetails);
 
-        return $this->db->insert_id();
-    }
+    //     return $this->db->insert_id();
+    // }
 
     function deleteTenant($tenantId, $branchId) {
         $query = $this->db->where('tenant_id', $tenantId)

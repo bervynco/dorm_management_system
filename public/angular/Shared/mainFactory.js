@@ -577,6 +577,25 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 }
             })
         },
+        GetChequePayment: function() {
+            return $http({
+                method: "POST",
+                url: "index.php/PaymentController/getChequeList",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        UploadCheques: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/PaymentController/insertCheques",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
         /** Logs */
         GetAllLogs: function(id){
             return $http({
