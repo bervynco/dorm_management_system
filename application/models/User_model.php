@@ -46,6 +46,12 @@ class user_model extends CI_Model {
 
         return $this->db->affected_rows();
     }
+
+    function insertUserToBranch($arrUserDetail) {
+        $query = $this->db->insert('user_branch', $arrUserDetail);
+
+        return $this->db->insert_id();
+    }
 }
 
 ?>

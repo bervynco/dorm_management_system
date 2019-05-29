@@ -19,16 +19,23 @@ class UserController extends CI_Controller {
 
     public function addNewUser(){
         // $arrColumns = array('name', 'username', 'role', 'password');
+       
         $postData = json_decode(file_get_contents('php://input'), true);
         $password = $postData['password'];
+        $branchId = $postData['branch_id'];
+            
         $passwordObject['password'] =  $password_hash = password_hash($postData['password'], PASSWORD_BCRYPT);
 
         unset($postData['password']);
-
+        unset($postData['branch_id']);
         $existing = $this->user_model->checkExisting("add", $postData);
          if($existing == 0){
-            
             $userId = $this->user_model->insertUser($postData);
+            $branchObject['user_id'] = $userId;
+            $branchObject['branch_id'] = $branchId;
+            $branchObject['role_id'] = 2; // default to Staff
+            
+            $userBranchId = $this->user_model->insertUserToBranch($branchObject);
             $passwordObject['user_id'] = $userId;
             $passwordId = $this->user_model->insertPassword($passwordObject);
             if($userId != 0 && $passwordId != 0){

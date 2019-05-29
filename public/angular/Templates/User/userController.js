@@ -21,7 +21,6 @@
         username: '',
         password: '',
         mobile_number: '',
-        request_id: '',
         branch_id: $scope.branch.branch_id
     }
     
