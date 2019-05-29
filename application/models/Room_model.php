@@ -36,7 +36,7 @@ class room_model extends CI_Model {
     }
 
     function selectCountTenantPerRoomPerBranch($branchId) {
-        $string = "SELECT a.*, COUNT(b.room_tenant_id) as 'tenant_count' FROM dorm_management.room a left join dorm_management.room_tenant b ON a.room_id = b.room_id 
+        $string = "SELECT a.*, COUNT(b.room_tenant_id) as 'tenant_count' FROM room a left join room_tenant b ON a.room_id = b.room_id 
         WHERE a.branch_id = $branchId GROUP BY a.room_number";
 
         $query = $this->db->query($string);
@@ -44,7 +44,7 @@ class room_model extends CI_Model {
     }
 
     function selectTenantsWithNoRoom($branchId) {
-        $string = "SELECT a.*, b.* FROM dorm_management.tenant a LEFT OUTER JOIN dorm_management.room_tenant b ON (a.room_tenant_id = b.room_tenant_id)
+        $string = "SELECT a.*, b.* FROM tenant a LEFT OUTER JOIN room_tenant b ON (a.room_tenant_id = b.room_tenant_id)
                     WHERE b.room_tenant_id IS NULL";
         
         $query = $this->db->query($string);

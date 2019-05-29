@@ -175,7 +175,7 @@
                 <div flex="none" layout layout-align="center center"> Hi, <div id="profile-details">{{userDetails.name}} </div></div>
             </div>
             <div flex="5" class="navbar-dropdown" layout layout-align="center center">
-                <img flex="none" id="signout-icon"src="public/assets/images/icons/sign-out-option.png" width="35" height="35" ng-click="SignOut()">
+                <img flex="none" id="signout-icon"src="public/assets/images/icons/sign-out-option.png" width="30" height="30" ng-click="SignOut()">
             </div>
 
             

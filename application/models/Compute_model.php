@@ -40,7 +40,7 @@ class compute_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
     function getBillingDetailsPerBillingSummary($billingId){
-        $sql = "SELECT billing_id, status, count(status) as 'status_count' FROM dorm_management.billing_data where billing_id = ". $billingId." group by status";
+        $sql = "SELECT billing_id, status, count(status) as 'status_count' FROM billing_data where billing_id = ". $billingId." group by status";
         $query = $this->db->query($sql);
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
