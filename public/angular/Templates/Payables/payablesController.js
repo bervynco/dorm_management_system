@@ -30,6 +30,7 @@
     function getRequestID() {
         requestId = AppService.getRequestId();
     }
+    
 
     function initializeVariables() {
         $scope.payables = {
@@ -42,6 +43,17 @@
 
         
     }
+
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Payables",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
 
     function getAllData(){
         DataFactory.GetPayableList($scope.branch.branch_id).success(function(response){
@@ -104,6 +116,11 @@
         // }
         DataFactory.AddNewPayable($scope.payables).success(function(response){
                 if(response.status == 200){
+                    $scope.log.page_action = "Add New Payable";
+                    DataFactory.AddPageLog($scope.log).success(function(response){
+                    }).error(function(error){
+
+                    });
                     getAllData();
                     $scope.CloseSidebar();
                 }
@@ -120,6 +137,11 @@
             $scope.payables.branch_id = $scope.branch.branch_id;
             DataFactory.EditPayable($scope.payables).success(function(response){
                 if(response.status == 200){
+                    $scope.log.page_action = "Edit Payable";
+                    DataFactory.AddPageLog($scope.log).success(function(response){
+                    }).error(function(error){
+
+                    });
                     getAllData();
                     $scope.CloseSidebar();
                 }
@@ -138,6 +160,11 @@
     $scope.deletePayable = function(item){
         DataFactory.DeletePayable(item).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Delete Payable";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
                 getAllData();
                 $scope.CloseSidebar();
             }
@@ -150,70 +177,4 @@
     }
     getAllData();
     initializeVariables();
-
-    $scope.changeMode = function (mode) {
-        $scope.mode = mode;
-    };
-
-    $scope.today = function () {
-        $scope.currentDate = new Date();
-    };
-
-    $scope.isToday = function () {
-        var today = new Date(),
-            currentCalendarDate = new Date($scope.currentDate);
-
-        today.setHours(0, 0, 0, 0);
-        currentCalendarDate.setHours(0, 0, 0, 0);
-        return today.getTime() === currentCalendarDate.getTime();
-    };
-
-    $scope.loadEvents = function () {
-        $scope.eventSource = createRandomEvents();
-    };
-
-    $scope.onEventSelected = function (event) {
-        $scope.event = event;
-    };
-
-    $scope.onTimeSelected = function (selectedTime, events) {
-        console.log('Selected time: ' + selectedTime + ' hasEvents: ' + (events !== undefined && events.length !== 0));
-    };
-
-    function createRandomEvents() {
-        var events = [];
-        for (var i = 0; i < 50; i += 1) {
-            var date = new Date();
-            var eventType = Math.floor(Math.random() * 2);
-            var startDay = Math.floor(Math.random() * 90) - 45;
-            var endDay = Math.floor(Math.random() * 2) + startDay;
-            var startTime;
-            var endTime;
-            if (eventType === 0) {
-                startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-                if (endDay === startDay) {
-                    endDay += 1;
-                }
-                endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-                events.push({
-                    title: 'All Day - ' + i,
-                    startTime: startTime,
-                    endTime: endTime,
-                    allDay: true
-                });
-            } else {
-                var startMinute = Math.floor(Math.random() * 24 * 60);
-                var endMinute = Math.floor(Math.random() * 180) + startMinute;
-                startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-                endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-                events.push({
-                    title: 'Event - ' + i,
-                    startTime: startTime,
-                    endTime: endTime,
-                    allDay: false
-                });
-            }
-        }
-        return events;
-    }
 });

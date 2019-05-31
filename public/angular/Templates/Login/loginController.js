@@ -7,6 +7,11 @@
     $scope.Login = function(){
         DataFactory.SignIn($scope.user).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Login";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
                 localStorage.setItem("user", JSON.stringify(response.data[0]));
                 $scope.LoadSessionData();
                 sessionStorage.setItem("branch", JSON.stringify(response.data[0].branch[0]));

@@ -41,6 +41,17 @@
         requestId = AppService.getRequestId();
     }
 
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Service",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
+
     function getAllTenantData(){
         DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
             if(response.status = 200){
@@ -162,6 +173,11 @@
         $scope.service.status = "active";
         DataFactory.AddService($scope.service).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Add Service";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
                 getServiceData();
                 $scope.CloseSidebar();
             }
@@ -207,6 +223,11 @@
          if($scope.disable == false){
             DataFactory.EditService($scope.service).success(function(response){
                 if(response.status == 200){
+                    $scope.log.page_action = "Edit Service";
+                    DataFactory.AddPageLog($scope.log).success(function(response){
+                    }).error(function(error){
+
+                    });
                     getServiceData();
                     $scope.CloseSidebar();
                 }
@@ -225,6 +246,11 @@
     $scope.deleteService = function(service) {
         DataFactory.DeleteService($scope.service.service_id).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Delete Service";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
                 getServiceData();
                 $scope.CloseSidebar();
             }

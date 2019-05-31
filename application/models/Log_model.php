@@ -5,7 +5,7 @@ class log_model extends CI_Model {
         $this->db->from('log');
         $this->db->join('user', 'log.user_id = user.user_id');
         $this->db->where('log.branch_id', $branchId);
-        $this->db->order_by('log.timestamp', "asc");
+        $this->db->order_by('log.timestamp', "desc");
         $query = $this->db->get();
 
         return ($query->num_rows() > 0) ? $query->result_array(): array();

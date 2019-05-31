@@ -48,39 +48,55 @@
         }
     }
     
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Room",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
+
     $scope.ChangeRoomTab = function(tab) {
         $scope.currentTab = tab;
     }
     $scope.addRoom = function() {
         $scope.room.branch_id = $scope.branch.branch_id;
-        if($scope.branch.role == "Staff"){
-            $scope.approval.approval_mode = "add";
-            $scope.approval.request_id = requestId;
-            $scope.approval.approval_data = $scope.room;
-            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
-                if(response.status == 200){
-                    $scope.CloseSidebar();
-                }
-                else{
-                    $scope.errorNotification = response.message;
-                }
-            }).error(function(error){
+        // if($scope.branch.role == "Staff"){
+        //     $scope.approval.approval_mode = "add";
+        //     $scope.approval.request_id = requestId;
+        //     $scope.approval.approval_data = $scope.room;
+        //     DataFactory.AddApprovalRequest($scope.approval).success(function(response){
+        //         if(response.status == 200){
+        //             $scope.CloseSidebar();
+        //         }
+        //         else{
+        //             $scope.errorNotification = response.message;
+        //         }
+        //     }).error(function(error){
 
-            });
-        }
-        else {
-            DataFactory.AddRoom($scope.room).success(function(response){
-                if(response.status == 200){
-                    getAllData();
-                    $scope.CloseSidebar();
-                }
-                else {
-                    $scope.errorNotification = response.message;
-                }
-            }).error(function(error){
+        //     });
+        // }
+        // else {
+        DataFactory.AddRoom($scope.room).success(function(response){
+            if(response.status == 200){
+                $scope.log.page_action = "Add Room";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
 
-            });
-        }
+                });
+                getAllData();
+                $scope.CloseSidebar();
+            }
+            else {
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
+        //}
     }
     $scope.addNewRoom = function(){
         $scope.showSideNav = true;

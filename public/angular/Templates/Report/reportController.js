@@ -85,6 +85,17 @@
         }
     }
 
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Reports",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
+
     $scope.GenerateReport = function() {
         $scope.reportParams.branch_id = $scope.branch.branch_id;
         console.log($scope.reportParams);

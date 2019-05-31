@@ -35,6 +35,18 @@
 
         });
     }
+
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "User",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
+
     $scope.addNewUser = function(){
         $scope.showSideNav = true;
     }
@@ -42,6 +54,11 @@
     $scope.addUser = function(ev){
         DataFactory.AddNewUser($scope.user).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Add";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
                 getAllUser();
                 $scope.CloseSidebar();
             }

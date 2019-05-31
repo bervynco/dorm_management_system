@@ -75,6 +75,18 @@
             return currentTab == o.inventory_transaction_type; 
         });
     }
+
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Inventory",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
+    
     function getAllData(){
 
         DataFactory.GetInventoryTransactions($scope.branch.branch_id).success(function(response){
@@ -174,6 +186,12 @@
         $scope.inventoryAssignment['end_date'] = moment($scope.inventoryAssignment['end_date']).format("YYYY-MM-DD HH:mm");
         DataFactory.ModifyInventoryTransaction($scope.inventoryAssignment).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Assign Inventory to Tenant";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
+                getAllData();
                 $scope.CloseSidebar();
             }
             else{
@@ -192,6 +210,12 @@
         $scope.inventoryAssignment['end_date'] = moment($scope.inventoryAssignment['end_date']).format("YYYY-MM-DD HH:mm");
         DataFactory.ModifyInventoryTransaction($scope.inventoryAssignment).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Assign Inventory to Room";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
+                getAlLData();
                 $scope.CloseSidebar();
             }
             else {
@@ -205,34 +229,45 @@
     $scope.addNewItem = function() {
         $scope.inventory.branch_id = $scope.branch.branch_id;
         $scope.inventory.inventory_transaction_type = "stock";
-        if($scope.branch.role == "Staff"){
-            $scope.approval.approval_mode = "add";
-            $scope.approval.request_id = requestId;
-            $scope.approval.approval_data = $scope.inventory;
-            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
-                if(response.status == 200){
-                    $scope.CloseSidebar();
-                }
-                else {
-                    $scope.errorNotification = response.message;
-                }
-            }).error(function(error){
+        // if($scope.branch.role == "Staff"){
+        //     $scope.approval.approval_mode = "add";
+        //     $scope.approval.request_id = requestId;
+        //     $scope.approval.approval_data = $scope.inventory;
+        //     DataFactory.AddApprovalRequest($scope.approval).success(function(response){
+        //         if(response.status == 200){
+        //             $scope.log.page_action = "Add New Inventory Item";
+        //             DataFactory.AddPageLog($scope.log).success(function(response){
+        //             }).error(function(error){
 
-            });
-        }
-        else {
-            DataFactory.AddNewInventory($scope.inventory).success(function(response){
-                if(response.status == 200){
-                    getAllData();
-                    $scope.CloseSidebar();
-                }
-                else {
-                    $scope.errorNotification = response.message;
-                }
-            }).error(function(error){
+        //             });
+        //             getAllData();
+        //             $scope.CloseSidebar();
+        //         }
+        //         else {
+        //             $scope.errorNotification = response.message;
+        //         }
+        //     }).error(function(error){
 
-            });
-        }
+        //     });
+        // }
+        // else {
+        DataFactory.AddNewInventory($scope.inventory).success(function(response){
+            if(response.status == 200){
+                $scope.log.page_action = "Add New Inventory Item";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
+                getAllData();
+                $scope.CloseSidebar();
+            }
+            else {
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
+        // }
     }
 
     $scope.editInventory = function(){
@@ -249,6 +284,11 @@
             }
             DataFactory.EditInventory($scope.inventory).success(function(response){
                 if(response.status == 200){
+                    $scope.log.page_action = "Edit Inventory Item";
+                    DataFactory.AddPageLog($scope.log).success(function(response){
+                    }).error(function(error){
+
+                    });
                     getAllData();
                     $scope.CloseSidebar();
                 }
@@ -270,6 +310,11 @@
         if($scope.currentTab.name == 'stock'){
             DataFactory.DeleteInventory(item).success(function(response){
                 if(response.status == 200){
+                    $scope.log.page_action = "Delete Inventory Item";
+                    DataFactory.AddPageLog($scope.log).success(function(response){
+                    }).error(function(error){
+
+                    });
                     getAllData();
                     $scope.CloseSidebar();
                 }
@@ -292,6 +337,11 @@
             console.log(item);
             DataFactory.ModifyInventoryTransaction(item).success(function(response){
                 if(response.status == 200){
+                    $scope.log.page_action = "Move item back to stock";
+                    DataFactory.AddPageLog($scope.log).success(function(response){
+                    }).error(function(error){
+
+                    });
                     getAllData();
                     $scope.CloseSidebar();
                 }

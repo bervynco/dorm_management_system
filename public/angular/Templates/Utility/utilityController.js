@@ -57,6 +57,17 @@
         });
     }
 
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Utility",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
+
     function getUtilityData(){
         DataFactory.GetUtilityList($scope.branch.branch_id).success(function(response){
             if(response.status = 200){
@@ -162,6 +173,12 @@
         $scope.utilityPrice.branch_id = $scope.branch.branch_id;
         DataFactory.AddNewUtilityPrice($scope.utilityPrice).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Add New Utility Price";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
+                getUtilityData();
                 $scope.CloseSidebar();
             }
             else  {
@@ -178,6 +195,11 @@
         $scope.utilityReading.branch_id = $scope.branch.branch_id;
         DataFactory.AddNewUtilityReading($scope.utilityReading).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Add New Utility Reading";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
                 getUtilityData();
                 $scope.CloseSidebar();
             }
@@ -193,6 +215,11 @@
         $scope.utility.status = "active";
         DataFactory.AddNewUtility($scope.utility).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Add New Utility";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
                 getUtilityData();
                 $scope.CloseSidebar();
             }
@@ -209,6 +236,11 @@
             $scope.utility.branch_id = $scope.branch.branch_id;
             DataFactory.EditUtility($scope.utility).success(function(response){
                 if(response.status == 200){
+                    $scope.log.page_action = "Edit Utility";
+                    DataFactory.AddPageLog($scope.log).success(function(response){
+                    }).error(function(error){
+
+                    });
                     getAllData();
                     $scope.CloseSidebar();
                 }
@@ -227,6 +259,11 @@
     $scope.deleteUtility = function(item){
         DataFactory.DeleteUtility(item).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Delete Utility";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
                 getAllData();
                 $scope.CloseSidebar();
             }

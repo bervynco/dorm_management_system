@@ -51,6 +51,17 @@
         });
     }
 
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Tenant",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
+
     function getModalData(branchID, tenantID){
         var params = {'branch_id': branchID, 'tenant_id': tenantID};
         DataFactory.GetInventoryPerTenant(branchID, tenantID).success(function(response){
@@ -156,34 +167,23 @@
 
     $scope.addTenant = function(ev){
         $scope.tenant.branch_id = $scope.branch.branch_id;
-        if($scope.branch.role == "Staff"){
-            $scope.approval.approval_mode = "add";
-            $scope.approval.request_id = requestId;
-            $scope.approval.approval_data = $scope.tenant;
-            DataFactory.AddApprovalRequest($scope.approval).success(function(response){
-                if(response.status == 200){
-                    $scope.CloseSidebar();
-                }
-                else{
-                    $scope.errorNotification = response.message;
-                }
-            }).error(function(error){
+        
+        DataFactory.AddNewTenant($scope.tenant).success(function(response){
+            if(response.status == 200){
+                $scope.log.page_action = "Add New Tenant";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
 
-            });
-        }
-        else {
-            DataFactory.AddNewTenant($scope.tenant).success(function(response){
-                if(response.status == 200){
-                    getAllData();
-                    $scope.CloseSidebar();
-                }
-                else {
-                    $scope.errorNotification = response.message;
-                }
-            }).error(function(error){
+                });
+                getAllData();
+                $scope.CloseSidebar();
+            }
+            else {
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
 
-            });
-        }
+        });
     }
 
     $scope.CloseSidebar = function() {

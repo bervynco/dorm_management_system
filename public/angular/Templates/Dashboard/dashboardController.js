@@ -25,6 +25,17 @@
         
     }
 
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Dashboard",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
+
     function getAllData(){
         DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
             $scope.tenantData = response.data;

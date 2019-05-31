@@ -42,6 +42,17 @@
         ]
     }
     
+    $scope.log = {
+        user_id: $scope.userDetails.user_id,
+        page_name: "Upload Payment",
+        page_action: "View",
+        branch_id: $scope.branch.branch_id
+    }
+    DataFactory.AddPageLog($scope.log).success(function(response){
+    }).error(function(error){
+
+    });
+
     $scope.addPayable = function(){
         $scope.showSideNav = true;
     }
@@ -82,6 +93,11 @@
     $scope.uploadCheques = function() {
         DataFactory.UploadCheques($scope.paymentDetails).success(function(response){
             if(response.status == 200){
+                $scope.log.page_action = "Upload Cheques";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
                 getAllData();
                 $scope.CloseSidebar();
             }
