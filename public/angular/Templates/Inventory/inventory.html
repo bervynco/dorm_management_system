@@ -32,7 +32,7 @@
                 <th> Status </th>
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
-                <td colspan="4" align="center"> No Data </td>
+                <td colspan="5" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td ng-click="showCompleteDetails(row)"> {{row.item_code}} </td>
@@ -53,7 +53,7 @@
                 <th> Status </th>
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
-                <td colspan="4" align="center"> No Data </td>
+                <td colspan="7" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td ng-click="showCompleteDetails(row)"> {{row.item_code}} </td>

@@ -66,7 +66,6 @@
 
     function getServiceData(){
         DataFactory.GetServiceData($scope.branch.branch_id).success(function(response){
-            console.log(response);
             if(response.status = 200){
                 $scope.serviceData = response.data;
                 $scope.currentService = response.data[0];
@@ -95,7 +94,6 @@
         });
     }
     $scope.CloseSidebar = function() {
-        console.log("Close Sidebar");
         $scope.showSideNavAddService = false;
         $scope.showSideNavMakePayment = false;
         $scope.showCompleteDetailsFlag = false;
@@ -112,8 +110,12 @@
         $scope.showSideNavAddService = true;
     }
 
-    $scope.makePayment = function() {
+    $scope.makePayment = function(service) {
         $scope.showSideNavMakePayment = true;
+        
+        $scope.currentService = _.filter($scope.serviceData, function(o) { 
+            return o.service_id == service.service_id; 
+        })[0];
         if($scope.currentPayment.payment_name == 'Cheque'){
             DataFactory.GetChequePaymentDetails($scope.currentService).success(function(response){
                 $scope.chequeDetails = response.data;
@@ -130,7 +132,6 @@
         $scope.service.service_fee = parseFloat($scope.service.service_fee);
         $scope.service.start_date = new Date($scope.service.start_date);
         $scope.service.end_date = new Date($scope.service.end_date);
-        console.log($scope.service);
     }
 
     // tenant dropdown list
@@ -256,6 +257,32 @@
             }
             else {
                 $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
+    }
+
+    $scope.makeServicePayment = function() {
+        $scope.servicePayment = {
+            'tenant_cheque_id': $scope.currentCheque.tenant_cheque_id,
+            'service_id': $scope.currentService.service_id,
+            'payment_id': $scope.currentPayment.payment_id,
+            'status': "",
+            'branch_id' : $scope.branch.branch_id
+        }
+
+        if($scope.branch.role === "Administrator"){
+            $scope.servicePayment.status = "encashed";
+        }
+        else{
+            $scope.servicePayment.status = "approval";
+        }
+
+        DataFactory.MakeServicePayment($scope.servicePayment).success(function(response){
+            if(response.status == 200){
+                getServiceData();
+                $scope.CloseSidebar();
             }
         }).error(function(error){
 

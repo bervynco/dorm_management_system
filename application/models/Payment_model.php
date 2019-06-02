@@ -20,6 +20,17 @@ class payment_model extends CI_Model {
         return $this->db->insert_id();
     }
 
+    function deletePaymentItem($tenantChequeId, $branchId, $statusMessage = null) {
+        $query = $this->db->where('tenant_cheque_id', $tenantChequeId)
+                        ->where('branch_id', $branchId)
+                        ->update('tenant_cheque', 
+                        array(
+                            'status' => $statusMessage
+                        )
+        );
+        return $this->db->affected_rows();
+    }
+
     
 }
 

@@ -20,6 +20,9 @@
                 <th> Cheque Bank</th>
                 <th> Cheque Date</th>
             </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="5" align="center"> No Data </td>
+            </tr>
             <tr ng-repeat="row in rows track by $index">
                 <!-- <td > {{row.item_number}} </td> -->
                 <td ng-click="showCompleteDetails(row)"> {{row.tenant_name}} </td>
@@ -89,7 +92,7 @@
     <div flex="none" class="sidebar-white-space"></div>
     <form flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
         <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
-            <span flex layout layout-align="start center" >Payable Details</span>
+            <span flex layout layout-align="start center" >Cheque Details</span>
             <span flex="10" class="sidebar-form-close" ng-click="CloseSidebar()"></span>
         </span>
         <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
@@ -97,41 +100,42 @@
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item # </span>
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch" disabled>
             </span> -->
-            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Name <i class="required"> * </i></span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" required ng-disabled="disable" ng-model="payables.name">
+            <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant <i class="required"> * </i></span>
+                <select layout layout-align="start stretch" class="sidebar-form-input" 
+                    ng-model="selectedTenant" ng-init="selectedTenant" ng-options="tenant as tenant.tenant_name for tenant in tenantList" 
+                    ng-selected="selectedTenant" ng-change="ChangeTenant(selectedTenant)" required ng-disabled ="disable">
+                </select>
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Description</span>
-                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" ng-model="payables.description">
-            </span>
-             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Amount </span>
-                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" required ng-model="payables.amount">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Cheque Number <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="payment.cheque_number" required ng-disabled="disable">
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payable Date <i class="required"> * </i></span>
-                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" required ng-disabled="disable" ng-model="payables.payable_date">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Cheque Date </span>
+                <input type="date" class="sidebar-form-input" layout layout-align="start stretch" ng-model="payment.cheque_date" ng-disabled="disable">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Bank </span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="payment.cheque_bank" ng-disabled="disable">
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Amount <i class="required"> * </i></span>
+                <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="payment.cheque_amount" required ng-disabled="disable">
             </span>
         </div>
         <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
         <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editPayable()" > 
-                <span ng-if="disable"> Edit Payable </span>
-                <span ng-if="!disable"> Update Payable </span>
+            <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-if="disable" ng-click="deletePayment(payment)"> 
+                <span> Delete Cheque </span>
             </button>
             <span class="space-between-buttons"></span>
-            <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-if="disable" ng-click="deletePayable(payables)"> 
-                <span> Delete Payable </span>
-            </button>
-            <button flex class="page-cancel-button" class="sidebar-form-button" ng-if="!disable" ng-click="CloseSidebar()"> 
-                <span> Cancel </span>
-            </button>
+            <div flex layout="row" layout-align="start stretch" class="sidebar-form-button" ng-if="disable">
+                <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
+            </div>
         </div>
-        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button" ng-if="disable">
-            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
-        </div>
+        
         <!-- <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
             <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editPayable()" > 
                 <span ng-if="disable"> Edit Payable </span>

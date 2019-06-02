@@ -32,7 +32,7 @@
                 <th> Service End Date </th>
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
-                <td colspan="7" align="center"> No Data </td>
+                <td colspan="6" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td ng-click="showCompleteUtilityDetails(row)"> {{row.service_name}} </td>
@@ -53,7 +53,7 @@
                 <th> Service End Date </th>
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
-                <td colspan="7" align="center"> No Data </td>
+                <td colspan="6" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td ng-click="showCompleteUtilityDetails(row)"> {{row.service_name}} </td>
@@ -74,7 +74,7 @@
                 <th> Service End Date </th>
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
-                <td colspan="7" align="center"> No Data </td>
+                <td colspan="6" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td ng-click="showCompleteUtilityDetails(row)"> {{row.service_name}} </td>
@@ -187,17 +187,25 @@
         <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
             <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
                 <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="editService()" > 
-                    <span ng-if="disable"> Edit Service Details </span>
-                    <span ng-if="!disable"> Update Service Details </span>
+                    <span ng-if="disable"> Edit Service </span>
+                    <span ng-if="!disable"> Update Service </span>
                 </button>
                 <span class="space-between-buttons"></span>
                 <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-click="deleteService(service)"> 
                     <span> Delete Service </span>
                 </button>
+                <span class="space-between-buttons"></span>
+                 <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="makePayment(service)"> 
+                    <span> Pay Service </span>
+                </button>
+                
+            </div>
+            <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
                 <button flex class="page-cancel-button" class="sidebar-form-button" ng-click="CloseSidebar()"> 
                     <span> Cancel </span>
                 </button>
             </div>
+            
         </div>
         <!-- <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
             <button flex class="page-add-button" ng-click="addService()" ng-disabled="addForm.$error.required.length > 0" > Add New Service </button>
@@ -217,7 +225,7 @@
             <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Service <i class="required"> * </i></span>
                 <select layout layout-align="start stretch" class="sidebar-form-input" 
-                    ng-model="currentService" ng-init="currentService" ng-options="service as service.service_name + ' - ' + service.tenant_name + ' - ' + service.start_date  + ' to ' + service.end_date for service in serviceData" 
+                    ng-model="currentService" ng-options="service as service.service_name + ' - ' + service.tenant_name + ' - ' + service.start_date  + ' to ' + service.end_date for service in serviceData" 
                     ng-selected="currentService" ng-change="ChangeService(currentService)">
                 </select>
             </span>
@@ -243,7 +251,7 @@
         <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
         <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-click="addService()" ng-disabled="addForm.$error.required.length > 0" > Make Payment </button>
+            <button flex class="page-add-button" ng-click="makeServicePayment()" ng-disabled="addForm.$error.required.length > 0" > Make Payment </button>
             <span class="space-between-buttons"></span>
             <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
         </div>

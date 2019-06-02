@@ -119,14 +119,14 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:data
             })
         },
-        GetAggregatedTenantList: function(id){
+        AssignTenantToRoom: function(data){
             return $http({
                 method: "POST",
-                url: "index.php/TenantController/getAggregatedTenantList",
+                url: "index.php/TenantController/assignTenantToRoom",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: {'branch_id' : id}
+                data:data
             })
         },
         /** Room **/
@@ -414,6 +414,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: {'id': id}
             })
         },
+        MakeServicePayment: function(data){
+            return $http({
+                method: "POST",
+                url: "index.php/ServiceController/makeServicePayment",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
         /** Calendar **/
         GetCalendarList: function(id) {
             return $http({
@@ -590,6 +600,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
             return $http({
                 method: "POST",
                 url: "index.php/PaymentController/insertCheques",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
+        DeletePayment: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/PaymentController/deleteChequePayment",
                 headers: {
                     'Content-Type': 'application/json'
                 },

@@ -33,9 +33,6 @@ class TenantController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successful retrieiving tenant list", $arrPaymentDetails));
     }
 
-    public function getAggregatedTenantList() {
-
-    }
     public function addNewTenant(){
         // $arrColumns = array('name', 'username', 'role', 'password');
         $postData = json_decode(file_get_contents('php://input'), true);
@@ -115,9 +112,24 @@ class TenantController extends CI_Controller {
         else {
             echo json_encode($this->returnArray(500, "Error inserting new payment"));
         }
-        
     }
 
-    
+    public function assignTenantToRoom(){
+        $postData = json_decode(file_get_contents('php://input'), true);
+
+        $roomTenant = $this->tenant_model->checkIfAssigned($postData['tenant_id']);
+        if(count($roomTenant) > 0){
+            print_r($roomTenant);
+            $status = $this->tenant_model->deleteRoomTenant($roomTenant[0]['room_tenant_id'], "reassigned");
+        }
+        
+        $roomTenantID = $this->tenant_model->inserRoomTenant($postData['tenant_id'], $postData['room_id']);
+        if($roomTenantID != 0){
+            echo json_encode($this->returnArray(200, "Successfully assigned to room"));
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error assigning to room"));
+        }
+    }
 
 }

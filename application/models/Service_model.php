@@ -17,9 +17,9 @@ class Service_model extends CI_Model {
         return $this->db->insert_id();
     }
 
-    function updateService($service) {
-        $query = $this->db->where($fieldName, $utilityId)
-                            ->update($tableName, 
+    function updateService($serviceId, $status) {
+        $query = $this->db->where('service_id', $serviceId)
+                            ->update('service', 
                             array(
                                 'status' => $status
                             )
@@ -27,7 +27,7 @@ class Service_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
-    function deleteService($serviceID){
+    function deleteService($serviceID, $message){
         $query = $this->db->where('service_id', $serviceID)
                             ->update('service', 
                             array(
@@ -55,6 +55,11 @@ class Service_model extends CI_Model {
         $query = $this->db->get();
 
         return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+
+    function insertServicePayment($payment){
+        $query = $this->db->insert('service_payment', $payment);
+        return $this->db->insert_id();
     }
 }
 

@@ -22,6 +22,9 @@
                 <th> Branch Role</th>
                 <!-- <th> </th> -->
             </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="5" align="center"> No Data </td>
+            </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td ng-click="showCompeleteDetails(row)"> {{row.name}} </td>
                 <td> {{row.username}} </td>

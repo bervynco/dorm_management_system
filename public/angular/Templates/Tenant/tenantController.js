@@ -2,6 +2,7 @@
     $scope.$parent.ChangeAppState('tenant');
     $scope.showSideNav = false;
     $scope.showCompleteDetailsFlag = false;
+    $scope.assignTenantToRoomFlag = false;
     $scope.errorNotification = null;
     $scope.addPaymentFlag = false;
     $scope.displayFlag = false;
@@ -33,19 +34,29 @@
 
         });
     }
-    function getAllRoomData(){
-        DataFactory.GetRoomList($scope.branch.branch_id).success(function(response){
-            console.log(response);
-            $scope.rooms = response.data;
-        }).error(function(error){
 
+    function filterData() {
+        var data = [];
+        data = _.filter($scope.serviceData, function(o) { 
+            return tab == o.recurrence; 
         });
+
+        return data;
     }
+
     function getAllData(){
         DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
             console.log(response);
             $scope.tenantData = response.data;
             $scope.rows = $scope.tenantData;
+            $scope.selectedTenant = $scope.rows[0];
+        }).error(function(error){
+
+        });
+        DataFactory.GetRoomList($scope.branch.branch_id).success(function(response){
+            $scope.roomList = response.data;
+            $scope.selectedRoom = $scope.roomList[0];
+            filterData();
         }).error(function(error){
 
         });
@@ -119,6 +130,7 @@
         ]
     }
     
+    
     // Add Payment Functions
     $scope.addPayment = function(){
         $scope.addPaymentFlag = true;
@@ -130,6 +142,9 @@
         $scope.tenant = selectedTenant;
     }
 
+    $scope.ChangeRoom = function(room){
+        $scope.selectedRoom = room;
+    }
     $scope.ChangePaymentMethod = function(selectedPaymentMethod) {
         $scope.selectedPaymentMethod = selectedPaymentMethod;
     }
@@ -189,6 +204,7 @@
     $scope.CloseSidebar = function() {
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
+        $scope.assignTenantToRoomFlag = false;
         $scope.addPaymentFlag = false;
         $scope.rows = $scope.tenantData;
         $scope.currentTab = $scope.tenantTab[0];
@@ -216,6 +232,26 @@
         else {
             $scope.rows = $scope.tenantData;
         }
+    }
+
+    $scope.assignToRoom = function() {
+        $scope.assignTenantToRoomFlag = true;
+    }
+
+    $scope.assignTenantToRoom = function() {
+        $scope.data = {'room_id': 0, 'tenant_id': 0, 'branch_id': 0};
+        $scope.data.room_id = $scope.selectedRoom.room_id;
+        $scope.data.tenant_id = $scope.selectedTenant.tenant_id;
+        $scope.data.branch_id = $scope.selectedTenant.branch_id;
+
+        DataFactory.AssignTenantToRoom($scope.data).success(function(response){
+            if(response.status = 200){
+                getAllData();
+                $scope.CloseSidebar();
+            }
+        }).error(function(error){
+
+        });
     }
     getAllData();
     initializeVariables();

@@ -112,4 +112,28 @@ class ServiceController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successful retrieiving services list", $services));
     }
 
+    public function makeServicePayment() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $payment = $postData;
+        $branchId = $payment['branch_id'];
+        unset($payment['branch_id']);
+
+        $servicePaymentId = $this->service_model->insertServicePayment($payment);
+
+        if($servicePaymentId != 0){
+            echo json_encode($this->returnArray(200, "Successfully completed payment"));
+
+            if($payment['status'] == 'encashed'){
+                $status = $this->service_model->updateService($postData['service_id'], 'encashed');
+                $status = $this->payment_model->deletePaymentItem($postData['tenant_cheque_id'], $branchId, 'encashed');
+            }
+            
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error in payment"));
+        }
+
+        
+    }
+
 }

@@ -19,6 +19,9 @@
                 <th> Billing Month/Year </th>
                 <th> Percentage Completion </th>
             </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="4" align="center"> No Data </td>
+            </tr>
             <tr ng-repeat="row in rows track by $index">
                 <!-- <td > {{row.item_number}} </td> -->
                 <td ng-click="showCompleteDetails(row)"> {{row.billing_name}} </td>

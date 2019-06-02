@@ -50,4 +50,18 @@ class PaymentController extends CI_Controller {
         }
     }
 
+    public function deleteChequePayment() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $payment = $postData;
+        $paymentStatus = $this->payment_model->deletePaymentItem($payment['tenant_cheque_id'], $payment['branch_id'], "deleted");
+
+        if($paymentStatus > 0) {
+            echo json_encode($this->returnArray(200, "Successfully deleted tenant cheque item", $payment));
+            
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error deleting tenant cheque item "));
+        }
+    }
+
 }

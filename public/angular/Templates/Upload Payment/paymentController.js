@@ -70,6 +70,15 @@
         $scope.errorNotification = null;
     }
 
+    $scope.showCompleteDetails = function(payment) {
+        $scope.showCompleteDetailsFlag = true;
+        $scope.payment = payment;
+        $scope.payment.cheque_date = new Date(payment.cheque_date);
+        $scope.currentTenant = $scope.payment.tenant_id;
+        $scope.selectedTenant = _.filter($scope.tenantList, function(o) { 
+            return o.tenant_id == $scope.payment.tenant_id; 
+        })[0];
+    }
     $scope.addPayment = function(){
         $scope.showSideNavAddPaymentFlag = true;
     }
@@ -109,46 +118,6 @@
         });
     }
 
-    $scope.addNewPayment = function() {
-        // $scope.payables.branch_id = $scope.branch.branch_id;
-        // if($scope.branch.role == "Staff"){
-        //     $scope.approval.approval_mode = "add";
-        //     $scope.approval.request_id = requestId;
-        //     $scope.approval.approval_data = $scope.payables;
-        //     DataFactory.AddApprovalRequest($scope.approval).success(function(response){
-        //         if(response.status == 200){
-        //             $scope.CloseSidebar();
-        //         }
-        //     }).error(function(error){
-
-        //     });
-        // }
-        // else {
-        //     DataFactory.AddNewPayable($scope.payables).success(function(response){
-        //         if(response.status == 200){
-        //             getAllData();
-        //             $scope.CloseSidebar();
-        //         }
-        //         else {
-        //             $scope.errorNotification = response.message;
-        //         }
-        //     }).error(function(error){
-
-        //     });
-        // }
-        DataFactory.AddNewPayable($scope.payables).success(function(response){
-                if(response.status == 200){
-                    getAllData();
-                    $scope.CloseSidebar();
-                }
-                else {
-                    $scope.errorNotification = response.message;
-                }
-            }).error(function(error){
-
-            });
-    }
-
     $scope.editPayment = function(){
         if($scope.disable == false){
             $scope.payables.branch_id = $scope.branch.branch_id;
@@ -170,7 +139,7 @@
         
     }
     $scope.deletePayment = function(item){
-        DataFactory.DeletePayable(item).success(function(response){
+        DataFactory.DeletePayment(item).success(function(response){
             if(response.status == 200){
                 getAllData();
                 $scope.CloseSidebar();

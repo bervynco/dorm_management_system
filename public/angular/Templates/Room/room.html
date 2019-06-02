@@ -18,6 +18,10 @@
                 <th> Tenant Count</th>
                 <th> Capacity Count</th>
                 <th> Room rate per person </th>
+                <th> Room Status </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="6" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td ng-click="showCompleteRoomDetails(row)"> {{row.room_number}} </td>
@@ -25,6 +29,10 @@
                 <td> {{row.tenant_count}} </td>
                 <td> {{row.capacity_count}} </td>
                 <td> {{row.room_rate}} </td>
+                <td width="100"> 
+                    <div class="active-status" ng-if="row.capacity_count != row.tenant_count">Not Full</div>
+                    <div class="error-status" ng-if="row.capacity_count == row.tenant_count">Full</div>
+                </td>
             </tr>
         </table>
     </div>
