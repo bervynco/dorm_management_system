@@ -94,20 +94,29 @@
             $scope.originalData = response.data;
             $scope.rows = filterData(response.data, $scope.currentTab.name);
             $scope.inventoryList = filterData(response.data, "stock");
-            $scope.currentInventoryItem = $scope.inventoryList[0];
+            if($scope.inventoryList.length > 0){
+                $scope.currentInventoryItem = $scope.inventoryList[0];
+            }
+            
         }).error(function(error){
 
         });
         DataFactory.GetRoomList($scope.branch.branch_id).success(function(response){
             $scope.roomList = response.data;
             $scope.currentRoom = $scope.roomList[0];
+            if($scope.roomList.length > 0){
+                $scope.currentRoom = $scope.roomList[0];
+            }
         }).error(function(error){
 
         });
 
         DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
             $scope.tenantList = response.data;
-            $scope.currentTenant = $scope.tenantList[0];
+            if($scope.tenantList.length > 0){
+                $scope.currentTenant = $scope.tenantList[0];
+            }
+            
         }).error(function(error){
 
         });

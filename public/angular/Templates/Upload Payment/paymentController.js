@@ -17,13 +17,15 @@
     function getAllData(){
         DataFactory.GetChequePayment().success(function(response){
             $scope.rows = response.data;
-            console.log($scope.rows);
         }).error(function(error){
 
         });
          DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
             $scope.tenantList = response.data;
-            $scope.selectedTenant = $scope.tenantList[0];
+            if($scope.tenantList.length > 0){
+                $scope.selectedTenant = $scope.tenantList[0];
+            }
+            
         }).error(function(error){
 
         });

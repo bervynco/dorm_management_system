@@ -56,8 +56,9 @@
         DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
             if(response.status = 200){
                 $scope.tenantList = response.data;
-                $scope.currentTenant = $scope.tenantList[0];
-                
+                if($scope.tenantList.length > 0){
+                    $scope.currentTenant = $scope.tenantList[0];
+                }
             }
         }).error(function(error){
 

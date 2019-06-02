@@ -49,13 +49,18 @@
             console.log(response);
             $scope.tenantData = response.data;
             $scope.rows = $scope.tenantData;
-            $scope.selectedTenant = $scope.rows[0];
+            if($scope.rows.length > 0){
+                $scope.selectedTenant = $scope.rows[0];
+            }
+            
         }).error(function(error){
 
         });
         DataFactory.GetRoomList($scope.branch.branch_id).success(function(response){
             $scope.roomList = response.data;
-            $scope.selectedRoom = $scope.roomList[0];
+            if($scope.roomList.length > 0){
+                $scope.selectedRoom = $scope.roomList[0];
+            }
             filterData();
         }).error(function(error){
 

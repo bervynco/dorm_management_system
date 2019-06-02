@@ -49,23 +49,17 @@
 
         });
 
-        DataFactory.GetAggregatedTenantList($scope.branch.branch__id).success(function(response){
+        // DataFactory.GetAggregatedRoomList($scope.branch.branch_id).success(function(response){
 
-        }).error(function(error){
+        // }).error(function(error){
 
-        });
+        // });
 
-        DataFactory.GetAggregatedRoomList($scope.branch.branch_id).success(function(response){
+        // DataFactory.GetRequestApprovalData($scope.branch.branch_id).success(function(response){
 
-        }).error(function(error){
+        // }).error(function(error){
 
-        });
-
-        DataFactory.GetRequestApprovalData($scope.branch.branch_id).success(function(response){
-
-        }).error(function(error){
-
-        });
+        // });
     }
 
     $scope.ChangeViewTab = function(tab){

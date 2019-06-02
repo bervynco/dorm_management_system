@@ -25,9 +25,9 @@
     }
     
     
-    function getRequestID() {
-        requestId = AppService.getRequestId();
-    }
+    // function getRequestID() {
+    //     requestId = AppService.getRequestId();
+    // }
     function getAllUsers(){
         DataFactory.GetUserList($scope.branch.branch_id).success(function(response){
             $scope.rows = response;
@@ -108,5 +108,5 @@
         $scope.user = user;
     }
     getAllUsers();
-    getRequestID();
+    // getRequestID();
 });

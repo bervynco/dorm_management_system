@@ -7,7 +7,7 @@ class tenant_model extends CI_Model {
     }
 
     function selectAllTenantsPerBranch($branchId) {
-        $sql = "SELECT tenant.*, room_tenant.status as 'room_tenant_status' FROM dorm_management.tenant 
+        $sql = "SELECT tenant.*, room_tenant.status as 'room_tenant_status' FROM tenant 
         LEFT JOIN room_tenant ON room_tenant.tenant_id = tenant.tenant_id 
         AND room_tenant.status = 'active' 
         LEFT JOIN room on room.room_id = room_tenant.room_id
