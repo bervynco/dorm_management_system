@@ -41,7 +41,7 @@ class room_model extends CI_Model {
 
     function selectCountTenantPerRoomPerBranch($branchId) {
         $string = "SELECT a.*, COUNT(b.room_tenant_id) as 'tenant_count' FROM room a left join room_tenant b 
-          ON a.room_id = b.room_id AND a.branch_id = $branchId AND b.status = 'active'GROUP BY a.room_number";
+          ON a.room_id = b.room_id AND b.status = 'active' WHERE a.branch_id = $branchId GROUP BY a.room_number";
 
         $query = $this->db->query($string);
         return ($query->num_rows() > 0) ? $query->result_array(): array();

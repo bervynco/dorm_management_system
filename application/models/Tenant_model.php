@@ -6,6 +6,22 @@ class tenant_model extends CI_Model {
         return $this->db->insert_id();
     }
 
+    function editTenant($tenantDetail){
+        $query = $this->db->where('tenant_id', $tenantDetail['tenant_id'])
+                          ->update('tenant', 
+                            array(
+                                'tenant_name' => $tenantDetail['tenant_name'],
+                                'start_contract' => $tenantDetail['start_contract'],
+                                'end_contract' => $tenantDetail['end_contract'],
+                                'birthday' => $tenantDetail['birthday'],
+                                'contact_number' => $tenantDetail['contact_number'],
+                                'address' => $tenantDetail['address'],
+                                'emergency_name' => $tenantDetail['emergency_name'],
+                                'emergency_number' => $tenantDetail['emergency_number']
+                            )
+        );
+        return $this->db->affected_rows();
+    }
     function selectAllTenantsPerBranch($branchId) {
         $sql = "SELECT tenant.*, room_tenant.status as 'room_tenant_status' FROM tenant 
         LEFT JOIN room_tenant ON room_tenant.tenant_id = tenant.tenant_id 

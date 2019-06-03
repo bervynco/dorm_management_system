@@ -49,17 +49,14 @@ class TenantController extends CI_Controller {
     }
 
     public function editTenant(){
-        $arrColumns = array('id', 'name', 'username', 'role');
         $postData = json_decode(file_get_contents('php://input'), true);
-        $arrUserDetail = $this->assignDataToArray($postData, $arrColumns);
-
-        $existing = $this->user_model->checkExisting("update", $arrUserDetail);
-        if($existing == 0){
-            $user = $this->user_model->updateUser($arrUserDetail);
-            echo "Successful";
+        $status = $this->tenant_model->editTenant($postData);
+        // $existing = $this->user_model->checkExisting("update", $arrUserDetail);
+        if($status != 0){
+            echo json_encode($this->returnArray(200, "Successfully edited tenant", $postData));
         }
         else
-            echo "Existing user with that username";
+            echo json_encode($this->returnArray(500, "Error editing tenant"));
         
     }
 

@@ -25,7 +25,8 @@ class PaymentController extends CI_Controller {
     }
 
     public function getChequeList() {
-        $arrChequePayment = $this->payment_model->selectChequePayment();
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $arrChequePayment = $this->payment_model->selectChequePayment($postData['branch_id']);
         echo json_encode($this->returnArray(200, "Successful retrieiving cheque list", $arrChequePayment));
     }
 

@@ -15,7 +15,7 @@
     }
 
     function getAllData(){
-        DataFactory.GetChequePayment().success(function(response){
+        DataFactory.GetChequePayment($scope.branch.branch_id).success(function(response){
             $scope.rows = response.data;
         }).error(function(error){
 

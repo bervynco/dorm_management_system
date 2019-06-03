@@ -1,12 +1,13 @@
  app.controller('TenantController', function ($scope, $rootScope, $interval, AppService, DataFactory, $state, $mdDialog, $mdToast, $window) {
     $scope.$parent.ChangeAppState('tenant');
+    $scope.disable = true;
     $scope.showSideNav = false;
     $scope.showCompleteDetailsFlag = false;
     $scope.assignTenantToRoomFlag = false;
     $scope.errorNotification = null;
     $scope.addPaymentFlag = false;
     $scope.displayFlag = false;
-    $scope.tenantTab = ['Details', 'Inventory', 'Payment History', 'Services'];
+    $scope.tenantTab = ['Details', 'Inventory', 'Services'];
     $scope.currentTab = $scope.tenantTab[0];
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     var requestId;
@@ -99,15 +100,15 @@
 
         });
 
-        DataFactory.GetPaymentDetailsPerTenant(params).success(function(response){
-            if(response.status == 200){
-                $scope.inventoryPerTenant = response.data;
-                console.log(response.data);
-            }
+        // DataFactory.GetPaymentDetailsPerTenant(params).success(function(response){
+        //     if(response.status == 200){
+        //         $scope.inventoryPerTenant = response.data;
+        //         console.log(response.data);
+        //     }
             
-        }).error(function(error){
+        // }).error(function(error){
 
-        });
+        // });
     }
     function initializeVariables () {
         $scope.tenant = {
@@ -206,6 +207,34 @@
         });
     }
 
+    $scope.editTenant = function(){
+        if($scope.disable == false){
+            $scope.tenant.start_contract = moment($scope.tenant.start_contract).format("YYYY-MM-DD HH:mm");
+            $scope.tenant.end_contract = moment($scope.tenant.end_contract).format("YYYY-MM-DD HH:mm");
+            // $scope.payables.branch_id = $scope.branch.branch_id;
+            DataFactory.EditTenant($scope.tenant).success(function(response){
+                if(response.status == 200){
+                    $scope.log.page_action = "Edit Tenant";
+                    DataFactory.AddPageLog($scope.log).success(function(response){
+                    }).error(function(error){
+
+                    });
+                    getAllData();
+                    $scope.CloseSidebar();
+                }
+                else {
+                    $scope.errorNotification = response.message;
+                }
+            }).error(function(error){
+
+            });
+        }
+        else {
+            $scope.disable = !$scope.disable;
+        }
+        
+    }
+
     $scope.CloseSidebar = function() {
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
@@ -219,8 +248,13 @@
 
     $scope.showCompleteDetails = function(row){
         $scope.showCompleteDetailsFlag = true;
-        $scope.tenant = row;
+        $scope.tenant = angular.copy(row);
+        $scope.tenant.start_contract = new Date(row.start_contract);
+        $scope.tenant.end_contract = new Date(row.end_contract);
+        $scope.tenant.birthday = new Date(row.birthday);
+        
         getModalData($scope.branch.branch_id, $scope.tenant.tenant_id);
+        
     }
 
     $scope.ChangeTenantTab = function(tab){

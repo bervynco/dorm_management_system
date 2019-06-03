@@ -99,6 +99,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:tenant
             })
         },
+        EditTenant: function(tenant) {
+            return $http({
+                method: "POST",
+                url: "index.php/TenantController/editTenant",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:tenant
+            })
+        },
         AddNewPayment: function(tenant) {
             return $http({
                 method: "POST",
@@ -587,13 +597,14 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 }
             })
         },
-        GetChequePayment: function() {
+        GetChequePayment: function(id) {
             return $http({
                 method: "POST",
                 url: "index.php/PaymentController/getChequeList",
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                data: {'branch_id' : id}
             })
         },
         UploadCheques: function(data) {
