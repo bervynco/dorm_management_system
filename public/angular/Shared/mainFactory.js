@@ -139,6 +139,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:data
             })
         },
+        GetPaymentHistoryPerTenant: function(id){
+             return $http({
+                method: "POST",
+                url: "index.php/TenantController/getPaymentHistory",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:{'tenant_id': id}
+            })
+        },
         /** Room **/
         GetRoomList: function(id) {
             return $http({
@@ -557,6 +567,66 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: data
             })
         },
+        EditBilling: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/ComputeController/editBilling",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
+        DeleteBilling: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/ComputeController/deleteBilling",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
+        MakeBillingPayment: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/TenantController/makeBillingPayment",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
+        GetPaymentForApprovalBilling: function(id){
+            return $http({
+                method: "POST",
+                url: "index.php/ComputeController/getPaymentForBillingApproval",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
+        GetPaymentForApprovalService: function(id){
+            return $http({
+                method: "POST",
+                url: "index.php/ComputeController/getPaymentForServiceApproval",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id' : id}
+            })
+        },
+        GetBillingDataPerBilling: function(id) {
+            return $http({
+                method: "POST",
+                url: "index.php/ComputeController/getBillingDataPerBilling",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'billing_id' : id}
+            })
+        },
         GetRequestApprovalData: function(id) {
              return $http({
                 method: "POST",
@@ -565,6 +635,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                     'Content-Type': 'application/json'
                 },
                 data: {'branch_id' : id}
+            })
+        },
+        MakePaymentApprovalChanges: function(data){
+            return $http({
+                method: "POST",
+                url: "index.php/ComputeController/makePaymentApprovalChanges",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
             })
         },
         AddApprovalRequest: function(data) {

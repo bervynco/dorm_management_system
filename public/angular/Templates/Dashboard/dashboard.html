@@ -36,7 +36,11 @@
                 <td> {{row.start_contract}} </td>
                 <td> {{row.end_contract}} </td>
                 <td> {{row.address}} </td>
-                <td> <div class="warning-status">active</div> </td>
+                <td width="100"> 
+                    <div class="active-status" ng-if="row.status === 'active'">On track</div>
+                    <div class="warning-status" ng-if="row.status === null">1 month delay</div>
+                    <div class="error-status" ng-if="row.status === null">Delayed</div>
+                </td>
             </tr>
         </table>
         <table class="page-table" ng-if="currentTab == 'Payables'">
@@ -45,23 +49,28 @@
                 <th> Payable Description</th>
                 <th> Payable Amount </th>
                 <th> Payable Date</th>
+                <th> Status </th>
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
-                <td colspan="4" align="center"> No Data </td>
+                <td colspan="5" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
                 <td> {{row.name}} </td>
                 <td> {{row.description}} </td>
                 <td> {{row.amount}} </td>
                 <td> {{row.payable_date}} </td>
+                <td>
+                    <div class="error-status">Due</div>
+                </td>
             </tr>
         </table>
-        <table class="page-table" ng-if="currentTab.text == 'Billing'">
+        <table class="page-table" ng-if="currentTab == 'Billing'">
             <tr>
                 <th> Item Code #</th>
                 <th> Item Name</th>
                 <th> Item Description</th>
                 <th> Status </th>
+                
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
                 <td colspan="4" align="center"> No Data </td>
@@ -70,24 +79,77 @@
                 <td> {{row.item_code}} </td>
                 <td> {{row.item_name}} </td>
                 <td> {{row.description}} </td>
-                <td> {{row.status}} </td>
+                
             </tr>
         </table>
-        <table class="page-table" ng-if="currentTab.text == 'Request'">
+        <table class="page-table" ng-if="currentTab == 'Billing Payment Approval'">
             <tr>
-                <th> Item Code #</th>
-                <th> Item Name</th>
-                <th> Item Description</th>
-                <th> Status </th>
+                <th> Tenant Name</th>
+                <th> Billing Name</th>
+                <th> Fee</th>
+                <th> Billing Month </th>
+                <th> Billing Year </th>
+                <th> </th>
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
-                <td colspan="4" align="center"> No Data </td>
+                <td colspan="6" align="center"> No Data </td>
             </tr>
             <tr ng-repeat="row in rows track by $index">
-                <td> {{row.item_code}} </td>
-                <td> {{row.item_name}} </td>
-                <td> {{row.description}} </td>
-                <td> {{row.status}} </td>
+                <td > {{row.tenant_name}} </td>
+                <td> {{row.billing_name}} </td>
+                <td> {{row.fee}} </td>
+                <td> {{row.month}} </td>
+                <td> {{row.year}} </td>
+                <td>
+                    <span flex="none" layout layout-align="center center">
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/success.png" width="30" height="30" ng-click="approvePayment(row)">
+                        <span flex="none" class="space-between-buttons-table"></span>
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/error.png" width="30" height="30" ng-click="rejectPayment(row)">
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <table class="page-table" ng-if="currentTab == 'Service Payment Approval'">
+            <tr>
+                <th> Tenant Name</th>
+                <th> Service Name</th>
+                <th> Fee</th>
+                <th> Recurrence</th>
+                <th> Start Date </th>
+                <th> End Date </th>
+                <th> </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="7" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td > {{row.tenant_name}} </td>
+                <td> {{row.name}} </td>
+                <td> {{row.fee}} </td>
+                <td> {{row.recurrence}} </td>
+                <td> {{row.start_date}} </td>
+                <td> {{row.end_date}} </td>
+                <td>
+                    <span flex="none" layout layout-align="center center">
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/success.png" width="30" height="30" ng-click="approvePayment(row)">
+                        <span flex="none" class="space-between-buttons-table"></span>
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/error.png" width="30" height="30" ng-click="rejectPayment(row)">
+                    </span>
+                </td>
+                <!-- <td>
+                    <span ng-if="action == ''" flex="none" layout layout-align="center center">
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/success.png" width="30" height="30" ng-click="approve('approve')">
+                        <span flex="none" class="space-between-buttons-table"></span>
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/error.png" width="30" height="30" ng-click="reject('reject')">
+                    </span>
+                    <span ng-if="action != ''" flex="none" layout layout-align="center center">
+                        {{message}}
+                        <span flex="none" class="space-between-buttons-table"></span>
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/success.png" width="30" height="30" ng-click="approvePayment(row)">
+                        <span flex="none" class="space-between-buttons-table"></span>
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/error.png" width="30" height="30" ng-click="cancel(row)">
+                    </span>
+                </td> -->
             </tr>
         </table>
     </div>

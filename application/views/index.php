@@ -23,7 +23,7 @@
     <script src="public/assets/js/moment.js"></script>
     <script src="public/assets/js/lodash.js"></script>
     <script src="public/assets/js/angular-local-storage.js"></script>
-    
+    <script src="public/assets/js/aes.js"></script>
     <!-- endbuild -->
     <!--build:js angular/angular.min.js -->
     <script src="public/angular/Shared/mainContentManager.js"></script>
@@ -149,11 +149,11 @@
                 <span flex="none" ng-class="currState === 'compute' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Compute Billing</div>
             </div>
-            <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
+            <!-- <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('billing')">
                 <span flex="none" ng-class="currState === 'billing' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">Billing Data</div>
-            </div>
+            </div> -->
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
                 ng-click="ChangeState('logs')">
                 <span flex="none" ng-class="currState === 'logs' ? 'status-active' : 'status-inactive'"></span>

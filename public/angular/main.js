@@ -28,7 +28,6 @@ app.controller('MainController', function ($mdDialog, $mdToast, $state, $mdSiden
 
     $scope.LoadSelectedBranch = function(){
         $scope.selectedBranch = JSON.parse(sessionStorage.getItem("branch"));
-        console.log($scope.selectedBranch);
     }
     $scope.ChangeBranch = function(branch){
         sessionStorage.setItem("branch", JSON.stringify(branch));

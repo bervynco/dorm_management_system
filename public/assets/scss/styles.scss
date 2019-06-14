@@ -723,6 +723,17 @@ select:focus
                     font-weight: bolder;
                 }
             }
+
+            > .breakdown-label {
+                font-weight: bolder;
+                font-size: 16px;
+
+                > .breakdown-total {
+                    font-size: 20px;
+                    color: green;
+                }
+            }
+            
             > .sidebar-form-input {
                 @extend %medium-font;
                 font-weight: bolder;
@@ -730,6 +741,10 @@ select:focus
                 padding-bottom: $formBottomHeaderPadding;
                 > .sidebar-form-label {
                     width: 180px;
+                }
+                //Special case for billing details
+                > .breakdown-form-label {
+                    width: 400px;
                 }
 
                 > .sidebar-form-input {
@@ -913,4 +928,24 @@ select:focus
     font-size: 12px;
     font-weight: bold;
     border-radius: 8px;
+}
+
+
+.breakdown-panel {
+    .breakdown-header {
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+    .breakdown-list {
+        padding: 10px;
+        font-size: 14px;
+        .breakdown-list-header {
+            font-weight: bold;
+        }
+    }
+}
+
+.space-between-buttons-table {
+    width:20px;
 }

@@ -100,6 +100,13 @@
 
         });
 
+        DataFactory.GetPaymentHistoryPerTenant(tenantID).success(function(response){
+            if(response.status == 200){
+                $scope.paymentPerTenant = response.data;
+            }
+        }).error(function(error){
+
+        });
         // DataFactory.GetPaymentDetailsPerTenant(params).success(function(response){
         //     if(response.status == 200){
         //         $scope.inventoryPerTenant = response.data;

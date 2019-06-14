@@ -3,12 +3,13 @@
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     var requestId;
-    $scope.viewTab = ['Tenant', 'Payables', 'Billing', 'Request', 'Room Status'];
-    
+    $scope.viewTab = ['Tenant', 'Payables', 'Service Payment Approval', 'Billing Payment Approval'];
+    $scope.action = "";
     $scope.currentTab = $scope.viewTab[0];
     $scope.errorNotification = null;
+    $scope.showBillingApprovalFlag = false;
+    $scope.showServiceApprovalFlag = false;
 
-    
     function getRequestID() {
         requestId = AppService.getRequestId();
     }
@@ -49,6 +50,17 @@
 
         });
 
+        DataFactory.GetPaymentForApprovalBilling($scope.branch.branch_id).success(function(response){
+            $scope.billingPaymentApprovalData = response.data;
+        }).error(function(error){
+
+        });
+
+        DataFactory.GetPaymentForApprovalService($scope.branch.branch_id).success(function(response){
+            $scope.servicePaymentApprovalData = response.data;
+        }).error(function(error){
+
+        });
         // DataFactory.GetAggregatedRoomList($scope.branch.branch_id).success(function(response){
 
         // }).error(function(error){
@@ -70,6 +82,80 @@
         else if(tab == 'Tenant'){
             $scope.rows = $scope.tenantData;
         }
+        else if(tab == 'Billing'){
+            $scope.rows = [];
+        }
+        else if(tab == 'Request'){
+            $scope.rows = $scope.requestData;
+        }
+        else if(tab == 'Service Payment Approval'){
+            $scope.rows = $scope.servicePaymentApprovalData;
+        }
+        else if(tab == 'Billing Payment Approval'){
+            $scope.rows = $scope.billingPaymentApprovalData;
+        }
+    }
+
+    $scope.approve = function(action){
+        $scope.action = action;
+        $scope.message = "Are you sure?"
+    }
+    $scope.reject = function(action){
+        $scope.action = action;
+    }
+    $scope.cancel = function(){
+        $scope.action = "";
+        $scope.message = "Are you sure?"
+    }
+
+    $scope.approvePayment = function(row){
+        var data = {};
+        data.status = "encashed";
+        if($scope.currentTab == "Service Payment Approval"){
+            data.service_payment_id = row.service_payment_id;
+            data.page = "Service";
+        }
+        else{
+            data.billing_data_id = row.billing_data_id;
+            data.page = "Billing";
+        }
+
+        DataFactory.MakePaymentApprovalChanges(data).success(function(response){
+            if(response.status == 200){
+                $scope.currentTab = $scope.viewTab[0];
+                getAllData();
+            }
+            else{
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
+    }
+
+    $scope.rejectPayment = function(row){
+        var data = {};
+        data.status = "active";
+        if($scope.currentTab == "Service Payment Approval"){
+            data.service_payment_id = row.service_payment_id;
+            data.page = "Service";
+        }
+        else{
+            data.billing_data_id = row.billing_data_id;
+            data.page = "Billing";
+        }
+
+        DataFactory.MakePaymentApprovalChanges(data).success(function(response){
+            if(response.status == 200){
+                $scope.currentTab = $scope.viewTab[0];
+                getAllData();
+            }
+            else{
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
     }
     getAllData();
 });

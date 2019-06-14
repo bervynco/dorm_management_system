@@ -72,7 +72,8 @@
 </div>
 
 <div ng-if="showCompleteDetailsFlag" layout layout-align="start stretch" class="sidebar-default-modal">
-    <div flex="none" class="sidebar-special-white-space"></div>
+    <!-- <div flex="none" class="sidebar-special-white-space"></div> -->
+    <div flex="none" class="sidebar-white-space"></div>
     <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
         <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
             <span flex layout layout-align="start center" >View Billing Information</span>
@@ -84,17 +85,40 @@
                     <table class="page-table">
                         <tr>
                             <th> Tenant Name</th>
-                            <th> Rent Amount</th>
-                            <th> Utility Amount</th>
-                            <th> Total Amount </th>
+                            <th> Total Bill</th>
                         </tr>
-                        <tr> <!--ng-repeat="row in modalRows track by $index"-->
-                            <td> {{row.tenant_name}} </td>
-                            <td> {{row.start_date}} </td>
-                            <td> {{row.end_date}} </td>
-                            <td> {{row.room_items}} </td>
+                        <tr ng-if="modalRows.length == 0" class="empty-table"> 
+                            <td colspan="2" align="center"> No Data </td>
+                        </tr>
+                        <tr ng-repeat="row in modalRows track by $index">
+                            <td ng-click="showBreakdown(row)"> {{row.tenant_name}} </td>
+                            <td> {{row.total_amount}} </td>
                         </tr>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-if="showBreakdownFlag" layout layout-align="start stretch" class="sidebar-default-modal">
+    <!-- <div flex="none" class="sidebar-special-white-space"></div> -->
+    <div flex="none" class="sidebar-white-space"></div>
+    <div flex class="sidebar-form" name="addForm" layout="column" layout-align="start stretch">
+        <span flex="none" layout layout-align="start stretch" class="sidebar-form-header"> 
+            <span flex layout layout-align="start center" >Billing Breakdown</span>
+            <span flex="10" class="sidebar-form-close" ng-click="CloseSidebarExtended()"></span>
+        </span>
+        <div flex layout="row" layout-align="start stretch" class="sidebar-form-content">
+            <div flex layout="column" layout-align="start stretch" class="sidebar-form-defined-details">
+                <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content form-padding" >
+                    <div ng-repeat="(key, value) in breakdown track by $index" class="breakdown-panel">
+                        <div class="breakdown-header">{{key}}</div>
+                        <div class="breakdown-list" ng-repeat="(keyBreakdown, valueBreakdown) in breakdown[key] track by $breakdownIndex">
+                            <div class="breakdown-list-header">{{keyBreakdown}} </div>
+                        </div>
+                    </div>
+                    
+                    <div class="breakdown-total"> Total: </div>
                 </div>
             </div>
         </div>

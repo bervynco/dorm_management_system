@@ -63,8 +63,12 @@ class ComputeController extends CI_Controller {
         
     }
 
-    public function getBillingData() {
+    public function getBillingDataPerBilling() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $billingId = $postData['billing_id'];
 
+        $computeData = $this->compute_model->getBillingDetailsPerBilling($billingId);
+        echo json_encode($this->returnArray(200, "Successfully pulled billing list", $computeData));
     }
     public function determineIfBillingExist($branchId, $billingMonth, $billingYear) {
         $billing = $this->compute_model->checkDuplicateBilling($billingMonth, $billingYear, $branchId);
@@ -117,11 +121,11 @@ class ComputeController extends CI_Controller {
                     $arrBillingDetails[$row['tenant_name']]['Room'] = array();
                     $arrBillingDetails[$row['tenant_name']]['Room']['room_id'] = $row['Room Id'];
                     $arrBillingDetails[$row['tenant_name']]['Room']['room_number'] = $row['Room Number'];
-                    $arrBillingDetails[$row['tenant_name']]['Room']['room_rent'] = $row['Room Rent'];
+                    $arrBillingDetails[$row['tenant_name']]['Room']['room_rent'] = floatval($row['Room Rent']);
                     $arrBillingDetails[$row['tenant_name']]['total_bill'] = $arrBillingDetails[$row['tenant_name']]['total_bill'] + $row['Room Rent'];
                     
                     $roomKey = array_search($row['Room Id'], array_column($roomDetails, 'room_id'));
-                    $arrBillingDetails[$row['tenant_name']]['tenant_count'] = $roomDetails[$roomKey]['tenant_count'];
+                    $arrBillingDetails[$row['tenant_name']]['tenant_count'] = intval($roomDetails[$roomKey]['tenant_count']);
 
                 }
             }
@@ -131,15 +135,16 @@ class ComputeController extends CI_Controller {
                 //determine total tenant count
                 $roomKey = array_search($row['Room Id'], array_column($roomDetails, 'room_id'));
                 $tenantCount = $roomDetails[$roomKey]['tenant_count'];
-
+                $arrBillingDetails[$row['tenant_name']]['Room']['room_count'] = intval($tenantCount);
                 // add utility details
                 if(!array_key_exists($row['utility_name'], $arrBillingDetails[$row['tenant_name']]['Utility']) && !empty($row['utility_name'])){
                     $arrBillingDetails[$row['tenant_name']]['Utility'][$row['utility_name']] = array();
                     $arrBillingDetails[$row['tenant_name']]['Utility'][$row['utility_name']]['utility_id'] = $row['utility_id'];
                     $arrBillingDetails[$row['tenant_name']]['Utility'][$row['utility_name']]['utility_name'] = $row['utility_name'];
-                    $arrBillingDetails[$row['tenant_name']]['Utility'][$row['utility_name']]['current_reading'] = $row['current_reading'];
-                    $arrBillingDetails[$row['tenant_name']]['Utility'][$row['utility_name']]['price'] = $row['price'];
-                    $arrBillingDetails[$row['tenant_name']]['total_bill'] = $arrBillingDetails[$row['tenant_name']]['total_bill'] + (($row['current_reading'] * $row['price'])/ $arrBillingDetails[$row['tenant_name']]['tenant_count']);
+                    $arrBillingDetails[$row['tenant_name']]['Utility'][$row['utility_name']]['current_reading'] = floatval($row['current_reading']);
+                    $arrBillingDetails[$row['tenant_name']]['Utility'][$row['utility_name']]['price'] = floatval($row['price']);
+                    $arrBillingDetails[$row['tenant_name']]['Utility'][$row['utility_name']]['bill'] = floatval(($row['current_reading'] * $row['price'])/ $arrBillingDetails[$row['tenant_name']]['tenant_count']);
+                    $arrBillingDetails[$row['tenant_name']]['total_bill'] = $arrBillingDetails[$row['tenant_name']]['total_bill'] + $arrBillingDetails[$row['tenant_name']]['Utility'][$row['utility_name']]['bill'];
                     
                 }
             }
@@ -149,9 +154,17 @@ class ComputeController extends CI_Controller {
                 $arrBillingDetails[$row['tenant_name']]['Inventory'][$row['Inventory Code']] = array();
                 $arrBillingDetails[$row['tenant_name']]['Inventory'][$row['Inventory Code']]['inventory_name'] = $row['Inventory Name'];
                 $arrBillingDetails[$row['tenant_name']]['Inventory'][$row['Inventory Code']]['inventory_id'] = $row['Inventory ID'];
-                $arrBillingDetails[$row['tenant_name']]['Inventory'][$row['Inventory Code']]['inventory_rent_amount'] = $row['Inventory Rent Amount'];
+                $arrBillingDetails[$row['tenant_name']]['Inventory'][$row['Inventory Code']]['inventory_rent_amount'] = floatval($row['Inventory Rent Amount']);
                 $arrBillingDetails[$row['tenant_name']]['Inventory'][$row['Inventory Code']]['inventory_code'] = $row['Inventory Code'];
-                $arrBillingDetails[$row['tenant_name']]['total_bill'] = $arrBillingDetails[$row['tenant_name']]['total_bill'] + $row['Inventory Rent Amount'];  
+                $arrBillingDetails[$row['tenant_name']]['total_bill'] = $arrBillingDetails[$row['tenant_name']]['total_bill'] + floatval($row['Inventory Rent Amount']);  
+            }
+
+            // add service details
+            if(!array_key_exists($row['Service Id'], $arrBillingDetails[$row['tenant_name']]['Service']) && !empty($row['Service Id'])){
+                $arrBillingDetails[$row['tenant_name']]['Service'][$row['Service Name']] = array();
+                $arrBillingDetails[$row['tenant_name']]['Service'][$row['Service Name']]['Service Id'] = $row['Service Id'];
+                $arrBillingDetails[$row['tenant_name']]['Service'][$row['Service Name']]['Service Fee'] = floatval($row['Service Fee']);
+                $arrBillingDetails[$row['tenant_name']]['total_bill'] = $arrBillingDetails[$row['tenant_name']]['total_bill'] + floatval($row['Service Fee']); 
             }
         }
 
@@ -237,6 +250,72 @@ class ComputeController extends CI_Controller {
         }
         catch(Exception $ex){
             echo json_encode($this->returnArray(500, "Error generating data"));
+        }
+        
+    }
+
+    public function editBilling() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $billing = $postData;
+        $status = $this->compute_model->updateBilling($billing);
+
+        if($status > 0){
+            echo json_encode($this->returnArray(200, "Successfully edited billing item", $billing));
+        }
+        else{
+            echo json_encode($this->returnArray(500, "Error updating billing item"));
+        }
+    }
+
+    public function deleteBilling() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $billing = $postData;
+        $status = $this->compute_model->updateBillingStatus($billing, "deleted");
+
+        if($status > 0){
+            echo json_encode($this->returnArray(200, "Successfully deleted billing item", $billing));
+        }
+        else{
+            echo json_encode($this->returnArray(500, "Error deleting billing item"));
+        }
+            
+    }
+
+    public function getPaymentForBillingApproval() {
+        $approval = array();
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $branchId = $postData['branch_id'];
+
+        $billing = $this->compute_model->getBillingForApproval($branchId);
+
+        echo json_encode($this->returnArray(200, "Successfully pulled approval list", $billing));
+    }
+
+    public function getPaymentForServiceApproval() {
+        $approval = array();
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $branchId = $postData['branch_id'];
+
+        $services = $this->compute_model->getServicesForApproval($branchId);
+
+        echo json_encode($this->returnArray(200, "Successfully pulled approval list", $services));
+    }
+
+    public function makePaymentApprovalChanges() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $approvalChanges = $postData;
+
+        if($approvalChanges['page'] == "Billing")
+            $status = $this->compute_model->makeChangesFromApproval("billing_data", "billing_data_id", $approvalChanges['billing_data_id'], $approvalChanges['status']);
+        else{
+            $status = $this->compute_model->makeChangesFromApproval("service_payment", "service_payment_id", $approvalChanges['service_payment_id'], $approvalChanges['status']);
+        }
+
+        if($status > 0){
+            echo json_encode($this->returnArray(200, "Successfully making approvals"));
+        }
+        else{
+            echo json_encode($this->returnArray(200, "Error making approvals"));
         }
         
     }

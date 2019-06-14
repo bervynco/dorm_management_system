@@ -30,7 +30,7 @@ class TenantController extends CI_Controller {
     public function getChequeDetails(){
         $postData = json_decode(file_get_contents('php://input'), true);
         $arrPaymentDetails = $this->tenant_model->selectAllChequePerTenant($postData['tenant_id']);
-        echo json_encode($this->returnArray(200, "Successful retrieiving tenant list", $arrPaymentDetails));
+        echo json_encode($this->returnArray(200, "Successful retrieiving cheque details list", $arrPaymentDetails));
     }
 
     public function addNewTenant(){
@@ -126,6 +126,33 @@ class TenantController extends CI_Controller {
         }
         else {
             echo json_encode($this->returnArray(500, "Error assigning to room"));
+        }
+    }
+
+    public function getPaymentHistory() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $arrCheques = $this->tenant_model->getTenantPaymentHistory($postData['tenant_id']);
+        echo json_encode($this->returnArray(200, "Successful retrieiving payment history list", $arrCheques));
+    }
+
+    public function makeBillingPayment() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $billing = $postData;
+        $branchId = $billing['branch_id'];
+        unset($billing['branch_id']);
+        $billingPaymentId = $this->tenant_model->insertBillingPayment($billing);
+
+        if($billingPaymentId != 0){
+            echo json_encode($this->returnArray(200, "Successfully completed payment"));
+
+            if($billing['status'] == 'encashed'){
+                $status = $this->tenant_model->updateBillingData($billing['billing_data_id'], 'encashed');
+                $status = $this->payment_model->deletePaymentItem($billing['tenant_cheque_id'], $branchId, 'encashed');
+            }
+            
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error in payment"));
         }
     }
 

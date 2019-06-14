@@ -7,15 +7,15 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             'abstract': true,
             template: '<div ui-view layout flex/>'
         })
-        .state('billing', {
-            parent: 'site',
-            data: {
-                roles: []
-            },
-            url: "/billing",
-            templateUrl: "public/angular/Templates/Billing/billing.html",
-            controller: "BillingController"
-        })
+        // .state('billing', {
+        //     parent: 'site',
+        //     data: {
+        //         roles: []
+        //     },
+        //     url: "/billing",
+        //     templateUrl: "public/angular/Templates/Billing/billing.html",
+        //     controller: "BillingController"
+        // })
         .state('home', {
             parent: 'site',
             data: {
@@ -134,6 +134,16 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             templateUrl: "public/angular/Templates/Compute/compute.html",
             controller: 'ComputeController'
         })
+        .state('compute.detail', {
+            parent: 'site',
+            data: {
+                id: ""
+            },
+            url: "/compute/:billingId",
+            templateUrl: "public/angular/Templates/Billing/billing.html",
+            controller: 'BillingController'
+        })
+        
         .state('request', {
             parent: 'site',
             data: {

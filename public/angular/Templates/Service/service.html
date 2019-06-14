@@ -135,7 +135,7 @@
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
             <button flex class="page-add-button" ng-click="addService()" ng-disabled="addForm.$error.required.length > 0" > Add New Service </button>
             <span class="space-between-buttons"></span>
-            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
     </form>
 </div>
@@ -194,11 +194,11 @@
                 <button flex class="page-delete-button" ng-disabled="addForm.$error.required.length > 0" ng-click="deleteService(service)"> 
                     <span> Delete Service </span>
                 </button>
-                <span class="space-between-buttons"></span>
-                 <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="makePayment(service)"> 
+            </div>
+            <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+                <button flex class="page-add-button" ng-disabled="addForm.$error.required.length > 0" ng-click="makePayment(service)"> 
                     <span> Pay Service </span>
                 </button>
-                
             </div>
             <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
                 <button flex class="page-cancel-button" class="sidebar-form-button" ng-click="CloseSidebar()"> 
@@ -253,7 +253,7 @@
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
             <button flex class="page-add-button" ng-click="makeServicePayment()" ng-disabled="addForm.$error.required.length > 0" > Make Payment </button>
             <span class="space-between-buttons"></span>
-            <button flex class="page-cancel-button" ng-click="closeSidebar()"> Cancel </button> 
+            <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>
     </form>
 </div>

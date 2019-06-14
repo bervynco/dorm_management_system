@@ -527,6 +527,14 @@ select:focus {
 .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-defined-details > .defined-header {
   font-weight: bolder;
 }
+.sidebar-default-modal > .sidebar-form .sidebar-form-content > .breakdown-label {
+  font-weight: bolder;
+  font-size: 16px;
+}
+.sidebar-default-modal > .sidebar-form .sidebar-form-content > .breakdown-label > .breakdown-total {
+  font-size: 20px;
+  color: green;
+}
 .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input {
   font-weight: bolder;
   height: 65px;
@@ -534,6 +542,9 @@ select:focus {
 }
 .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input > .sidebar-form-label {
   width: 180px;
+}
+.sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input > .breakdown-form-label {
+  width: 400px;
 }
 .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input > .sidebar-form-input {
   height: 100%;
@@ -698,6 +709,23 @@ select:focus {
   font-size: 12px;
   font-weight: bold;
   border-radius: 8px;
+}
+
+.breakdown-panel .breakdown-header {
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.breakdown-panel .breakdown-list {
+  padding: 10px;
+  font-size: 14px;
+}
+.breakdown-panel .breakdown-list .breakdown-list-header {
+  font-weight: bold;
+}
+
+.space-between-buttons-table {
+  width: 20px;
 }
 
 /*# sourceMappingURL=styles.css.map */

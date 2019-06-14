@@ -1,5 +1,6 @@
  app.controller('ComputeController', function ($scope, $rootScope, $interval, DataFactory, $state, $mdDialog, $mdToast, $window) {
     $scope.$parent.ChangeAppState('compute');
+    $scope.showBreakdownFlag = false;
     $scope.showSideNav = false;
     $scope.showCompleteDetailsFlag = false;
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
@@ -44,7 +45,7 @@
         $scope.billing.branch_id = $scope.branch.branch_id;
             DataFactory.AddNewBilling($scope.billing).success(function(response){
                 if(response.status == 200){
-                    getAllData();
+                    getData();
                     $scope.CloseSidebar();
                 }
                 else {
@@ -84,15 +85,27 @@
         $scope.showSideNav = true;
     }
 
-    $scope.showCompleteDetails = function() {
-        $scope.showCompleteDetailsFlag = true;
+    $scope.showCompleteDetails = function(row) {
+        $state.go('compute.detail', {billingId: CryptoJS.AES.encrypt(row.billing_id, "Secret Passphrase Dorm Management System")});
+    }
+
+    $scope.showBreakdown = function(row) {
+        
+        $scope.showBreakdownFlag = true;
+        $scope.breakdown = JSON.parse(row.billing_json);
+        delete $scope.breakdown.total_bill;
+        delete $scope.breakdown.tenant_count;
     }
     $scope.CloseSidebar = function() {
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
         $scope.disable = true;
         $scope.errorNotification = null;
-        initializeVariables();
+        initializeVariable();
+    }
+
+    $scope.CloseSidebarExtended = function() {
+        $scope.showBreakdownFlag = false;
     }
     initializeVariable();
     getData();

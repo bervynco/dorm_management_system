@@ -89,6 +89,26 @@ class tenant_model extends CI_Model {
         );
         return $this->db->affected_rows();
     }
+
+    function getTenantPaymentHistory($tenantId){
+        $query = $this->db->where('tenant_id', $tenantId)->where('status', 'encashed')->get('tenant_cheque');
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+
+    function insertBillingPayment($payment){
+        $query = $this->db->insert('billing_payment', $payment);
+        return $this->db->insert_id();
+    }
+
+    function updateBillingData($billingDataId, $status){
+        $query = $this->db->where('billing_data_id', $billingDataId)
+                            ->update('billing_data', 
+                            array(
+                                'status' => $status
+                            )
+        );
+        return $this->db->affected_rows();
+    }
 }
 
 ?>

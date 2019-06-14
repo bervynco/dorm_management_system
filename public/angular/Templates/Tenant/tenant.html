@@ -181,18 +181,15 @@
                         <th> Cheque Amount</th>
                         <th> Cheque bank </th>
                     </tr>
-                    <tr class="empty-table"> 
+                    <tr class="empty-table" ng-if="paymentPerTenant.length == 0"> 
                         <td colspan="4" align="center"> No Data </td>
                     </tr>
-                    <!-- <tr ng-repeat="row in rows track by $index">
-                        <td> {{row.item_code}} </td>
-                        <td> {{row.item_name}} </td>
-                        <td> {{row.description}} </td>
-                        <td> {{row.start_date}} </td>
-                        <td> {{row.end_date}} </td>
-                        <td> {{row.rent_amount}} </td>
-                        <td> {{row.status}} </td>
-                    </tr> -->
+                     <tr ng-repeat="row in paymentPerTenant track by $index">
+                        <td> {{row.cheque_number}} </td>
+                        <td> {{row.cheque_date}} </td>
+                        <td> {{row.cheque_amount}} </td>
+                        <td> {{row.cheque_bank}} </td>
+                    </tr> 
                 </table>
             </div>
         </div>

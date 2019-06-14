@@ -66,7 +66,7 @@ class compute_model extends CI_Model {
         $query = $this->db->where('branch_id', $branchId)->where('status', 'active')->get("billing_data");
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
-    function getBillingDetailsPerBillingSummary($billingId){
+    function getBillingDetailsPerBillingSummary($branchId, $billingId){
         $sql = "SELECT billing_id, status, count(status) as 'status_count' FROM billing_data where billing_id = ". $billingId." group by status";
         $query = $this->db->query($sql);
         return ($query->num_rows() > 0) ? $query->result_array(): array();
@@ -75,7 +75,20 @@ class compute_model extends CI_Model {
         $query = $this->db->where('branch_id', $branchId)->where('month', $month)->where('year', $year)->get("billing");
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
+    function getBillingDetailsPerBilling($billingId) {
 
+        $this->db->select(array('tenant.tenant_name', 'billing_data.*'));
+        $this->db->from('billing_data');
+        $this->db->join('tenant', 'tenant.tenant_id = billing_data.tenant_id');
+        $this->db->where('billing_data.billing_id', $billingId);
+        $this->db->where('billing_data.status', "active");
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+
+
+        $query = $this->db->where('billing_id', $billingId)->where('status', 'active')->get("billing_data");
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
     function checkDuplicateBilling($month, $year, $branchId) {
         $this->db->select("billing.*");
         $this->db->from("billing");
@@ -86,6 +99,53 @@ class compute_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
+    function updateBilling($billing) {
+        $query = $this->db->where('billing_data_id', $billing['billing_data_id'])
+                          ->update('billing_data', 
+                            array(
+                                'billing_json'=> $billing['billing_json'], 
+                                'total_amount' => $billing['total_amount']
+                            )
+        );
+        return $this->db->affected_rows();
+    }
+
+    function updateBillingStatus($billing, $status) {
+        $query = $this->db->where('billing_data_id', $billing['billing_data_id'])
+                          ->update('billing_data', 
+                            array(
+                                'status'=> $status
+                            )
+        );
+        return $this->db->affected_rows();
+    }
+
+    function getServicesForApproval($branchId){
+        $sql = "SELECT tenant.tenant_name, service_payment.service_payment_id, service.service_name as 'name', service.service_fee as 'fee', service.start_date, service.end_date, service.recurrence
+        FROM service_payment JOIN service on service.service_id = service_payment.service_id and service_payment.status = 'approval' and service.branch_id =".$branchId."
+        JOIN tenant on tenant.tenant_id = service.tenant_id;";
+        
+        $query = $this->db->query($sql);
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+
+    function getBillingForApproval($branchId){
+        $sql = "SELECT billing_data.billing_data_id, billing.billing_name, billing.month, billing.year, billing_data.total_amount as 'fee', tenant.tenant_name from billing_data 
+            JOIN billing on billing.billing_id = billing_data.billing_id and billing_data.status = 'approval' and billing.branch_id =".$branchId." JOIN tenant on tenant.tenant_id = billing_data.tenant_id";
+
+        $query = $this->db->query($sql);
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+
+    function makeChangesFromApproval($table, $key, $value, $status){
+        $query = $this->db->where($key, $value)
+                          ->update($table, 
+                            array(
+                                'status'=> $status
+                            )
+        );
+        return $this->db->affected_rows();
+    }
     
 }
 
