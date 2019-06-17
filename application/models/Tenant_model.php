@@ -33,6 +33,17 @@ class tenant_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
+    function selectTenantPerId($tenantId){
+        $sql = "SELECT tenant.*, room_tenant.status as 'room_tenant_status' FROM tenant 
+        LEFT JOIN room_tenant ON room_tenant.tenant_id = tenant.tenant_id 
+        AND room_tenant.status = 'active' 
+        LEFT JOIN room on room.room_id = room_tenant.room_id
+        WHERE tenant.tenant_id = $tenantId AND tenant.status = 'active'";
+
+        $query = $this->db->query($sql);
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+
     function selectTenant($tenantId) {
         $this->db->where('tenant_id', $tenantId)->where('status', "active")->get('tenant');
         return ($query->num_rows() > 0) ? $query->result_array(): array();

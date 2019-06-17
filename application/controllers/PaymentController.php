@@ -30,6 +30,12 @@ class PaymentController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successful retrieiving cheque list", $arrChequePayment));
     }
 
+    public function getChequeListPerTenant() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $arrChequePayment = $this->payment_model->selectAllChequePaymentPerTenant($postData['tenant_id']);
+        echo json_encode($this->returnArray(200, "Successful retrieiving cheque list", $arrChequePayment));
+    }
+
     public function insertCheques() {
         $postData = json_decode(file_get_contents('php://input'), true);
         $errorFlag = false;

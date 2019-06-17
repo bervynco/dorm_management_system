@@ -648,6 +648,7 @@ select:focus
     background-color: $headerColor;
     height: 6%;
     width: 100%;
+    z-index: 2;
     > .navbar-dropdown {
         color: white;
     }
@@ -683,8 +684,9 @@ select:focus
     right: 0;
     position: absolute;
     background-color: white;
-    z-index: 100;
-
+    z-index: 1;
+    overflow-y: auto;
+    
     > .sidebar-white-space {
         background-color: rgba(0,0,0,0.8);
         width: calc(100% - 700px);
@@ -699,7 +701,7 @@ select:focus
     }
     > .sidebar-form {
         width: 700px;
-        overflow-y: auto;
+        
         padding: $formBottomHeaderPadding;
         
         > .sidebar-form-header {

@@ -7,7 +7,7 @@
     $scope.errorNotification = null;
     $scope.addPaymentFlag = false;
     $scope.displayFlag = false;
-    $scope.tenantTab = ['Details', 'Inventory', 'Services'];
+    $scope.tenantTab = ['Details', 'Inventory', 'Services', 'Cheque List'];
     $scope.currentTab = $scope.tenantTab[0];
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     var requestId;
@@ -81,6 +81,8 @@
 
     function getModalData(branchID, tenantID){
         var params = {'branch_id': branchID, 'tenant_id': tenantID};
+
+        // Get Inventory Per Tenant
         DataFactory.GetInventoryPerTenant(branchID, tenantID).success(function(response){
             if(response.status == 200){
                 $scope.inventoryPerTenant = response.data;
@@ -90,6 +92,8 @@
         }).error(function(error){
 
         });
+
+        // Get Service Per Tenant
         DataFactory.GetServicePerTenant(params).success(function(response){
             if(response.status == 200){
                 $scope.servicePerTenant = response.data;
@@ -100,6 +104,7 @@
 
         });
 
+        // Get Payment History per Tenant
         DataFactory.GetPaymentHistoryPerTenant(tenantID).success(function(response){
             if(response.status == 200){
                 $scope.paymentPerTenant = response.data;
@@ -107,6 +112,10 @@
         }).error(function(error){
 
         });
+
+        // Get Cheque List
+
+
         // DataFactory.GetPaymentDetailsPerTenant(params).success(function(response){
         //     if(response.status == 200){
         //         $scope.inventoryPerTenant = response.data;
@@ -254,13 +263,14 @@
     }
 
     $scope.showCompleteDetails = function(row){
-        $scope.showCompleteDetailsFlag = true;
-        $scope.tenant = angular.copy(row);
-        $scope.tenant.start_contract = new Date(row.start_contract);
-        $scope.tenant.end_contract = new Date(row.end_contract);
-        $scope.tenant.birthday = new Date(row.birthday);
+        $state.go('tenant.detail', {tenantId: CryptoJS.AES.encrypt(row.tenant_id, "Secret Passphrase Dorm Management System")});
+        // $scope.showCompleteDetailsFlag = true;
+        // $scope.tenant = angular.copy(row);
+        // $scope.tenant.start_contract = new Date(row.start_contract);
+        // $scope.tenant.end_contract = new Date(row.end_contract);
+        // $scope.tenant.birthday = new Date(row.birthday);
         
-        getModalData($scope.branch.branch_id, $scope.tenant.tenant_id);
+        // getModalData($scope.branch.branch_id, $scope.tenant.tenant_id);
         
     }
 
@@ -287,8 +297,8 @@
     $scope.assignTenantToRoom = function() {
         $scope.data = {'room_id': 0, 'tenant_id': 0, 'branch_id': 0};
         $scope.data.room_id = $scope.selectedRoom.room_id;
-        $scope.data.tenant_id = $scope.selectedTenant.tenant_id;
-        $scope.data.branch_id = $scope.selectedTenant.branch_id;
+        $scope.data.tenant_id = $scope.tenant.tenant_id;
+        $scope.data.branch_id = $scope.tenant.branch_id;
 
         DataFactory.AssignTenantToRoom($scope.data).success(function(response){
             if(response.status = 200){

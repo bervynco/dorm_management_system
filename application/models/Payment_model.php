@@ -15,6 +15,14 @@ class payment_model extends CI_Model {
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
 
+    function selectAllChequePaymentPerTenant($tenantId){
+        $this->db->select(array('tenant.tenant_id', 'tenant.tenant_name', 'tenant_cheque.*'));
+        $this->db->from('tenant_cheque');
+        $this->db->join('tenant', 'tenant_cheque.tenant_id = tenant.tenant_id');
+        $this->db->where('tenant_cheque.tenant_id', $tenantId);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
     function insertCheques($payment) {
         $query = $this->db->insert('tenant_cheque', $payment);
 

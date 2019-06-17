@@ -110,6 +110,9 @@
                 <span> Cancel </span>
             </button>
         </div>
+        <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
+            <button flex class="page-add-button" ng-click="markAsComplete()"> Mark as Complete </button> 
+        </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button" ng-if="disable">
             <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>

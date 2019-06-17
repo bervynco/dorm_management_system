@@ -149,6 +149,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:{'tenant_id': id}
             })
         },
+        GetTenantDetails: function(id){
+            return $http({
+                method: "POST",
+                url: "index.php/TenantController/getTenantDetails",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:{'tenant_id': id}
+            }) 
+        },
         /** Room **/
         GetRoomList: function(id) {
             return $http({
@@ -685,6 +695,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                     'Content-Type': 'application/json'
                 },
                 data: {'branch_id' : id}
+            })
+        },
+        GetChequeListPerTenant: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/PaymentController/getChequeListPerTenant",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
             })
         },
         UploadCheques: function(data) {

@@ -18,8 +18,10 @@ class TenantController extends CI_Controller {
         return array('status' => $status, 'message' => $message, 'data' => $data);
     }
     
-    public function getTenantPerBranchWithStatus() {
-        
+    public function getTenantDetails() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $arrTenants = $this->tenant_model->selectTenantPerId($postData['tenant_id']);
+        echo json_encode($this->returnArray(200, "Successful retrieiving tenant list", $arrTenants));
     }
     public function getAllTenantsPerBranch(){
         $postData = json_decode(file_get_contents('php://input'), true);
@@ -116,7 +118,6 @@ class TenantController extends CI_Controller {
 
         $roomTenant = $this->tenant_model->checkIfAssigned($postData['tenant_id']);
         if(count($roomTenant) > 0){
-            print_r($roomTenant);
             $status = $this->tenant_model->deleteRoomTenant($roomTenant[0]['room_tenant_id'], "reassigned");
         }
         

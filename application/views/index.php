@@ -50,6 +50,7 @@
     <script src="public/angular/Templates/Request/requestController.js"></script>
     <script src="public/angular/Templates/Service/serviceController.js"></script>
     <script src="public/angular/Templates/Upload Payment/paymentController.js"></script>
+    <script src="public/angular/Templates/Tenant Detail/tenantDetailController.js"></script>
     <!--build:css css/styles.min.css-->
     <link rel="stylesheet" href="public/assets/css/jquery.scrollbar.css">
     <link rel="stylesheet" href="public/assets/css/material.css">

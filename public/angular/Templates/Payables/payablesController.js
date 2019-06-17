@@ -80,11 +80,11 @@
     }
 
     $scope.showCompleteDetails = function(item){
-        console.log(item);
         $scope.showCompleteDetailsFlag = true;
-        item.payable_date = new Date(item.payable_date);
-        item.amount = parseFloat(item.amount);
-        $scope.payables = item;
+        $scope.payables = angular.copy(item);
+        $scope.payables.payable_date = new Date($scope.payables.payable_date);
+        $scope.payables.amount = parseFloat($scope.payables.amount);
+        
     }
 
     $scope.addNewPayable = function() {
@@ -174,6 +174,10 @@
         }).error(function(error){
 
         });
+    }
+
+    $scope.markAsComplete = function() {
+
     }
     getAllData();
     initializeVariables();

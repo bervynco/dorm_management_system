@@ -190,6 +190,11 @@
 
         });
     }
+
+    $scope.backToCompute = function() {
+        $scope.ChangeState('compute');
+    }
+
     // $scope.ChangeModelValue = function(parent, keyBreakdown, key, value){
     //     console.log(parent, keyBreakdown, key, value);
     // }

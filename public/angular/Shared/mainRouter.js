@@ -80,6 +80,15 @@ mainRouter.config(['$stateProvider', '$urlRouterProvider', function ($stateProvi
             templateUrl: "public/angular/Templates/Tenant/tenant.html",
             controller: "TenantController"
         })
+        .state('tenant.detail', {
+            parent: 'site',
+            data: {
+                id: ""
+            },
+            url: "/detail/:tenantId",
+            templateUrl: "public/angular/Templates/Tenant Detail/tenantDetail.html",
+            controller: 'TenantDetailController'
+        })
         .state('utility', {
             parent: 'site',
             data: {
