@@ -82,7 +82,7 @@
                 
             </tr>
         </table>
-        <table class="page-table" ng-if="currentTab == 'Billing Payment Approval'">
+        <table class="page-table" ng-if="currentTab == 'Billing Payment Approval' && branch.role == 'Administrator'">
             <tr>
                 <th> Tenant Name</th>
                 <th> Billing Name</th>
@@ -109,7 +109,7 @@
                 </td>
             </tr>
         </table>
-        <table class="page-table" ng-if="currentTab == 'Service Payment Approval'">
+        <table class="page-table" ng-if="currentTab == 'Service Payment Approval' && branch.role == 'Administrator'">
             <tr>
                 <th> Tenant Name</th>
                 <th> Service Name</th>

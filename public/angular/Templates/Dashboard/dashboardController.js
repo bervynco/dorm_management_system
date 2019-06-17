@@ -32,11 +32,12 @@
         page_action: "View",
         branch_id: $scope.branch.branch_id
     }
+
     DataFactory.AddPageLog($scope.log).success(function(response){
     }).error(function(error){
 
     });
-
+    
     function getAllData(){
         DataFactory.GetTenantList($scope.branch.branch_id).success(function(response){
             $scope.tenantData = response.data;
@@ -50,17 +51,23 @@
 
         });
 
-        DataFactory.GetPaymentForApprovalBilling($scope.branch.branch_id).success(function(response){
-            $scope.billingPaymentApprovalData = response.data;
-        }).error(function(error){
+        if($scope.branch.role == 'Administrator'){
+            DataFactory.GetPaymentForApprovalBilling($scope.branch.branch_id).success(function(response){
+                $scope.billingPaymentApprovalData = response.data;
+            }).error(function(error){
 
-        });
+            });
 
-        DataFactory.GetPaymentForApprovalService($scope.branch.branch_id).success(function(response){
-            $scope.servicePaymentApprovalData = response.data;
-        }).error(function(error){
+            DataFactory.GetPaymentForApprovalService($scope.branch.branch_id).success(function(response){
+                $scope.servicePaymentApprovalData = response.data;
+            }).error(function(error){
 
-        });
+            });
+        }
+        else{
+            $scope.viewTab.splice(2);
+        }
+        
         // DataFactory.GetAggregatedRoomList($scope.branch.branch_id).success(function(response){
 
         // }).error(function(error){

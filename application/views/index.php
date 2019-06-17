@@ -86,7 +86,7 @@
                 <div flex layout layout-align="start center">Dashboard</div>
             </div>
             <div class="sidebar-content-item" flex="none" layout layout-align="start stretch" 
-                ng-click="ChangeState('user')">
+                ng-click="ChangeState('user')" ng-if="selectedBranch.role === 'Administrator'">
                 <span flex="none" ng-class="currState === 'user' ? 'status-active' : 'status-inactive'"></span>
                 <div flex layout layout-align="start center">User Management</div>
             </div>
