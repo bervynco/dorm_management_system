@@ -1,10 +1,10 @@
-<div flex layout layout-align="start stretch" id="login-container">
-    <div flex="70" layout layout-align="start stretch" id="image-container">
+<div flex layout layout-align="center stretch" id="login-container">
+    <div flex="70" hide-xs hide-sm hide-md layout layout-align="start stretch" id="image-container">
         <span flex layout layout-align="start stretch" id="background-image">
     </div>
-    <div flex layout="column" layout-align="start stretch" id="login-form-container">
+    <div flex layout="column" flex-md="60" layout-align="start stretch" id="login-form-container">
         <div flex></div>
-        <ng-form name="login" flex layout="column" layout-align="center stretch" id="login-form" >
+        <ng-form name="login" flex  layout="column" layout-align="center stretch" id="login-form" >
             <span id="login-form-title" layout layout-align="center center"> Login to continue</span>
             <form flex layout="column" layout-align="start stretch" id="login-form-body" ng-submit="Login()">
                 <span layout layout-align="center center">
@@ -20,5 +20,4 @@
         </ng-form>
         <div flex></div>
     </div>
-    
 </div>
