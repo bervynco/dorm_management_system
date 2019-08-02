@@ -75,7 +75,7 @@
     <!--END: LOADER-->
     <div flex="none" id="side-menubar" layout="column" layout-align="start stretch" ng-if="currState != 'login'">
         <div flex="none" id="sidebar-logo" layout layout-align="start stretch">
-            <span id="sidebar-text" flex layout layout-align="center center"> Management </span>
+            <span id="sidebar-text" flex layout layout-align="center center"> The Luxe Suites</span>
         </div>
         <!-- -->
         <div flex="none" id="sidebar-content" layout="column" layout-align="start stretch">
@@ -171,15 +171,13 @@
                     <option ng-repeat="branch in userDetails.branch" ng-value="branch.branch_id">{{branch.branch_name}}</option>
                 </select> -->
             </div>
-            <div flex="85"></div>
-            <div flex="10" class="navbar-dropdown" layout layout-align="start stretch">
-                <div flex="none" layout layout-align="center center"> Hi, <div id="profile-details">{{userDetails.name}} </div></div>
+            <div flex></div>
+            <div flex="10" flex-xs="40" flex-sm="30" flex-md="15" flex-lg="15" class="navbar-dropdown" layout layout-align="start stretch">
+                <div flex="none" layout layout-align="end center"> Hi, <div id="profile-details">{{userDetails.name}} </div></div>
             </div>
             <div flex="5" class="navbar-dropdown" layout layout-align="center center">
                 <img flex="none" id="signout-icon"src="public/assets/images/icons/sign-out-option.png" width="30" height="30" ng-click="SignOut()">
             </div>
-
-            
         </div>
         <div flex ui-view layout class="main-container" layout-align="start stretch"></div>
     </div>

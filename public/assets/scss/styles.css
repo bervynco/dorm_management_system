@@ -226,12 +226,12 @@
   outline: none;
 }
 
-.sidebar-default-modal > .sidebar-form > .sidebar-form-header, #side-menubar > #sidebar-logo > #sidebar-text, #login-container > #login-form-container > #login-form > #login-form-title {
+.sidebar-default-modal > .sidebar-form > .sidebar-form-header, #login-container > #login-form-container > #login-form > #login-form-title {
   font-family: opensans;
   font-size: 24px;
 }
 
-.panel-steps .step, .page-container > .page-header > .page-header-details, .sidebar-form-accordion, .sidebar-form-tab, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-defined-details > .defined-header, #side-menubar > #sidebar-content > .sidebar-content-item, .page-cancel-button, .page-add-button:disabled, .page-add-button {
+.panel-steps .step, .page-container > .page-header > .page-header-details, .sidebar-form-accordion, .sidebar-form-tab, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-defined-details > .defined-header, .page-cancel-button, .page-add-button:disabled, .page-add-button {
   font-family: opensans;
   font-size: 18px;
 }
@@ -241,7 +241,7 @@
   font-size: 14px;
 }
 
-.page-table > tbody > tr > td:first-child, .sidebar-form-accordion > .sidebar-accordion-title, .sidebar-form-tab > div, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .page-table > tbody > tr > td:first-child, .sidebar-default-modal > .sidebar-form > .sidebar-form-header > .sidebar-form-close, #navbar > .navbar-dropdown > #signout-icon, #side-menubar > #sidebar-content > .sidebar-content-item:hover, #side-menubar > #sidebar-content .state-active, .flat-button:hover, .page-cancel-button:hover, .page-add-button:disabled:hover, .page-add-button:hover {
+.page-table > tbody > tr > td:first-child, .sidebar-form-accordion > .sidebar-accordion-title, .sidebar-form-tab > div, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .page-table > tbody > tr > td:first-child, .sidebar-default-modal > .sidebar-form > .sidebar-form-header > .sidebar-form-close, .flat-button:hover, .page-cancel-button:hover, .page-add-button:disabled:hover, .page-add-button:hover {
   cursor: pointer;
 }
 
@@ -409,85 +409,465 @@ select:focus {
 
 /* end of inputs and buttons */
 /* sidenav */
-#side-menubar {
-  background-color: #222d32;
-  width: 250px;
-}
-#side-menubar > #sidebar-logo {
-  width: 100%;
-  height: 6%;
-  background-color: #3c8dbc;
-}
-#side-menubar > #sidebar-logo > #sidebar-text {
-  color: white;
-  font-weight: bolder;
-}
-#side-menubar > #sidebar-profile {
-  width: 100%;
-  height: 15%;
-}
-#side-menubar > #sidebar-content {
-  width: 100%;
-  height: 79%;
-}
-#side-menubar > #sidebar-content .state-active {
-  background-color: #1b2428 !important;
-  transition: 0.4s;
-}
-#side-menubar > #sidebar-content > .sidebar-content-item {
-  color: rgba(255, 255, 255, 0.75);
-  height: 8%;
-  width: 100%;
-  outline: none;
-}
-#side-menubar > #sidebar-content > .sidebar-content-item > div {
-  padding-left: 10%;
-}
-#side-menubar > #sidebar-content > .sidebar-content-item .status-active {
-  background-color: #3c8dbc;
-  width: 3%;
-  height: 100%;
-}
-#side-menubar > #sidebar-content > .sidebar-content-item .status-inactive {
-  width: 3%;
-  height: 100%;
-  background-color: transparent;
-}
-#side-menubar > #sidebar-content > .sidebar-content-item:hover {
-  background-color: #1b2428 !important;
-  transition: 0.4s;
-}
+@media only screen and (max-width: 600px) {
+  #side-menubar {
+    background-color: #222d32;
+    width: 250px;
+  }
+  #side-menubar > #sidebar-logo {
+    width: 100%;
+    height: 8%;
+    background-color: #3c8dbc;
+  }
+  #side-menubar > #sidebar-logo > #sidebar-text {
+    color: white;
+    font-family: opensans;
+    font-size: 14px;
+    font-weight: bolder;
+  }
+  #side-menubar > #sidebar-profile {
+    width: 100%;
+    height: 15%;
+  }
+  #side-menubar > #sidebar-content {
+    width: 100%;
+    height: 79%;
+  }
+  #side-menubar > #sidebar-content .state-active {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item {
+    color: rgba(255, 255, 255, 0.75);
+    height: 8%;
+    width: 100%;
+    outline: none;
+    font-family: opensans;
+    font-size: 12px;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item > div {
+    padding-left: 10%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-active {
+    background-color: #3c8dbc;
+    width: 3%;
+    height: 100%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-inactive {
+    width: 3%;
+    height: 100%;
+    background-color: transparent;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item:hover {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
 
-/* end of sidenav */
-/* navbar */
-#navbar {
-  background-color: #3c8dbc;
-  height: 6%;
-  width: 100%;
-  z-index: 2;
+  /* end of sidenav */
+  /* navbar */
+  #navbar {
+    background-color: #3c8dbc;
+    height: 8%;
+    width: 100%;
+    z-index: 2;
+  }
+  #navbar > .navbar-dropdown {
+    color: white;
+  }
+  #navbar > .navbar-dropdown > div > #profile-details {
+    color: white;
+    font-size: 12px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 200px;
+    font-weight: bolder;
+  }
+  #navbar > .navbar-dropdown > select {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+  }
+  #navbar > .navbar-dropdown > select option {
+    color: black;
+  }
+  #navbar > .navbar-dropdown > #signout-icon {
+    cursor: pointer;
+  }
+
+  /* end of navbar */
 }
-#navbar > .navbar-dropdown {
-  color: white;
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  #side-menubar {
+    background-color: #222d32;
+    width: 250px;
+  }
+  #side-menubar > #sidebar-logo {
+    width: 100%;
+    height: 8%;
+    background-color: #3c8dbc;
+  }
+  #side-menubar > #sidebar-logo > #sidebar-text {
+    color: white;
+    font-family: opensans;
+    font-size: 18px;
+    font-weight: bolder;
+  }
+  #side-menubar > #sidebar-profile {
+    width: 100%;
+    height: 15%;
+  }
+  #side-menubar > #sidebar-content {
+    width: 100%;
+    height: 79%;
+  }
+  #side-menubar > #sidebar-content .state-active {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item {
+    color: rgba(255, 255, 255, 0.75);
+    height: 6%;
+    width: 100%;
+    outline: none;
+    font-family: opensans;
+    font-size: 12px;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item > div {
+    padding-left: 10%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-active {
+    background-color: #3c8dbc;
+    width: 3%;
+    height: 100%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-inactive {
+    width: 3%;
+    height: 100%;
+    background-color: transparent;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item:hover {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
+
+  /* end of sidenav */
+  /* navbar */
+  #navbar {
+    background-color: #3c8dbc;
+    height: 8%;
+    width: 100%;
+    z-index: 2;
+  }
+  #navbar > .navbar-dropdown {
+    color: white;
+  }
+  #navbar > .navbar-dropdown > div > #profile-details {
+    color: white;
+    font-size: 14px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 200px;
+    font-weight: bolder;
+  }
+  #navbar > .navbar-dropdown > select {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+  }
+  #navbar > .navbar-dropdown > select option {
+    color: black;
+  }
+  #navbar > .navbar-dropdown > #signout-icon {
+    cursor: pointer;
+  }
+
+  /* end of navbar */
 }
-#navbar > .navbar-dropdown > div > #profile-details {
-  color: white;
-  font-size: 16px;
-  padding-left: 5px;
-  padding-right: 5px;
-  width: 200px;
-  font-weight: bolder;
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  #side-menubar {
+    background-color: #222d32;
+    width: 250px;
+  }
+  #side-menubar > #sidebar-logo {
+    width: 100%;
+    height: 6%;
+    background-color: #3c8dbc;
+  }
+  #side-menubar > #sidebar-logo > #sidebar-text {
+    color: white;
+    font-family: opensans;
+    font-size: 18px;
+    font-weight: bolder;
+  }
+  #side-menubar > #sidebar-profile {
+    width: 100%;
+    height: 15%;
+  }
+  #side-menubar > #sidebar-content {
+    width: 100%;
+    height: 79%;
+  }
+  #side-menubar > #sidebar-content .state-active {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item {
+    color: rgba(255, 255, 255, 0.75);
+    height: 8%;
+    width: 100%;
+    outline: none;
+    font-family: opensans;
+    font-size: 14px;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item > div {
+    padding-left: 10%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-active {
+    background-color: #3c8dbc;
+    width: 3%;
+    height: 100%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-inactive {
+    width: 3%;
+    height: 100%;
+    background-color: transparent;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item:hover {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
+
+  /* end of sidenav */
+  /* navbar */
+  #navbar {
+    background-color: #3c8dbc;
+    height: 6%;
+    width: 100%;
+    z-index: 2;
+  }
+  #navbar > .navbar-dropdown {
+    color: white;
+  }
+  #navbar > .navbar-dropdown > div > #profile-details {
+    color: white;
+    font-size: 14px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 200px;
+    font-weight: bolder;
+  }
+  #navbar > .navbar-dropdown > select {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+  }
+  #navbar > .navbar-dropdown > select option {
+    color: black;
+  }
+  #navbar > .navbar-dropdown > #signout-icon {
+    cursor: pointer;
+  }
+
+  /* end of navbar */
 }
-#navbar > .navbar-dropdown > select {
-  background: transparent;
-  border: none;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  #side-menubar {
+    background-color: #222d32;
+    width: 250px;
+  }
+  #side-menubar > #sidebar-logo {
+    width: 100%;
+    height: 6%;
+    background-color: #3c8dbc;
+  }
+  #side-menubar > #sidebar-logo > #sidebar-text {
+    color: white;
+    font-family: opensans;
+    font-size: 18px;
+    font-weight: bolder;
+  }
+  #side-menubar > #sidebar-profile {
+    width: 100%;
+    height: 15%;
+  }
+  #side-menubar > #sidebar-content {
+    width: 100%;
+    height: 79%;
+  }
+  #side-menubar > #sidebar-content .state-active {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item {
+    color: rgba(255, 255, 255, 0.75);
+    height: 8%;
+    width: 100%;
+    outline: none;
+    font-family: opensans;
+    font-size: 14;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item > div {
+    padding-left: 10%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-active {
+    background-color: #3c8dbc;
+    width: 3%;
+    height: 100%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-inactive {
+    width: 3%;
+    height: 100%;
+    background-color: transparent;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item:hover {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
+
+  /* end of sidenav */
+  /* navbar */
+  #navbar {
+    background-color: #3c8dbc;
+    height: 6%;
+    width: 100%;
+    z-index: 2;
+  }
+  #navbar > .navbar-dropdown {
+    color: white;
+  }
+  #navbar > .navbar-dropdown > div > #profile-details {
+    color: white;
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 200px;
+    font-weight: bolder;
+  }
+  #navbar > .navbar-dropdown > select {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+  }
+  #navbar > .navbar-dropdown > select option {
+    color: black;
+  }
+  #navbar > .navbar-dropdown > #signout-icon {
+    cursor: pointer;
+  }
+
+  /* end of navbar */
 }
-#navbar > .navbar-dropdown > select option {
-  color: black;
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  #side-menubar {
+    background-color: #222d32;
+    width: 250px;
+  }
+  #side-menubar > #sidebar-logo {
+    width: 100%;
+    height: 6%;
+    background-color: #3c8dbc;
+  }
+  #side-menubar > #sidebar-logo > #sidebar-text {
+    color: white;
+    font-family: opensans;
+    font-size: 18px;
+    font-weight: bolder;
+  }
+  #side-menubar > #sidebar-profile {
+    width: 100%;
+    height: 15%;
+  }
+  #side-menubar > #sidebar-content {
+    width: 100%;
+    height: 79%;
+  }
+  #side-menubar > #sidebar-content .state-active {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item {
+    color: rgba(255, 255, 255, 0.75);
+    height: 8%;
+    width: 100%;
+    outline: none;
+    font-family: opensans;
+    font-size: 16px;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item > div {
+    padding-left: 10%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-active {
+    background-color: #3c8dbc;
+    width: 3%;
+    height: 100%;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item .status-inactive {
+    width: 3%;
+    height: 100%;
+    background-color: transparent;
+  }
+  #side-menubar > #sidebar-content > .sidebar-content-item:hover {
+    cursor: pointer;
+    background-color: #1b2428 !important;
+    transition: 0.4s;
+  }
+
+  /* end of sidenav */
+  /* navbar */
+  #navbar {
+    background-color: #3c8dbc;
+    height: 6%;
+    width: 100%;
+    z-index: 2;
+  }
+  #navbar > .navbar-dropdown {
+    color: white;
+  }
+  #navbar > .navbar-dropdown > div > #profile-details {
+    color: white;
+    font-size: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 200px;
+    font-weight: bolder;
+  }
+  #navbar > .navbar-dropdown > select {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+  }
+  #navbar > .navbar-dropdown > select option {
+    color: black;
+  }
+  #navbar > .navbar-dropdown > #signout-icon {
+    cursor: pointer;
+  }
+
+  /* end of navbar */
 }
-/* end of navbar */
 /* sidebar modal */
 .sidebar-default-modal {
   width: 100%;
