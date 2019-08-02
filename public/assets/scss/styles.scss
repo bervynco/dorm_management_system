@@ -701,7 +701,7 @@ select:focus
     }
     > .sidebar-form {
         width: 700px;
-        
+        overflow-y:auto;
         padding: $formBottomHeaderPadding;
         
         > .sidebar-form-header {
@@ -753,6 +753,25 @@ select:focus
                     height: 100%;
                 }
             }
+
+            > .sidebar-form-input-number {
+                @extend %medium-font;
+                font-weight: bolder;
+                height: 65px;
+                padding-bottom: $formBottomHeaderPadding;
+                > .sidebar-form-label {
+                    width: 300px;
+                }
+                //Special case for billing details
+                > .breakdown-form-label {
+                    width: 400px;
+                }
+
+                > .sidebar-form-input {
+                    height: 100%;
+                }
+            }
+
             > .sidebar-form-input-group {
                 @extend %medium-font;
                 font-weight: bolder;
@@ -841,6 +860,7 @@ select:focus
 /* generic page */
 .page-container {
     padding: $pagePadding;
+    overflow-y:auto;
     > .page-header {
         width: 100%;
         > .page-header-details {
@@ -950,4 +970,10 @@ select:focus
 
 .space-between-buttons-table {
     width:20px;
+}
+.default-header {
+    font-weight: bolder;
+    font-size: 16px;
+    text-decoration: underline;
+    padding-bottom: 15px;
 }

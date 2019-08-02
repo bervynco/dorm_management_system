@@ -236,7 +236,7 @@
   font-size: 18px;
 }
 
-.page-table > tbody > tr > td, .page-table > tbody > tr > th, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-error, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-group, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input, .flat-button, body {
+.page-table > tbody > tr > td, .page-table > tbody > tr > th, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-error, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-group, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-number, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input, .flat-button, body {
   font-family: opensans;
   font-size: 14px;
 }
@@ -511,6 +511,7 @@ select:focus {
 }
 .sidebar-default-modal > .sidebar-form {
   width: 700px;
+  overflow-y: auto;
   padding: 20px;
 }
 .sidebar-default-modal > .sidebar-form > .sidebar-form-header {
@@ -548,6 +549,20 @@ select:focus {
   width: 400px;
 }
 .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input > .sidebar-form-input {
+  height: 100%;
+}
+.sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-number {
+  font-weight: bolder;
+  height: 65px;
+  padding-bottom: 20px;
+}
+.sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-number > .sidebar-form-label {
+  width: 300px;
+}
+.sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-number > .breakdown-form-label {
+  width: 400px;
+}
+.sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-number > .sidebar-form-input {
   height: 100%;
 }
 .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-group {
@@ -630,6 +645,7 @@ select:focus {
 /* generic page */
 .page-container {
   padding: 7.5px;
+  overflow-y: auto;
 }
 .page-container > .page-header {
   width: 100%;
@@ -727,6 +743,13 @@ select:focus {
 
 .space-between-buttons-table {
   width: 20px;
+}
+
+.default-header {
+  font-weight: bolder;
+  font-size: 16px;
+  text-decoration: underline;
+  padding-bottom: 15px;
 }
 
 /*# sourceMappingURL=styles.css.map */
