@@ -120,6 +120,11 @@ class tenant_model extends CI_Model {
         );
         return $this->db->affected_rows();
     }
+
+    function insertDeposit($payment) {
+        $query = $this->db->insert('tenant_deposit', $payment);
+        return $this->db->insert_id();
+    }
 }
 
 ?>

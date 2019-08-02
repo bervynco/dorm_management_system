@@ -38,11 +38,43 @@ class TenantController extends CI_Controller {
     public function addNewTenant(){
         // $arrColumns = array('name', 'username', 'role', 'password');
         $postData = json_decode(file_get_contents('php://input'), true);
+        $payment = $postData['payment'];
+        $paymentId = $payment['payment_id'];
+        $paymentName = $payment['payment_type'];
+        unset($payment['payment_id']);
+        unset($payment['payment_type']);
+        unset($postData['payment']);
         $tenantId = $this->tenant_model->insertTenant($postData);
         
+        
         if($tenantId != 0){
-            $postData['tenant_id'] = $tenantId;
-            echo json_encode($this->returnArray(200, "Successfully added tenant", $postData));
+            if($paymentName == 'Cheque'){
+                $payment['tenant_id'] = $tenantId;
+                $payment['branch_id'] = $postData['branch_id'];
+                $payment['cheque_amount'] = $payment['amount'];
+                unset($payment['amount']);
+                $chequeId = $this->payment_model->insertCheques($payment);
+            }
+
+            if($payment['status'] == 'active'){
+                $depositArray = array();
+                $depositArray['payment_id'] = $paymentId;
+                ($paymentName == 'Cheque') ? $depositArray['tenant_cheque_id'] = $chequeId : $depositArray['tenant_cheque_id'] = 0;
+                ($paymentName == 'Cheque') ? $depositArray['amount'] = $payment['cheque_amount'] : $depositArray['amount'] = $payment['amount'];
+                $depositArray['tenant_id'] = $tenantId;
+                $status = $this->tenant_model->insertDeposit($depositArray);
+
+                if($status > 0){
+                    echo json_encode($this->returnArray(200, "Successfully added tenant", $postData));
+                }
+                else {
+                    echo json_encode($this->returnArray(500, "Error inserting new tenant"));
+                }
+            }
+            //for approval
+            else {
+
+            }
         }
         else {
             echo json_encode($this->returnArray(500, "Error inserting new tenant"));

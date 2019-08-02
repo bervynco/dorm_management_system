@@ -66,6 +66,13 @@
         }).error(function(error){
 
         });
+        DataFactory.GetPaymentTypes().success(function(response){
+            $scope.paymentList = response;
+            $scope.currentPayment = response[0];
+                
+        }).error(function(error){
+
+        });
     }
 
     $scope.log = {
@@ -113,6 +120,7 @@
 
         });
 
+        
         // Get Cheque List
 
 
@@ -136,20 +144,22 @@
             emergency_number: '',
             address: '',
             start_contract: '',
-            end_contract: '',
+            end_contract: ''
         }
         $scope.tenantPayment = {
             'tenant_id': '',
             'mode':''
         }
-        $scope.paymentDetails = [
-            {
-                'cheque_number': '',
-                'cheque_bank': '',
-                'cheque_date': '',
-                'amount': ''
-            }
-        ]
+        $scope.paymentDetails = {
+            'payment_id': '',
+            'payment_type': '',
+            'cheque_number': '',
+            'cheque_bank': '',
+            'cheque_date': '',
+            'amount': '',
+            'status': ''
+        }
+        
     }
     
     
@@ -167,17 +177,23 @@
     $scope.ChangeRoom = function(room){
         $scope.selectedRoom = room;
     }
-    $scope.ChangePaymentMethod = function(selectedPaymentMethod) {
-        $scope.selectedPaymentMethod = selectedPaymentMethod;
+
+    // $scope.ChangePaymentMethod = function(selectedPaymentMethod) {
+    //     $scope.selectedPaymentMethod = selectedPaymentMethod;
+    // }
+
+    $scope.ChangePayment = function(payment){
+        $scope.currentPayment = payment;
     }
-    $scope.AddNewPaymentDetail = function(){
-        $scope.paymentDetails.push({
-            'cheque_number': '',
-            'cheque_bank': '',
-            'cheque_date': '',
-            'amount': ''
-        })
-    }
+
+    // $scope.AddNewPaymentDetail = function(){
+    //     $scope.paymentDetails.push({
+    //         'cheque_number': '',
+    //         'cheque_bank': '',
+    //         'cheque_date': '',
+    //         'amount': ''
+    //     })
+    // }
 
     $scope.addNewPaymentDetails = function() {
         $scope.tenantPayment.tenant_id = $scope.tenant.tenant_id;
@@ -203,8 +219,18 @@
     }
 
     $scope.addTenant = function(ev){
+        console.log($scope.currentPayment);
         $scope.tenant.branch_id = $scope.branch.branch_id;
+        $scope.paymentDetails.payment_type = $scope.currentPayment.payment_name;
+        $scope.tenant.payment = $scope.paymentDetails;
+        $scope.tenant.payment.payment_id = $scope.currentPayment.payment_id;
         
+        if($scope.branch.role == 'Administrator'){
+            $scope.tenant.payment.status = 'active';
+        }
+        else {
+            $scope.tenant.payment.status = 'upload approval';
+        }
         DataFactory.AddNewTenant($scope.tenant).success(function(response){
             if(response.status == 200){
                 $scope.log.page_action = "Add New Tenant";
@@ -263,15 +289,7 @@
     }
 
     $scope.showCompleteDetails = function(row){
-        $state.go('tenant.detail', {tenantId: CryptoJS.AES.encrypt(row.tenant_id, "Secret Passphrase Dorm Management System")});
-        // $scope.showCompleteDetailsFlag = true;
-        // $scope.tenant = angular.copy(row);
-        // $scope.tenant.start_contract = new Date(row.start_contract);
-        // $scope.tenant.end_contract = new Date(row.end_contract);
-        // $scope.tenant.birthday = new Date(row.birthday);
-        
-        // getModalData($scope.branch.branch_id, $scope.tenant.tenant_id);
-        
+        $state.go('tenant.detail', {tenantId: CryptoJS.AES.encrypt(row.tenant_id, "Secret Passphrase Dorm Management System")}); 
     }
 
     $scope.ChangeTenantTab = function(tab){
