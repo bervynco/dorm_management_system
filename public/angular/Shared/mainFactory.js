@@ -200,14 +200,14 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:room
             })
         },
-        GetAggregatedRoomList: function(id){
+        GetTenantChequesPerRoom: function(id){
             return $http({
                 method: "POST",
-                url: "index.php/RoomController/getAggregatedRoomList",
+                url: "index.php/RoomController/getTenantChequesPerRoom",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: {'branch_id' : id}
+                data: {'room_id' : id}
             })
         },
         /** Inventory  **/
@@ -377,6 +377,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
             return $http({
                 method: "POST",
                 url: "index.php/UtilityController/getAllReadingAndPricing",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: utility
+            })
+        },
+        MakeUtilityBillingStatement: function(utility){
+            return $http({
+                method: "POST",
+                url: "index.php/UtilityController/saveBillingStatementPerRoom",
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -711,6 +721,26 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
             return $http({
                 method: "POST",
                 url: "index.php/PaymentController/insertCheques",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
+        GetChequesForApproval: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/PaymentController/getChequesForApproval",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
+        MakeChequeApprovalChanges: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/PaymentController/updateChequeStatus",
                 headers: {
                     'Content-Type': 'application/json'
                 },

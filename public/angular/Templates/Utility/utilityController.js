@@ -1,16 +1,22 @@
  app.controller('UtilityController', function ($scope, $rootScope, $interval, DataFactory, AppService, $state, $mdDialog, $mdToast, $window) {
     $scope.$parent.ChangeAppState('utility');
     $scope.showSideNavUtilityAdd = false;
-    $scope.showSideNavUtilityChangeReading = false;
-    $scope.showSideNavUtilityChangePrice = false;
+    // $scope.showSideNavUtilityChangeReading = false;
+    // $scope.showSideNavUtilityChangePrice = false;
+    $scope.payUtilityFlag = false;
     $scope.showCompleteDetailsFlag = false;
     $scope.disable = true;
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     var requestId;
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     $scope.utilityTab = ['Reading', 'Pricing'];
+    $scope.mainTab = ['Utility List', 'Utility Billing List'];
+    $scope.paymentArrangement = ['Pay as a whole', 'Self Service'];
+    $scope.currentPaymentArrangement = $scope.paymentArrangement[0];
+    $scope.currentMainTab = $scope.mainTab[0];
     $scope.errorNotification = null;
     $scope.currentTab = $scope.utilityTab[0];
+
     function initializeVariables(){
         $scope.utility = {
             utility_name: '',
@@ -34,6 +40,14 @@
         $scope.utilityReadingAndPricing = {
             utility_id: '',
             branch_id: ''
+        }
+        $scope.utilityBillingCollection = [{
+            bill_amount: 0
+        }]
+
+        $scope.utility_date = {
+            month: 0,
+            year: 0
         }
     }
     
@@ -68,7 +82,7 @@
 
     });
 
-    function getUtilityData(){
+    function getData(){
         DataFactory.GetUtilityList($scope.branch.branch_id).success(function(response){
             if(response.status = 200){
                 console.log(response.data);
@@ -84,34 +98,113 @@
         }).error(function(error){
 
         });
+
+        DataFactory.GetRoomList($scope.branch.branch_id).success(function(response){
+            $scope.roomList = response.data;
+            if($scope.roomList.length > 0){
+                $scope.selectedRoom = $scope.roomList[0];
+            }
+            filterData();
+        }).error(function(error){
+
+        });
+
+        DataFactory.GetPaymentTypes().success(function(response){
+            $scope.paymentList = response;
+            $scope.currentPayment = response[0];
+                
+        }).error(function(error){
+
+        });
     }
 
+    function getTenantPerRoom(room){
+        DataFactory.GetTenantPerRoom(room).success(function(response){
+            if(response.status == 200){
+                $scope.tenantList = response.data;
+                if($scope.tenantList.length > 0)
+                    $scope.selectedTenant = $scope.tenantList[0];
+            }
+        }).error(function(error){
+
+        });
+    }
+
+    function getChequesPerTenant(tenant){
+        DataFactory.GetChequeListPerTenant(tenant).success(function(response){
+            if(response.status == 200){
+                console.log(response);
+                $scope.chequeDetails = response.data;
+                if($scope.chequeDetails.length > 0)
+                    $scope.currentCheque = $scope.chequeDetails[0];
+            }
+        }).error(function(error){
+
+        });
+    }
+
+    $scope.ChangeCheque = function(cheque){
+        $scope.currentCheque = cheque;
+    }
+    
+    $scope.ChangeTenant = function(tenant){
+        $scope.selectedTenant = tenant;
+        getChequesPerTenant(tenant);
+    }
     $scope.CloseSidebar = function() {
         $scope.showSideNavUtilityAdd = false;
-        $scope.showSideNavUtilityChangePrice = false;
-        $scope.showSideNavUtilityChangeReading = false;
+        // $scope.showSideNavUtilityChangePrice = false;
+        // $scope.showSideNavUtilityChangeReading = false;
+        $scope.payUtilityFlag = false;
         $scope.showCompleteDetailsFlag = false;
+        $scope.showUtilityBillingNav = false;
         $scope.disable = true;
         $scope.errorNotification = null;
         initializeVariables();
     }
 
+    $scope.ChangeMainTab = function(tab) {
+        $scope.currentMainTab = tab;
+    }
+
+    $scope.ChangePaymentArrangement = function(arrangement){
+        $scope.currentPaymentArrangement = arrangement;
+    }
     $scope.ChangeUtility = function(utility) {
         $scope.currentUtility = utility;
+        $scope.utilityBillingCollection = [];
+        $scope.utilityBillingCollection.push({
+            room_id: $scope.roomList[0].room_id,
+            bill_amount: 0
+        });
         
+    }
+
+    $scope.ChangePayment = function(payment){
+        $scope.currentPayment = payment
     }
     /* Utility sidenav functions */
     $scope.addNewUtility = function() {
         $scope.showSideNavUtilityAdd = true;
     }
 
-    $scope.addPricePerUnit = function() {
-        $scope.showSideNavUtilityChangePrice = true;
+    // $scope.addPricePerUnit = function() {
+    //     $scope.showSideNavUtilityChangePrice = true;
+    // }
+
+    // $scope.addCurrentReading = function() {
+    //     $scope.showSideNavUtilityChangeReading = true;
+    // }
+
+    $scope.addUtilityBilling = function() {
+        $scope.showUtilityBillingNav = true;
     }
 
-    $scope.addCurrentReading = function() {
-        $scope.showSideNavUtilityChangeReading = true;
+    $scope.payUtility = function() {
+        $scope.payUtilityFlag = true;
+        getTenantPerRoom($scope.selectedRoom);
     }
+
     $scope.showCompleteUtilityDetails = function(row){
         $scope.showCompleteDetailsFlag = true;
         $scope.utility = row;
@@ -163,53 +256,83 @@
     //     }
     // }
     
+    $scope.ChangeRoom = function(room, idx){
+        $scope.selectedRoom = room;
+        $scope.utilityBillingCollection[idx].room_id = $scope.selectedRoom.room_id;
+    }
+    $scope.ChangePaymentRoom = function(room){
+        $scope.selectedRoom = room;
+        getTenantPerRoom(room);
+    }
     $scope.ChangeUtilityTab = function(tab) {
-        $scope.currentTab = tab;
+        $scope.currentTab = tab;   
         $scope.filteredData = filterData($scope.currentTab);
     }
     $scope.addUtilityPrice = function() {
-        $scope.utilityPrice.status = "active";
-        $scope.utilityPrice.utility_id = $scope.currentUtility.utility_id;
-        $scope.utilityPrice.branch_id = $scope.branch.branch_id;
-        DataFactory.AddNewUtilityPrice($scope.utilityPrice).success(function(response){
-            if(response.status == 200){
-                $scope.log.page_action = "Add New Utility Price";
-                DataFactory.AddPageLog($scope.log).success(function(response){
-                }).error(function(error){
-
-                });
-                getUtilityData();
-                $scope.CloseSidebar();
+        $scope.utilityBilling = [];
+        for(var i = 0; i < $scope.roomList.length; i++){
+            var object = {
+                room_id: $scope.roomList[i].room_id,
+                bill_amount: $scope.roomList[i].bill_amount,
+                utility_id: $scope.currentUtility.utility_id,
+                month: $scope.utility_date.month,
+                year: $scope.utility_date.year
             }
-            else  {
-                $scope.errorNotification = response.message;
+            $scope.utilityBilling.push(object);
+        }
+
+        console.log($scope.utilityBilling);
+        DataFactory.MakeUtilityBillingStatement($scope.utilityBilling).success(function(response){
+            if(response.status == 200){
+                $scope.CloseSidebar();
             }
         }).error(function(error){
 
-        });
+        })
     }
+    // $scope.addUtilityPrice = function() {
+    //     $scope.utilityPrice.status = "active";
+    //     $scope.utilityPrice.utility_id = $scope.currentUtility.utility_id;
+    //     $scope.utilityPrice.branch_id = $scope.branch.branch_id;
+    //     DataFactory.AddNewUtilityPrice($scope.utilityPrice).success(function(response){
+    //         if(response.status == 200){
+    //             $scope.log.page_action = "Add New Utility Price";
+    //             DataFactory.AddPageLog($scope.log).success(function(response){
+    //             }).error(function(error){
 
-    $scope.addUtilityReading = function() {
-        $scope.utilityReading.status = "active";
-        $scope.utilityReading.utility_id = $scope.currentUtility.utility_id;
-        $scope.utilityReading.branch_id = $scope.branch.branch_id;
-        DataFactory.AddNewUtilityReading($scope.utilityReading).success(function(response){
-            if(response.status == 200){
-                $scope.log.page_action = "Add New Utility Reading";
-                DataFactory.AddPageLog($scope.log).success(function(response){
-                }).error(function(error){
+    //             });
+    //             getData();
+    //             $scope.CloseSidebar();
+    //         }
+    //         else  {
+    //             $scope.errorNotification = response.message;
+    //         }
+    //     }).error(function(error){
 
-                });
-                getUtilityData();
-                $scope.CloseSidebar();
-            }
-            else {
-                $scope.errorNotification = response.message;
-            }
-        }).error(function(error){
+    //     });
+    // }
 
-        });
-    }
+    // $scope.addUtilityReading = function() {
+    //     $scope.utilityReading.status = "active";
+    //     $scope.utilityReading.utility_id = $scope.currentUtility.utility_id;
+    //     $scope.utilityReading.branch_id = $scope.branch.branch_id;
+    //     DataFactory.AddNewUtilityReading($scope.utilityReading).success(function(response){
+    //         if(response.status == 200){
+    //             $scope.log.page_action = "Add New Utility Reading";
+    //             DataFactory.AddPageLog($scope.log).success(function(response){
+    //             }).error(function(error){
+
+    //             });
+    //             getData();
+    //             $scope.CloseSidebar();
+    //         }
+    //         else {
+    //             $scope.errorNotification = response.message;
+    //         }
+    //     }).error(function(error){
+
+    //     });
+    // }
     $scope.addUtility = function() {
         $scope.utility.branch_id = $scope.branch.branch_id;
         $scope.utility.status = "active";
@@ -220,7 +343,7 @@
                 }).error(function(error){
 
                 });
-                getUtilityData();
+                getUtilityDagetDatata();
                 $scope.CloseSidebar();
             }
             else {
@@ -275,6 +398,6 @@
         });
     }
     
-    getUtilityData();
+    getData();
     initializeVariables();
 });

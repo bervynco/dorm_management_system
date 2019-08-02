@@ -226,4 +226,37 @@ class UtilityController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successful retrieiving utility reading and pricing list", $readingAndPricing));
     }
 
+    function saveBillingStatementPerRoom() {
+        $errorFlag = false;
+        $postData = json_decode(file_get_contents('php://input'), true);
+
+        $utilityBilling = $postData;
+
+        foreach($utilityBilling as $index => $billing){
+            $utilityBilling = $this->utility_model->checkIfUtilityBillingExist($billing);
+
+            if(count($utilityBilling) > 0){
+                print_r($utilityBilling[0]['utility_billing_id']);
+
+                echo '<br>';
+                $status = $this->utility_model->updateUtilityStatus('utility_billing_id', 'utility_billing', $utilityBilling[0]['utility_billing_id'], 'deleted');
+                print_r($status);
+                echo '<br><br>';
+            }
+
+            $utilityBillingId = $this->utility_model->insertUtilityBillingStatement($billing);
+            if($utilityBillingId <= 0){
+                $errorFlag = true;
+                break;
+            }
+        }
+        if($errorFlag == false){
+            echo json_encode($this->returnArray(200, "Successful inserting new utility billing"));
+        }
+        else{
+            echo json_encode($this->returnArray(500, "Error inserting new utility billing"));
+        }
+        
+    }
+
 }

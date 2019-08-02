@@ -149,6 +149,29 @@ class utility_model extends CI_Model {
 
         return $this->db->insert_id();
     }
+
+    function checkIfUtilityBillingExist($billing) {
+        $month = $billing['month'];
+        $year = $billing['year'];
+        $utilityId = $billing['utility_id'];
+        $roomId = $billing['room_id'];
+
+        $this->db->select(array('utility_billing.utility_billing_id'));
+        $this->db->from('utility_billing');
+        $this->db->where('utility_billing.month', $month);
+        $this->db->where('utility_billing.year', $year);
+        $this->db->where('utility_billing.utility_id', $utilityId);
+        $this->db->where('utility_billing.room_id', $roomId);
+        $this->db->where('utility_billing.status', "active");
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+
+    function insertUtilityBillingStatement($billing) {
+        $query = $this->db->insert('utility_billing', $billing);
+
+        return $this->db->insert_id();
+    }
 }
 
 ?>
