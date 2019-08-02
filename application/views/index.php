@@ -172,8 +172,8 @@
                 </select> -->
             </div>
             <div flex></div>
-            <div flex="10" flex-xs="40" flex-sm="30" flex-md="15" flex-lg="15" class="navbar-dropdown" layout layout-align="start stretch">
-                <div flex="none" layout layout-align="end center"> Hi, <div id="profile-details">{{userDetails.name}} </div></div>
+            <div flex="10" flex-xs="40" flex-sm="30" flex-md="15" flex-lg="15" class="navbar-dropdown" layout layout-align="end stretch">
+                <div flex="none" layout layout-align="end center"> Hi, <b style="padding-left: 5px">{{userDetails.name}}</b> </div>
             </div>
             <div flex="5" class="navbar-dropdown" layout layout-align="center center">
                 <img flex="none" id="signout-icon"src="public/assets/images/icons/sign-out-option.png" width="30" height="30" ng-click="SignOut()">

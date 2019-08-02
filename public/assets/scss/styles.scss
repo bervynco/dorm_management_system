@@ -648,14 +648,11 @@ select:focus
         z-index: 2;
         > .navbar-dropdown {
             color: white;
-        }
-        > .navbar-dropdown > div > #profile-details {
-            color: white;
             font-size: 12px;
             padding-left: 5px;
-            padding-right: 5px;
-            width: 200px;
-            font-weight: bolder;
+        }
+        > .navbar-dropdown > b > #profile-details {
+            padding-left: 5px;
         }
         > .navbar-dropdown > select {
             background: transparent;
@@ -742,14 +739,11 @@ select:focus
         z-index: 2;
         > .navbar-dropdown {
             color: white;
-        }
-        > .navbar-dropdown > div > #profile-details {
-            color: white;
             font-size: 14px;
             padding-left: 5px;
-            padding-right: 5px;
-            width: 200px;
-            font-weight: bolder;
+        }
+        > .navbar-dropdown > b > #profile-details {
+            padding-left: 5px;
         }
         > .navbar-dropdown > select {
             background: transparent;
@@ -837,14 +831,11 @@ select:focus
         z-index: 2;
         > .navbar-dropdown {
             color: white;
-        }
-        > .navbar-dropdown > div > #profile-details {
-            color: white;
             font-size: 14px;
             padding-left: 5px;
-            padding-right: 5px;
-            width: 200px;
-            font-weight: bolder;
+        }
+        > .navbar-dropdown > b > #profile-details {
+            padding-left: 5px;
         }
         > .navbar-dropdown > select {
             background: transparent;
@@ -932,14 +923,11 @@ select:focus
         z-index: 2;
         > .navbar-dropdown {
             color: white;
-        }
-        > .navbar-dropdown > div > #profile-details {
-            color: white;
             font-size: 16px;
             padding-left: 5px;
-            padding-right: 5px;
-            width: 200px;
-            font-weight: bolder;
+        }
+        > .navbar-dropdown > b > #profile-details {
+            padding-left: 5px;
         }
         > .navbar-dropdown > select {
             background: transparent;
@@ -1027,14 +1015,11 @@ select:focus
         z-index: 2;
         > .navbar-dropdown {
             color: white;
-        }
-        > .navbar-dropdown > div > #profile-details {
-            color: white;
             font-size: 16px;
             padding-left: 5px;
-            padding-right: 5px;
-            width: 200px;
-            font-weight: bolder;
+        }
+        > .navbar-dropdown > b > #profile-details {
+            padding-left: 5px;
         }
         > .navbar-dropdown > select {
             background: transparent;
