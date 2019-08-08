@@ -11,7 +11,7 @@
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     $scope.utilityTab = ['Reading', 'Pricing'];
     $scope.mainTab = ['Utility List', 'Utility Billing List'];
-    $scope.paymentArrangement = ['Pay as a whole', 'Self Service'];
+    $scope.paymentArrangement = ['Pay as a whole', 'Self Service', 'Per Tenant'];
     $scope.currentPaymentArrangement = $scope.paymentArrangement[0];
     $scope.currentMainTab = $scope.mainTab[0];
     $scope.errorNotification = null;
