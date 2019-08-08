@@ -46,13 +46,51 @@ class RoomController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successful retrieiving tenant list", $arrData));
     }
 
-    public function getAggregatedRoomList() {
+    public function getTenantChequesPerRoom() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $arrData = $this->room_model->selectTenantChequesPerRoom($postData['room_id']);
+        $arrPaymentTypes = $this->payment_model->selectPaymentTypes();
+        $arrTenantCheques = array();
+        foreach($arrData as $index => $data){
+            if(!array_key_exists($data['Name'], $arrTenantCheques)){
+                 $arrTenantCheques[$data['Name']] = array();
+                 $arrTenantCheques[$data['Name']]['cheques'] = array();
+                 $arrTenantCheques[$data['Name']]['payment'] = $arrPaymentTypes;
+                 $arrTenantCheques[$data['Name']]['room_tenant_id'] = $data['Room Tenant Id'];
+                 $arrTenantCheques[$data['Name']]['room_id'] = $data['Room Id'];
+                 $arrTenantCheques[$data['Name']]['tenant_id'] = $data['tenant_id'];
+                 $arrTenantCheques[$data['Name']]['branch_id'] = $data['branch_id'];
+            }
+            if($data['tenant_cheque_id'] != ""){
+                $chequeDetails = array();
+                $chequeDetails['tenant_cheque_id'] = $data['tenant_cheque_id'];
+                $chequeDetails['cheque_number'] = $data['cheque_number'];
+                $chequeDetails['cheque_bank'] = $data['cheque_bank'];
+                $chequeDetails['cheque_amount'] = $data['cheque_amount'];
+                $chequeDetails['cheque_date'] = $data['cheque_date'];
+                
+                array_push($arrTenantCheques[$data['Name']]['cheques'], $chequeDetails);
+            }
+        }
 
+        // adding initialization
+        foreach($arrTenantCheques as $index => $tenantCheques){
+            $arrTenantCheques[$index]['selected_payment'] = null;
+            $arrTenantCheques[$index]['selected_cheque'] = null;
+            if(empty($arrTenantCheques[$index]['cheques'])){
+                // default to cash
+                $arrTenantCheques[$index]['selected_payment'] = $arrPaymentTypes[1];
+                
+            }
+            else{
+                // default to cheque
+                $arrTenantCheques[$index]['selected_payment'] = $arrPaymentTypes[0];
+                $arrTenantCheques[$index]['selected_cheque'] = $arrTenantCheques[$index]['cheques'][0];
+            }
+        }
+        echo json_encode($this->returnArray(200, "Successfully pulled data", $arrTenantCheques));
     }
 
-    public function getTenantWithNoRoom(){
-        
-    }
     public function addNewRoomTenant() {
         $postData = json_decode(file_get_contents('php://input'), true);
         $tenantId = $postData['tenant_id'];

@@ -23,6 +23,16 @@ class payment_model extends CI_Model {
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result_array(): array();
     }
+
+    function selectAllChequesForApproval($branchId){
+        $this->db->select(array('tenant.tenant_id', 'tenant.tenant_name', 'tenant_cheque.*'));
+        $this->db->from('tenant_cheque');
+        $this->db->join('tenant', 'tenant_cheque.tenant_id = tenant.tenant_id');
+        $this->db->where('tenant_cheque.status', 'upload approval');
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    }
+
     function insertCheques($payment) {
         $query = $this->db->insert('tenant_cheque', $payment);
 
@@ -35,6 +45,16 @@ class payment_model extends CI_Model {
                         ->update('tenant_cheque', 
                         array(
                             'status' => $statusMessage
+                        )
+        );
+        return $this->db->affected_rows();
+    }
+
+    function updateChequeStatus($data) {
+        $query = $this->db->where('tenant_cheque_id', $data['tenant_cheque_id'])
+                        ->update('tenant_cheque', 
+                        array(
+                            'status' => $data['status']
                         )
         );
         return $this->db->affected_rows();

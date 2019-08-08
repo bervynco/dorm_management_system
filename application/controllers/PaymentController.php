@@ -36,6 +36,11 @@ class PaymentController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successful retrieiving cheque list", $arrChequePayment));
     }
 
+    public function getChequesForApproval() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $arrChequePayment = $this->payment_model->selectAllChequesForApproval($postData['branch_id']);
+        echo json_encode($this->returnArray(200, "Successful retrieiving cheque list", $arrChequePayment));
+    }
     public function insertCheques() {
         $postData = json_decode(file_get_contents('php://input'), true);
         $errorFlag = false;
@@ -68,6 +73,19 @@ class PaymentController extends CI_Controller {
         }
         else {
             echo json_encode($this->returnArray(500, "Error deleting tenant cheque item "));
+        }
+    }
+
+    public function updateChequeStatus() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $paymentStatus = $this->payment_model->updateChequeStatus($postData);
+
+        if($paymentStatus > 0) {
+            echo json_encode($this->returnArray(200, "Successfully updated tenant cheque item", $postData));
+            
+        }
+        else {
+            echo json_encode($this->returnArray(500, "Error updating tenant cheque item "));
         }
     }
 

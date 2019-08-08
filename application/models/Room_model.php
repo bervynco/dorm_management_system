@@ -69,6 +69,14 @@ class room_model extends CI_Model {
 
         return $this->db->affected_rows();
     }
+
+    function selectTenantChequesPerRoom($roomId) {
+        //$sql = "SELECT room.room_id as 'Room Id', room_tenant.room_tenant_id as 'Room Tenant Id', tenant.tenant_id, tenant.tenant_name as 'Name',tenant_cheque.* FROM room LEFT JOIN room_tenant on room_tenant.room_id = room.room_id AND status='active' LEFT JOIN tenant_cheque on room_tenant.tenant_id = tenant_cheque.tenant_id AND tenant_cheque.status='active' LEFT JOiN tenant ON tenant.tenant_id = room_tenant.tenant_id Where room.room_id=".$roomId."";
+        $sql = "SELECT room.room_id as 'Room Id', room_tenant.room_tenant_id as 'Room Tenant Id', tenant.tenant_id, tenant.branch_id, tenant.tenant_name as 'Name',tenant_cheque.tenant_cheque_id, tenant_cheque.cheque_bank, tenant_cheque.cheque_number, tenant_cheque.cheque_amount, tenant_cheque.cheque_date FROM room LEFT JOIN room_tenant on room_tenant.room_id = room.room_id AND status='active' LEFT JOiN tenant ON tenant.tenant_id = room_tenant.tenant_id LEFT JOIN tenant_cheque on room_tenant.tenant_id = tenant_cheque.tenant_id AND tenant_cheque.status='active'  Where room.room_id=".$roomId."";
+        $query = $this->db->query($sql);
+        return ($query->num_rows() > 0) ? $query->result_array(): array();
+    
+    }
 }
 
 ?>
