@@ -3,7 +3,7 @@
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     var requestId;
-    $scope.viewTab = ['Tenant', 'Payables', 'Service Payment Approval', 'Billing Payment Approval'];
+    $scope.viewTab = ['Tenant', 'Payables', 'Service Payment Approval', 'Billing Payment Approval', 'Cheque Upload Approval'];
     $scope.action = "";
     $scope.currentTab = $scope.viewTab[0];
     $scope.errorNotification = null;
@@ -63,6 +63,12 @@
             }).error(function(error){
 
             });
+
+            DataFactory.GetChequesForApproval($scope.branch.branch_id).success(function(response){
+                $scope.chequeUploadApproval = response.data;
+            }).error(function(error){
+
+            });
         }
         else{
             $scope.viewTab.splice(2);
@@ -101,6 +107,9 @@
         else if(tab == 'Billing Payment Approval'){
             $scope.rows = $scope.billingPaymentApprovalData;
         }
+        else if(tab == 'Cheque Upload Approval'){
+            $scope.rows = $scope.chequeUploadApproval;
+        }
     }
 
     $scope.approve = function(action){
@@ -115,6 +124,7 @@
         $scope.message = "Are you sure?"
     }
 
+    //payment
     $scope.approvePayment = function(row){
         var data = {};
         data.status = "encashed";
@@ -140,6 +150,7 @@
         });
     }
 
+    //payment
     $scope.rejectPayment = function(row){
         var data = {};
         data.status = "active";
@@ -153,6 +164,42 @@
         }
 
         DataFactory.MakePaymentApprovalChanges(data).success(function(response){
+            if(response.status == 200){
+                $scope.currentTab = $scope.viewTab[0];
+                getAllData();
+            }
+            else{
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
+    }
+
+    //cheque upload
+    $scope.approveCheque = function(row){
+        var data = {};
+        data.status = "active";
+        data.tenant_cheque_id = row.tenant_cheque_id;
+        DataFactory.MakeChequeApprovalChanges(data).success(function(response){
+            if(response.status == 200){
+                $scope.currentTab = $scope.viewTab[0];
+                getAllData();
+            }
+            else{
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
+    }
+
+    //cheque upload
+    $scope.rejectCheque = function(row){
+        var data = {};
+        data.status = "upload rejected";
+        data.tenant_cheque_id = row.tenant_cheque_id;
+        DataFactory.MakeChequeApprovalChanges(data).success(function(response){
             if(response.status == 200){
                 $scope.currentTab = $scope.viewTab[0];
                 getAllData();

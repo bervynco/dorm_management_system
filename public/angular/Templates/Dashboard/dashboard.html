@@ -152,5 +152,46 @@
                 </td> -->
             </tr>
         </table>
+        <table class="page-table" ng-if="currentTab == 'Cheque Upload Approval' && branch.role == 'Administrator'">
+            <tr>
+                <th> Tenant Name</th>
+                <th> Cheque Number</th>
+                <th> Cheque Bank</th>
+                <th> Cheque Date</th>
+                <th> Cheque Amount</th>
+                <th> </th>
+            </tr>
+            <tr ng-if="rows.length == 0" class="empty-table"> 
+                <td colspan="6" align="center"> No Data </td>
+            </tr>
+            <tr ng-repeat="row in rows track by $index">
+                <td> {{row.tenant_name}} </td>
+                <td> {{row.cheque_number}} </td>
+                <td> {{row.cheque_bank}} </td>
+                <td> {{row.cheque_date}} </td>
+                <td> {{row.cheque_amount}} </td>
+                <td>
+                    <span flex="none" layout layout-align="center center">
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/success.png" width="30" height="30" ng-click="approveCheque(row)">
+                        <span flex="none" class="space-between-buttons-table"></span>
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/error.png" width="30" height="30" ng-click="rejectCheque(row)">
+                    </span>
+                </td>
+                <!-- <td>
+                    <span ng-if="action == ''" flex="none" layout layout-align="center center">
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/success.png" width="30" height="30" ng-click="approve('approve')">
+                        <span flex="none" class="space-between-buttons-table"></span>
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/error.png" width="30" height="30" ng-click="reject('reject')">
+                    </span>
+                    <span ng-if="action != ''" flex="none" layout layout-align="center center">
+                        {{message}}
+                        <span flex="none" class="space-between-buttons-table"></span>
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/success.png" width="30" height="30" ng-click="approvePayment(row)">
+                        <span flex="none" class="space-between-buttons-table"></span>
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/error.png" width="30" height="30" ng-click="cancel(row)">
+                    </span>
+                </td> -->
+            </tr>
+        </table>
     </div>
 </div>
