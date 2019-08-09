@@ -108,9 +108,6 @@
         console.log("Payment: ", $scope.tenantCheques[key]);
     }
     $scope.ChangePaymentWhole = function(payment, $index) {
-        // console.log($scope.payment);
-        // $scope.selectedTenant.selected_payment = payment;
-        console.log($scope.selectedTenant);
     }
     $scope.ChangeCheque = function(cheque, key, index){
         console.log(key);
@@ -119,9 +116,6 @@
         console.log("Cheque: ", $scope.tenantCheques[key]);
     }
     $scope.ChangeChequeWhole = function(cheque, $index) {
-        // console.log($scope.cheque);
-        $scope.selectedTenant.selected_cheque = cheque;
-        console.log($scope.selectedTenant);
     }
     $scope.ChangePaymentType = function(type) {
         $scope.selectedPaymentType = type;
@@ -150,6 +144,8 @@
 
         if($scope.selectedPaymentType == 'Whole'){
             object.data = $scope.selectedTenant;
+            if($scope.selectedTenant.selected_payment.payment_name == 'Cheque')
+                $scope.selectedTenant.payment_amount = $scope.selectedTenant.selected_cheque.cheque_amount;
 
             DataFactory.PayRentPerRoom(object).success(function*(response){
 
@@ -161,7 +157,10 @@
         }
         else {
             object.data = $scope.tenantCheques;
-            
+            for(var tenant in $scope.tenantCheques){
+                if($scope.tenantCheques[tenant].selected_payment.payment_name == 'Cheque')
+                    $scope.tenantCheques[tenant].payment_amount = $scope.tenantCheques[tenant].selected_cheque.cheque_amount;
+            }
             DataFactory.PayRentPerTenant(object).success(function*(response){
 
             }).error(function(error){

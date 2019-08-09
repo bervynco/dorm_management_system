@@ -142,8 +142,13 @@ class RoomController extends CI_Controller {
             }
             else {
                 $object['tenant_cheque_id'] = $row['selected_cheque']['tenant_cheque_id'];
+                if($status == 'encashed'){
+                    $updateArray = array();
+                    $updateArray['tenant_cheque_id'] = $row['selected_cheque']['tenant_cheque_id'];
+                    $updateArray['status'] = $status;
+                    $this->payment_model->updateChequeStatus($updateArray);
+                }
             }
-
             $postStatus = $this->room_model->insertPaymentPerTenant($object);
         }
 
@@ -171,7 +176,13 @@ class RoomController extends CI_Controller {
                 $object['tenant_cheque_id'] = 0;
             }
             else{
-                $object['tenant_cheque_id'] = $postData['selected_cheque']['tenant_cheque_id'];
+                $object['tenant_cheque_id'] = $postData['data']['selected_cheque']['tenant_cheque_id'];
+                if($status == 'encashed'){
+                    $data = array();
+                    $data['tenant_cheque_id'] = $object['tenant_cheque_id'];
+                    $data['status'] = $status;
+                    $this->payment_model->updateChequeStatus($data);
+                }
             }
 
             $postStatus = $this->room_model->insertPaymentPerTenant($object);
