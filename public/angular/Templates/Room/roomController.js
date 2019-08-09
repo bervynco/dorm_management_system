@@ -141,8 +141,8 @@
             data : null
         }
 
-        if($scope.branch.role !== "Administrator"){
-            object.status = "active";
+        if($scope.branch.role === "Administrator"){
+            object.status = "encashed";
         }
         else{
             object.status = "approval";
