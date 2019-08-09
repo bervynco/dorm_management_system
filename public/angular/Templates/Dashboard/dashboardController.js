@@ -3,7 +3,7 @@
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     var requestId;
-    $scope.viewTab = ['Tenant', 'Payables', 'Service Payment Approval', 'Billing Payment Approval', 'Cheque Upload Approval'];
+    $scope.viewTab = ['Tenant', 'Payables', 'Service Payment Approval', 'Billing Payment Approval', 'Cheque Upload Approval', 'Rent Payment Approval'];
     $scope.action = "";
     $scope.currentTab = $scope.viewTab[0];
     $scope.errorNotification = null;
@@ -69,6 +69,13 @@
             }).error(function(error){
 
             });
+
+            DataFactory.GetRentForApproval($scope.branch.branch_id).success(function(response){
+                $scope.rentPaymentApproval = response.data;
+                console.log(response.data);
+            }).error(function(error){
+
+            });
         }
         else{
             $scope.viewTab.splice(2);
@@ -109,6 +116,9 @@
         }
         else if(tab == 'Cheque Upload Approval'){
             $scope.rows = $scope.chequeUploadApproval;
+        }
+        else if(tab == 'Rent Payment Approval'){
+            $scope.rows = $scope.rentPaymentApproval;
         }
     }
 
@@ -210,6 +220,46 @@
         }).error(function(error){
 
         });
+    }
+
+    // approve rent payment
+    $scope.acceptRentPayment = function(row){
+        var data = {};
+        data.status = "encashed";
+        data.room_tenant_payment_id = row.room_tenant_payment_id;
+        data.tenant_cheque_id = row.tenant_cheque_id;
+        console.log(data);
+        DataFactory.UpdateRoomPayment(data).success(function(response){
+            if(response.status == 200){
+                $scope.currentTab = $scope.viewTab[0];
+                getAllData();
+            }
+            else{
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
+        
+    }
+    $scope.rejectRentPayment = function(row){
+        var data = {};
+        data.status = "rejected";
+        data.room_tenant_payment_id = row.room_tenant_payment_id;
+        data.tenant_cheque_id = row.tenant_cheque_id;
+        console.log(data);
+        DataFactory.UpdateRoomPayment(data).success(function(response){
+            if(response.status == 200){
+                $scope.currentTab = $scope.viewTab[0];
+                getAllData();
+            }
+            else{
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
+        
     }
     getAllData();
 });

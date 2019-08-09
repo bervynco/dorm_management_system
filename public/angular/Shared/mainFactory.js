@@ -210,6 +210,46 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: {'room_id' : id}
             })
         },
+        PayRentPerTenant: function(tenant){
+            return $http({
+                method: "POST",
+                url: "index.php/RoomController/payRentPerTenant",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: tenant
+            })
+        },
+        PayRentPerRoom: function(tenant) {
+            return $http({
+                method: "POST",
+                url: "index.php/RoomController/payRentPerRoom",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: tenant
+            })
+        },
+        GetRentForApproval: function(id){
+            return $http({
+                method: "POST",
+                url: "index.php/RoomController/getRentPaymentForApproval",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {'branch_id': id}
+            })
+        },
+        UpdateRoomPayment: function(data){
+            return $http({
+                method: "POST",
+                url: "index.php/RoomController/updateRoomPayment",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
         /** Inventory  **/
         GetInventoryList: function(id) {
             return $http({

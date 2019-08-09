@@ -91,6 +91,13 @@ class RoomController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successfully pulled data", $arrTenantCheques));
     }
 
+    public function getRentPaymentForApproval() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+
+        $arrData = $this->room_model->getRentPaymentForApproval($postData['branch_id']);
+
+        echo json_encode($this->returnArray(200, "Successful retrieiving tenant list", $arrData));
+    }
     public function addNewRoomTenant() {
         $postData = json_decode(file_get_contents('php://input'), true);
         $tenantId = $postData['tenant_id'];
@@ -113,6 +120,85 @@ class RoomController extends CI_Controller {
         else {
             echo json_encode($this->returnArray(500, "Error inserting new tenant in a room"));
         }
+    }
+
+    public function payRentPerTenant() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+
+        $status = $postData['status'];
+        $month = $postData['month'];
+        $year = $postData['year'];
+        foreach($postData['data'] as $index => $row){
+            $object = array();
+            $object['status'] = $status;
+            $object['amount'] = $row['payment_amount'];
+            $object['payment_id'] = $row['selected_payment']['payment_id'];
+            $object['room_tenant_id'] = $row['room_tenant_id'];
+            $object['month'] = $month;
+            $object['year'] = $year;
+            $object['room_tenant_id'] = $row['room_tenant_id'];
+            if($row['selected_payment']['payment_name'] === 'Cash'){
+                $object['tenant_cheque_id'] = 0;
+            }
+            else {
+                $object['tenant_cheque_id'] = $row['selected_cheque']['tenant_cheque_id'];
+            }
+
+            $postStatus = $this->room_model->insertPaymentPerTenant($object);
+        }
+
+        echo json_encode($this->returnArray(200, "Successfully added payment"));
+    }
+
+    public function payRentPerRoom() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+
+        $status = $postData['status'];
+        $month = $postData['month'];
+        $year = $postData['year'];
+
+        $arrData = $this->room_model->selectTenantPerRoom($postData['data']['branch_id'], $postData['data']['room_id']);
+
+        foreach($arrData as $index => $row){
+            $object = array();
+            $object['month'] = $month;
+            $object['year'] = $year;
+            $object['status'] = $status;
+            $object['amount'] = $postData['data']['payment_amount'] / count($arrData);
+            $object['payment_id'] = $postData['data']['selected_payment']['payment_id'];
+            $object['room_tenant_id'] = $row['room_tenant_id'];
+            if($postData['data']['selected_payment']['payment_name'] == "Cash"){
+                $object['tenant_cheque_id'] = 0;
+            }
+            else{
+                $object['tenant_cheque_id'] = $postData['selected_cheque']['tenant_cheque_id'];
+            }
+
+            $postStatus = $this->room_model->insertPaymentPerTenant($object);
+        }
+        echo json_encode($this->returnArray(200, "Successfully added payment"));
+
+    }
+
+    public function updateRoomPayment(){
+        $postData = json_decode(file_get_contents('php://input'), true);
+        $updateChequeStatus = null;
+        $updateStatus = null;
+        if(!is_null($postData['tenant_cheque_id'])){
+            $updateChequeStatus = $this->payment_model->updateChequeStatus($data);
+        }
+        else{
+            $updateStatus = $this->room_model->updateRoomPaymentStatus($postData['room_tenant_payment_id'], $postData['status']);
+
+            if($updateStatus > 0) {
+                echo json_encode($this->returnArray(200, "Update Successful"));
+                
+            }
+            else {
+                echo json_encode($this->returnArray(500, "Error updating"));
+            }
+        }
+        
     }
     // public function editTenant(){
     //     $arrColumns = array('id', 'name', 'username', 'role');
