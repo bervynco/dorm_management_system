@@ -49,6 +49,10 @@
             month: 0,
             year: 0
         }
+        $scope.payment = {
+            payment_amount: 0,
+            payment_date: null
+        }
     }
     
     // $scope.approval = {
@@ -143,6 +147,19 @@
         });
     }
 
+    function getTenantChequesPerRoom(roomId) {
+        console.log("Get tenant");
+        DataFactory.GetTenantChequesPerRoom(roomId).success(function(response){
+            if(response.status == 200){
+                console.log(response.data);
+                $scope.tenantCheques = response.data;
+            }
+               
+        }).error(function(error){
+
+        });
+    }
+
     $scope.ChangeCheque = function(cheque){
         $scope.currentCheque = cheque;
     }
@@ -183,6 +200,10 @@
     $scope.ChangePayment = function(payment){
         $scope.currentPayment = payment
     }
+    $scope.ChangePaymentWhole = function(payment) {
+        $scope.selectedTenant.selected_payment = payment;
+        console.log($scope.selectedTenant);
+    }
     /* Utility sidenav functions */
     $scope.addNewUtility = function() {
         $scope.showSideNavUtilityAdd = true;
@@ -202,9 +223,62 @@
 
     $scope.payUtility = function() {
         $scope.payUtilityFlag = true;
-        getTenantPerRoom($scope.selectedRoom);
+        getTenantChequesPerRoom($scope.selectedRoom.room_id);
     }
 
+    $scope.payUtilityBilling = function() {
+        var role = $scope.branch.role;
+        var object = {
+            'data': {
+
+            }
+        };
+        if(role == "Administrator")
+            object.status = "paid";
+        else
+            object.status = "approval";
+
+        object.month = $scope.utility_date.month;
+        object.year = $scope.utility_date.year;
+        object.data.payment_arrangement = $scope.currentPaymentArrangement;
+        object.data.branch_id = $scope.branch.branch_id;
+        if($scope.currentPaymentArrangement == "Self Service"){
+            object.data.utility_id = $scope.currentUtility.utility_id;
+            object.data.room_id = $scope.selectedRoom.room_id;
+            object.data.amount = $scope.payment.payment_amount;
+            object.data.payment_date = $scope.payment.payment_date;
+            for(var i = 0; i < $scope.paymentList.length; i++){
+                if($scope.paymentList[i].payment_name == "Cash"){
+                    object.data.payment_id = $scope.paymentList[i].payment_id;
+                    object.data.payment_name = $scope.paymentList[i].payment_name;
+                }
+            }
+
+            DataFactory.MakeUtilityPaymentSelfService(object).success(function(response){
+
+            }).error(function(error){
+
+            });
+        }
+        else if($scope.currentPaymentArrangement == "Pay as a whole"){
+            object.data.utility_id = $scope.currentUtility.utility_id;
+            object.data.room_id = $scope.selectedRoom.room_id;
+            object.data.amount = $scope.selectedTenant.payment_amount;
+            object.data.payment_date = moment();
+            object.data.payment_id = $scope.selectedTenant.selected_payment.payment_id;
+            object.data.payment_name = $scope.selectedTenant.selected_payment.payment_name;
+            DataFactory.MakeUtilityPaymentWhole(object).success(function(response){
+
+            }).error(function(error){
+
+            });
+            console.log($scope.selectedTenant);
+        }
+        else{
+
+        }
+
+    }
     $scope.showCompleteUtilityDetails = function(row){
         $scope.showCompleteDetailsFlag = true;
         $scope.utility = row;
@@ -258,11 +332,12 @@
     
     $scope.ChangeRoom = function(room, idx){
         $scope.selectedRoom = room;
-        $scope.utilityBillingCollection[idx].room_id = $scope.selectedRoom.room_id;
+        getTenantChequesPerRoom($scope.selectedRoom.room_id);
+        // $scope.utilityBillingCollection[idx].room_id = $scope.selectedRoom.room_id;
     }
     $scope.ChangePaymentRoom = function(room){
         $scope.selectedRoom = room;
-        getTenantPerRoom(room);
+        getTenantChequesPerRoom(room.room_id);
     }
     $scope.ChangeUtilityTab = function(tab) {
         $scope.currentTab = tab;   
@@ -289,6 +364,10 @@
         }).error(function(error){
 
         })
+    }
+
+    $scope.ChangeTenantWholePayment = function(tenant){
+        $scope.selectedTenant = tenant;
     }
     // $scope.addUtilityPrice = function() {
     //     $scope.utilityPrice.status = "active";

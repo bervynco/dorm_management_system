@@ -433,6 +433,26 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: utility
             })
         },
+        MakeUtilityPaymentSelfService: function(object){
+            return $http({
+                method: "POST",
+                url: "index.php/UtilityController/utilityPaymentPerSelfService",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: object
+            })
+        },
+        MakeUtilityPaymentWhole: function(object){
+            return $http({
+                method: "POST",
+                url: "index.php/UtilityController/utilityPaymentWhole",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: object
+            })
+        },
         /** Service **/
         GetServiceData: function(id) {
             return $http({

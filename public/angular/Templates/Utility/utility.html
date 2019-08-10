@@ -178,6 +178,14 @@
                     ng-selected="selectedRoom" ng-change="ChangePaymentRoom(selectedRoom)" required>
                 </select>
             </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Billing Month <i class="required"> * </i></span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utility_date.month" required>
+            </span>
+            <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Billing Year <i class="required"> * </i></span>
+                <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="utility_date.year" required>
+            </span>
             <span flex="none" layout layout-align="start stretch" class="sidebar-form-input">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payment Arrangement <i class="required"> * </i></span>
                 <select layout layout-align="start stretch" class="sidebar-form-input" 
@@ -185,7 +193,7 @@
                     ng-selected="currentPaymentArrangement" ng-change="ChangePaymentArrangement(currentPaymentArrangement)" required>
                 </select>
             </span>
-            <div class="sidebar-form-content" ng-repeat="(key, value) in tenantCheques track by $index" ng-if="selectedPaymentType =='Per Tenant'">
+            <div class="sidebar-form-content" ng-repeat="(key, value) in tenantCheques track by $index" ng-if="currentPaymentArrangement =='Per Tenant'">
                 <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
                     <span flex="none" class="breakdown-form-label" layout layout-align="start center"> {{key}} Payment Type <i class="required"> * </i> </span>
                     
@@ -207,38 +215,45 @@
                     ng-model="tenantCheques[key].payment_amount">
                 </span>
             </div>
-            <div class="sidebar-form-content" ng-repeat="(key, value) in tenantCheques track by $index" ng-if="selectedPaymentType =='Self Service'">
+            <div class="sidebar-form-content" ng-if="currentPaymentArrangement =='Self Service'">
                 <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                    <span flex="none" class="breakdown-form-label" layout layout-align="start center">  Payment Amount <i class="required"> * </i> </span>
-                    <input type="number" class="sidebar-form-input" layout layout-align="start stretch" 
-                    ng-model="payment.payment_amount">
+                    <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Payment Amount <i class="required"> * </i></span>
+                    <input type="number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="payment.payment_amount" required>
                 </span>
                 <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                    <span flex="none" class="breakdown-form-label" layout layout-align="start center">  Payment Date <i class="required"> * </i> </span>
+                    <span flex="none" class="sidebar-form-label" layout layout-align="start center">  Payment Date <i class="required"> * </i> </span>
                     <input type="date" class="sidebar-form-input" layout layout-align="start stretch" 
                     ng-model="payment.payment_date">
                 </span>
             </div>
-            <div class="sidebar-form-content" ng-repeat="(key, value) in tenantCheques track by $index" ng-if="selectedPaymentType =='Pay as a whole'">
+            <div class="sidebar-form-content"  ng-if="currentPaymentArrangement =='Pay as a whole'">
                 <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                    <span flex="none" class="breakdown-form-label" layout layout-align="start center"> {{key}} Payment Type <i class="required"> * </i> </span>
+                    <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Tenant Name<i class="required"> * </i> </span>
                     
                     <select layout layout-align="start stretch" class="sidebar-form-input" 
-                        ng-model="payment"  ng-init="tenantCheques[key].selected_payment" ng-options="payment as payment.payment_name for payment in tenantCheques[key]['payment']" 
-                        ng-selected="payment" ng-change="ChangePayment(payment, key, $index)" required>
+                        ng-model="selectedTenant"  ng-options="key for (key , value) in tenantCheques" 
+                        ng-change="ChangeTenantWholePayment(selectedTenant)" required> <!-- ng-init="tenantCheques[key]"-->
                     </select>
                 </span>
-                <span flex="none" layout layout-align="center stretch" class="sidebar-form-input" ng-if="tenantCheques[key].selected_payment.payment_name === 'Cheque'">
-                    <span flex="none" class="breakdown-form-label" layout layout-align="start center"> {{key}} Cheque <i class="required"> * </i> </span>
+                <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
+                    <span flex="none" class="sidebar-form-label" layout layout-align="start center"> {{key}} Payment Type <i class="required"> * </i> </span>
+                    
                     <select layout layout-align="start stretch" class="sidebar-form-input" 
-                        ng-model="cheque"  ng-init="tenantCheques[key].selected_cheque" ng-options="cheque as cheque.cheque_number for cheque in tenantCheques[key]['cheques']" 
+                        ng-model="payment"  ng-init="tenantCheques[key].selected_payment" ng-options="payment as payment.payment_name for payment in selectedTenant['payment']" 
+                        ng-selected="payment" ng-change="ChangePaymentWhole(payment, key, $index)" required>
+                    </select>
+                </span>
+                <span flex="none" layout layout-align="center stretch" class="sidebar-form-input" ng-if="selectedTenant.selected_payment.payment_name === 'Cheque'">
+                    <span flex="none" class="sidebar-form-label" layout layout-align="start center"> {{key}} Cheque <i class="required"> * </i> </span>
+                    <select layout layout-align="start stretch" class="sidebar-form-input" 
+                        ng-model="cheque"  ng-init="tenantCheques[key].selected_cheque" ng-options="cheque as cheque.cheque_number for cheque in selectedTenant['cheques']" 
                         ng-selected="cheque" ng-change="ChangeCheque(cheque, key, $index)" required>
                     </select>
                 </span> 
-                <span flex="none" layout layout-align="center stretch" class="sidebar-form-input" ng-if="tenantCheques[key].selected_payment.payment_name === 'Cash'">
-                    <span flex="none" class="breakdown-form-label" layout layout-align="start center"> {{key}} Payment Amount <i class="required"> * </i> </span>
+                <span flex="none" layout layout-align="center stretch" class="sidebar-form-input" ng-if="selectedTenant.selected_payment.payment_name === 'Cash'">
+                    <span flex="none" class="sidebar-form-label" layout layout-align="start center"> {{key}} Payment Amount <i class="required"> * </i> </span>
                     <input type="number" class="sidebar-form-input" layout layout-align="start stretch" 
-                    ng-model="tenantCheques[key].payment_amount">
+                    ng-model="selectedTenant.payment_amount">
                 </span>
             </div>
             <!-- <span flex="none" layout layout-align="start stretch" class="sidebar-form-input" ng-if="currentPaymentArrangement === 'Pay as a whole'">
@@ -273,7 +288,7 @@
         <div flex="none" layout layout-align="center center" ng-if="addForm.$error.required.length > 0" class="sidebar-form-error"> Complete all fields </div>
         <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="sidebar-form-error"> {{errorNotification}} </div>
         <div flex="none" layout="row" layout-align="start stretch" class="sidebar-form-button">
-            <button flex class="page-add-button" ng-click="addUtilityPrice()" ng-disabled="addForm.$error.required.length > 0" > Save Billing Price Per Room </button>
+            <button flex class="page-add-button" ng-click="payUtilityBilling()" ng-disabled="addForm.$error.required.length > 0" > Save Billing Price Per Room </button>
             <span class="space-between-buttons"></span>
             <button flex class="page-cancel-button" ng-click="CloseSidebar()"> Cancel </button> 
         </div>

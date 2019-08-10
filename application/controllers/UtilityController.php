@@ -259,4 +259,64 @@ class UtilityController extends CI_Controller {
         
     }
 
+    function utilityPaymentPerSelfService() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+
+        $arrData = $this->room_model->selectTenantPerRoom($postData['data']['branch_id'], $postData['data']['room_id']);
+        
+        foreach($arrData as $index => $row){
+            $object = array();
+            $object['month'] = $postData['month'];
+            $object['year'] = $postData['year'];
+            $object['status'] = $postData['status'];
+            $object['amount'] = $postData['data']['amount'] / count($arrData);
+            $object['utility_id'] = $postData['data']['utility_id'];
+            $object['payment_id'] = $postData['data']['payment_id'];
+            $object['room_tenant_id'] = $row['room_tenant_id'];
+            $object['payment_arrangement'] = $postData['data']['payment_arrangement'];
+            $object['payment_date'] = $postData['data']['payment_date'];
+            $object['tenant_cheque_id'] = 0;
+
+
+            $postStatus = $this->utility_model->insertUtilityPaymentPerTenant($object);
+        }
+        echo json_encode($this->returnArray(200, "Successfully added payment"));
+    }
+    function utilityPaymentWhole() {
+        $postData = json_decode(file_get_contents('php://input'), true);
+
+        $arrData = $this->room_model->selectTenantPerRoom($postData['data']['branch_id'], $postData['data']['room_id']);
+        
+        foreach($arrData as $index => $row){
+            $object = array();
+            $object['month'] = $postData['month'];
+            $object['year'] = $postData['year'];
+            $object['status'] = $postData['status'];
+            $object['amount'] = $postData['data']['amount'] / count($arrData);
+            $object['utility_id'] = $postData['data']['utility_id'];
+            $object['payment_id'] = $postData['data']['payment_id'];
+            $object['room_tenant_id'] = $row['room_tenant_id'];
+            $object['payment_arrangement'] = $postData['data']['payment_arrangement'];
+            $object['payment_date'] = $postData['data']['payment_date'];
+
+            if($postData['data']['payment'] == "Cheque"){
+                $object['tenant_cheque_id'] = $postData['data']['selected_cheque']['tenant_cheque_id'];
+
+                if($postData['status'] == "paid"){
+                    $data = array();
+                    $data['tenant_cheque_id'] = $object['tenant_cheque_id'];
+                    $data['status'] = $status;
+                    $this->payment_model->updateChequeStatus($data);
+                }
+            }
+            else{
+                $object['tenant_cheque_id'] = 0;
+            }
+                
+
+
+            $postStatus = $this->utility_model->insertUtilityPaymentPerTenant($object);
+        }
+        echo json_encode($this->returnArray(200, "Successfully added payment"));
+    }
 }

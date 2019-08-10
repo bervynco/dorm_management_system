@@ -185,7 +185,7 @@ class RoomController extends CI_Controller {
                 }
             }
 
-            $postStatus = $this->room_model->insertPaymentPerTenant($object);
+            $postStatus = $this->room_model->insertUtilityPaymentPerTenant($object);
         }
         echo json_encode($this->returnArray(200, "Successfully added payment"));
 

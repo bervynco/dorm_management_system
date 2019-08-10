@@ -172,6 +172,12 @@ class utility_model extends CI_Model {
 
         return $this->db->insert_id();
     }
+
+    function insertUtilityPaymentPerTenant($payment) {
+        $query = $this->db->insert('utility_payment', $payment);
+
+        return $this->db->insert_id();
+    }
 }
 
 ?>
