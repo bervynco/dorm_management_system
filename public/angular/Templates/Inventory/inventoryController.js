@@ -35,12 +35,12 @@
             description: "",
             inventory_transaction_type: "",
             room_id: "",
-            branch_id: $scope.branch.branch_id,
             tenant_id: "",
             status: "active",
             start_date: null,
             end_date: null,
-            rent_amount: ""
+            rent_amount: 0,
+            branch_id: $scope.branch.branch_id
         }
         $scope.approval = {
             approval_section: 'inventory',
@@ -236,7 +236,7 @@
     }
 
     $scope.addNewItem = function() {
-        $scope.inventory.branch_id = $scope.branch.branch_id;
+        // $scope.inventory.branch_id = $scope.branch.branch_id;
         $scope.inventory.inventory_transaction_type = "stock";
         // if($scope.branch.role == "Staff"){
         //     $scope.approval.approval_mode = "add";
@@ -260,6 +260,7 @@
         //     });
         // }
         // else {
+        console.log($scope.inventory);
         DataFactory.AddNewInventory($scope.inventory).success(function(response){
             if(response.status == 200){
                 $scope.log.page_action = "Add New Inventory Item";

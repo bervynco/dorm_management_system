@@ -25,7 +25,7 @@
     <div flex layout="column" layout-align="start stretch" class="page-content">
         <table class="page-table" ng-if="currentTab.text == 'Assigned to Room'">
             <tr>
-                <th> Item Code #</th>
+                <th> Item Serial Number</th>
                 <th> Item Name</th>
                 <th> Description</th>
                 <th> Room # </th>
@@ -44,7 +44,7 @@
         </table>
         <table class="page-table" ng-if="currentTab.text == 'Rented by Tenant'">
             <tr>
-                <th> Item Code #</th>
+                <th> Item Serial Number</th>
                 <th> Item Name</th>
                 <th> Item Description</th>
                 <th> Rent Start Date </th>
@@ -67,7 +67,7 @@
         </table>
         <table class="page-table" ng-if="currentTab.text == 'Current Inventory Stock'">
             <tr>
-                <th> Item Code #</th>
+                <th> Item Serial Number</th>
                 <th> Item Name</th>
                 <th> Item Description</th>
                 <th> Status </th>
@@ -97,7 +97,7 @@
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch">
             </span> -->
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Code <i class="required"> * </i></span>
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Serial Number <i class="required"> * </i></span>
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-model="inventory.item_code" required>
             </span>
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
@@ -214,7 +214,7 @@
         </span>
         <div flex="none" layout="column" layout-align="start stretch" class="sidebar-form-content">
              <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">
-                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Code <i class="required"> * </i></span>
+                <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Item Serial Number <i class="required"> * </i></span>
                 <input type="text" class="sidebar-form-input" layout layout-align="start stretch" ng-disabled="disable" ng-model="inventory.item_code" required>
             </span> 
             <span flex="none" layout layout-align="center stretch" class="sidebar-form-input">

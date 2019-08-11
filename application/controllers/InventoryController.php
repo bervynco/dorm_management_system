@@ -77,7 +77,7 @@ class InventoryController extends CI_Controller {
     public function addnewInventoryTransaction($inventoryId, $data) {
         $inventoryTransaction = array();
         $inventoryTransaction['inventory_id'] = $inventoryId;
-        $inventoryTransaction['branch_id'] = $data['branch_id'];
+        // $inventoryTransaction['branch_id'] = $data['branch_id'];
         $inventoryTransaction['room_id'] = $data['room_id'];
         $inventoryTransaction['tenant_id'] = $data['tenant_id'];
         $inventoryTransaction['start_date'] = $data['start_date'];
@@ -95,11 +95,13 @@ class InventoryController extends CI_Controller {
         $inventory['item_code'] = $postData['item_code'];
         $inventory['item_name'] = $postData['item_name'];
         $inventory['description'] = $postData['description'];
+        $inventory['branch_id'] = $postData['branch_id'];
         $isDuplicate = $this->checkForDuplicateInventoryId($inventory['item_code']);
         if(!$isDuplicate) {
             $inventoryId = $this->inventory_model->insertInventoryItem($inventory);
 
             if($inventoryId > 0) {
+                unset($postData['branch_id']);
                 $this->addNewInventoryTransaction($inventoryId, $postData);
                 echo json_encode($this->returnArray(200, "Successfully added new inventory item", $inventory));
                 
