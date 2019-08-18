@@ -637,14 +637,14 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data: payables
             })
         },
-        DeletePayable: function(payables){
+        DeletePayable: function(payables, section){
             return $http({
                 method: "POST",
                 url: "index.php/PayableController/deletePayable",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: payables
+                data: {'data': payables, 'status': section}
             })
         },
         GetBillingInformation: function(id) {

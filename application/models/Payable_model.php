@@ -29,11 +29,11 @@ class payable_model extends CI_Model {
         );
         return $this->db->affected_rows();
     }
-    function deletePayableItem($payableId, $branchId) {
+    function deletePayableItem($payableId, $branchId, $status) {
         $query = $this->db->where('payable_id', $payableId)
                         ->update('payables', 
                         array(
-                            'status' => 'inactive'
+                            'status' => $status
                         )
         );
         return $this->db->affected_rows();

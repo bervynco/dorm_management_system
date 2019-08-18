@@ -114,6 +114,7 @@
 
         //     });
         // }
+        $scope.payables.branch_id = $scope.branch.branch_id;
         DataFactory.AddNewPayable($scope.payables).success(function(response){
                 if(response.status == 200){
                     $scope.log.page_action = "Add New Payable";
@@ -158,7 +159,7 @@
         
     }
     $scope.deletePayable = function(item){
-        DataFactory.DeletePayable(item).success(function(response){
+        DataFactory.DeletePayable(item, "inactive").success(function(response){
             if(response.status == 200){
                 $scope.log.page_action = "Delete Payable";
                 DataFactory.AddPageLog($scope.log).success(function(response){
@@ -176,8 +177,23 @@
         });
     }
 
-    $scope.markAsComplete = function() {
+    $scope.markAsComplete = function(item) {
+        DataFactory.DeletePayable(item, "complete").success(function(response){
+            if(response.status == 200){
+                $scope.log.page_action = "Delete Payable";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
 
+                });
+                getAllData();
+                $scope.CloseSidebar();
+            }
+            else{
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
     }
     getAllData();
     initializeVariables();
