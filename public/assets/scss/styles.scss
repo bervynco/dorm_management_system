@@ -1340,3 +1340,10 @@ select:focus
     text-decoration: underline;
     padding-bottom: 15px;
 }
+
+.error-notification {
+    @extend %medium-font;
+    font-weight: bolder;
+    height: 40px;
+    color: red;
+}

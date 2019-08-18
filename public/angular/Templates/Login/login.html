@@ -16,6 +16,8 @@
                 <span layout layout-align="center center">
                     <button type="submit" class="submit-button" ng-click="Login()">Login</button>
                 </span>
+                <span flex="5"></span>
+                <div flex="none" layout layout-align="center center" ng-if="errorNotificaton != ''" class="error-notification"> {{errorNotification}} </div>
             </form>
         </ng-form>
         <div flex></div>

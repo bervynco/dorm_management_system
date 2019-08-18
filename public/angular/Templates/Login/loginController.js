@@ -28,6 +28,9 @@
 
                 $scope.$parent.ChangeState("home");
             }
+            else{
+                $scope.errorNotification = response.message;
+            }
         }).error(function(error){
 
         });

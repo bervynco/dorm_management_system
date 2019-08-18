@@ -78,6 +78,36 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:user
             })
         },
+        EditUser: function(user) {
+            return $http({
+                method: "POST",
+                url: "index.php/UserController/editUser",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:user
+            })
+        },
+        DeleteUser:function(user) {
+            return $http({
+                method: "POST",
+                url: "index.php/UserController/deleteUser",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:user
+            })
+        },
+        GetRoles: function(id) {
+            return $http({
+                method: "POST",
+                url: "index.php/UserController/getAllRoles",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data:{'branch_id': id}
+            })
+        },
         /** Tenant **/
         GetTenantList: function(id) {
             return $http({

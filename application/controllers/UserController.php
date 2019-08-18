@@ -17,6 +17,10 @@ class UserController extends CI_Controller {
         echo json_encode($arrUsers);
     }
 
+    public function getAllRoles(){
+        $arrUsers = $this->user_model->selectAllRoles();
+        echo json_encode($arrUsers);
+    }
     public function addNewUser(){
         // $arrColumns = array('name', 'username', 'role', 'password');
        
@@ -29,7 +33,7 @@ class UserController extends CI_Controller {
         unset($postData['password']);
         unset($postData['branch_id']);
         $existing = $this->user_model->checkExisting("add", $postData);
-         if($existing == 0){
+        if($existing == 0){
             $userId = $this->user_model->insertUser($postData);
             $branchObject['user_id'] = $userId;
             $branchObject['branch_id'] = $branchId;
@@ -51,25 +55,18 @@ class UserController extends CI_Controller {
     }
 
     public function editUser(){
-        $arrColumns = array('id', 'name', 'username', 'role');
+        $arrColumns = array('id', 'name', 'mobile_number', 'role');
         $postData = json_decode(file_get_contents('php://input'), true);
-        $arrUserDetail = $this->assignDataToArray($postData, $arrColumns);
 
-        $existing = $this->user_model->checkExisting("update", $arrUserDetail);
-        if($existing == 0){
-            $user = $this->user_model->updateUser($arrUserDetail);
-            echo "Successful";
-        }
-        else
-            echo "Existing user with that username";
-        
+        $this->user_model->updateUser($postData);
+        $roleUpdate = $this->user_model->updateRole($postData);
+        echo json_encode($this->returnArray(200, "Update Successful"));
+        // echo json_encode($this->returnArray(500, "Update role failed", $user));
     }
 
     public function deleteUser(){
-        $arrColumns = array('id', 'name', 'username', 'role');
         $postData = json_decode(file_get_contents('php://input'), true);
-        $arrUserDetail = $this->assignDataToArray($postData, $arrColumns);
-        $user = $this->user_model->deleteUser($arrUserDetail);
+        $user = $this->user_model->deleteUser($postData);
 
         echo "Successful";
     }
@@ -88,36 +85,37 @@ class UserController extends CI_Controller {
     public function login(){
         $arrLogin = json_decode(file_get_contents('php://input'), true);
         $user = $this->user_model->checkUserName($arrLogin['username']);
-        
         if(count($user) != 0){
-            $arrUser = array();
-            $branch = array();
-            foreach($user as $index => $row){
-                $object['branch_id'] = (int)$row['branch_id'];
-                $object['user_branch_id'] = (int)$row['user_branch_id'];
-                $object['branch_name'] = $row['branch_name'];
-                $object['role'] = $row['role'];
-                array_push($branch, $object);
-            }
+            $passwordObject = $this->user_model->getPassword($user[0]['user_id']);
+            if (password_verify($arrLogin['password'], $passwordObject[0]['password'])) {
+                $arrUser = array();
+                $branch = array();
+                foreach($user as $index => $row){
+                    $object['branch_id'] = (int)$row['branch_id'];
+                    $object['user_branch_id'] = (int)$row['user_branch_id'];
+                    $object['branch_name'] = $row['branch_name'];
+                    $object['role'] = $row['role'];
+                    array_push($branch, $object);
+                }
 
-            array_push($arrUser, $user[0]);
-            $arrUser[0]['branch'] = $branch;
-            unset($arrUser[0]['role']);
-            unset($arrUser[0]['branch_id']);
-            unset($arrUser[0]['user_branch_id']);
-            unset($arrUser[0]['branch_location']);
-            unset($arrUser[0]['branch_name']);
-            echo json_encode($this->returnArray(200, "Login Successful", $arrUser));
+                array_push($arrUser, $user[0]);
+                $arrUser[0]['branch'] = $branch;
+                unset($arrUser[0]['role']);
+                unset($arrUser[0]['branch_id']);
+                unset($arrUser[0]['user_branch_id']);
+                unset($arrUser[0]['branch_location']);
+                unset($arrUser[0]['branch_name']);
+                echo json_encode($this->returnArray(200, "Login Successful", $arrUser));
+            } else {
+                echo json_encode($this->returnArray(500, "Invalid Username / Password"));
+            }
+            
         }
         else {
             echo json_encode($this->returnArray(500, "Invalid Username / Password"));
         }
         
-        // if (password_verify($password, $passwordObject['password'])) {
-        //     echo 'Password is valid!';
-        // } else {
-        //     echo 'Invalid password.';
-        // }
+        
     }
 
 }

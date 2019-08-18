@@ -34,6 +34,14 @@
         }).error(function(error){
 
         });
+
+        DataFactory.GetRoles($scope.branch.branch_id).success(function(response){
+            $scope.roles = response;
+            console.log(response);
+            $scope.selectedRole = response[0];
+        }).error(function(error){
+
+        });
     }
 
     $scope.log = {
@@ -52,6 +60,7 @@
     }
 
     $scope.addUser = function(ev){
+        $scope.user.username = $scope.user.username.trim();
         DataFactory.AddNewUser($scope.user).success(function(response){
             if(response.status == 200){
                 $scope.log.page_action = "Add";
@@ -59,7 +68,7 @@
                 }).error(function(error){
 
                 });
-                getAllUser();
+                getAllUsers();
                 $scope.CloseSidebar();
             }
             else{
@@ -89,23 +98,50 @@
         // }
         
     }
-    $scope.editUser = function(flag){
-        if(flag == true)
+    $scope.editUser = function(flag, user){
+        
+        if(flag == true){
             $scope.disable = false;
+        }
+            
         else {
+            DataFactory.EditUser($scope.user).success(function(response){
+                $scope.CloseSidebar();
+                getAllUsers();
+            }).error(function(error){
+
+            })
         }
     }
+
+    $scope.deleteUser = function(user){
+        DataFactory.DeleteUser($scope.user).success(function(response){
+            $scope.CloseSidebar();
+            getAllUsers();
+        }).error(function(error){
+
+        })
+    }
+    $scope.ChangeRole = function(role) {
+        $scope.selectedRole = role;
+        $scope.user.role = role;
+    }
+
     $scope.CloseSidebar = function(object) {
         $scope[object] = null;
         $scope.showSideNav = false;
         $scope.showCompleteDetailsFlag = false;
         $scope.user = null;
         $scope.errorNotification = null;
+        $scope.disable = true;
     }
 
     $scope.showCompeleteDetails = function(user){
         $scope.showCompleteDetailsFlag = true;
-        $scope.user = user;
+        $scope.user = angular.copy(user);
+        $scope.selectedRole =  _.filter($scope.roles, function(o) { 
+            return o.role == $scope.user.role; 
+        }).shift(); 
     }
     getAllUsers();
     // getRequestID();

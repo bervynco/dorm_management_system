@@ -236,7 +236,7 @@
   font-size: 18px;
 }
 
-.page-table > tbody > tr > td, .page-table > tbody > tr > th, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-error, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-group, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-number, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input, .flat-button, body {
+.error-notification, .page-table > tbody > tr > td, .page-table > tbody > tr > th, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-error, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-group, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input-number, .sidebar-default-modal > .sidebar-form .sidebar-form-content > .sidebar-form-input, .flat-button, body {
   font-family: opensans;
   font-size: 14px;
 }
@@ -1115,6 +1115,12 @@ select:focus {
   font-size: 16px;
   text-decoration: underline;
   padding-bottom: 15px;
+}
+
+.error-notification {
+  font-weight: bolder;
+  height: 40px;
+  color: red;
 }
 
 /*# sourceMappingURL=styles.css.map */
