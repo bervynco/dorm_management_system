@@ -39,7 +39,8 @@
                 'cheque_bank': '',
                 'cheque_date': '',
                 'cheque_amount': '',
-                'branch_id': $scope.branch.branch_id
+                'branch_id': $scope.branch.branch_id,
+                'status': ''
             }
         ]
     }
@@ -73,8 +74,9 @@
     }
 
     $scope.showCompleteDetails = function(payment) {
+
         $scope.showCompleteDetailsFlag = true;
-        $scope.payment = payment;
+        $scope.payment = angular.copy(payment);
         $scope.payment.cheque_date = new Date(payment.cheque_date);
         $scope.currentTenant = $scope.payment.tenant_id;
         $scope.selectedTenant = _.filter($scope.tenantList, function(o) { 
@@ -88,6 +90,12 @@
     $scope.AddNewPaymentDetail = function(){
         if($scope.paymentDetails.length == 1){
             $scope.paymentDetails[0].tenant_id = $scope.selectedTenant.tenant_id;
+            if($scope.branch.role == "Administrator"){
+                $scope.paymentDetails[0].status = "active";
+            }
+            else{
+                $scope.paymentDetails[0].status = "upload approval";
+            }
         }
         
         $scope.paymentDetails.push({
@@ -96,11 +104,15 @@
             'cheque_bank': $scope.paymentDetails[$scope.paymentDetails.length - 1].cheque_bank,
             'cheque_date': '',
             'cheque_amount': $scope.paymentDetails[$scope.paymentDetails.length - 1].cheque_amount,
-            'branch_id': $scope.branch.branch_id
+            'branch_id': $scope.branch.branch_id,
+            'status': $scope.paymentDetails[$scope.paymentDetails.length - 1].status
         })
-        console.log($scope.paymentDetails);
     }
 
+    $scope.removePayment = function(idx){
+        if($scope.paymentDetails.length > 1)
+            $scope.paymentDetails.splice(idx,1);
+    }
     $scope.uploadCheques = function() {
         DataFactory.UploadCheques($scope.paymentDetails).success(function(response){
             if(response.status == 200){

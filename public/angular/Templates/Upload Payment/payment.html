@@ -55,6 +55,9 @@
             <span flex="none" layout="column" layout-align="start stretch" class="sidebar-form-input-group">
                 <span flex="none" class="sidebar-form-label" layout layout-align="start center"> Cheque Details <i class="required"> * </i></span>
                 <span flex="none" layout layout-align="start stretch" class="sidebar-form-group" ng-repeat="paymentDetail in paymentDetails track by $index">
+                    <span flex="none" layout="column" layout-align="center stretch" style="width:7%">
+                        <img flex="none" layout="row" layout-align="center center" id="signout-icon" src="public/assets/images/icons/error.png" width="25" height="25" ng-click="removePayment($index)">
+                    </span>
                     <span flex="none" layout layout-align="start stretch" style="width:25%">
                         <input type="text" placeholder="Cheque Number" class="sidebar-form-input" layout layout-align="start stretch" ng-model="paymentDetail.cheque_number" required>
                     </span>

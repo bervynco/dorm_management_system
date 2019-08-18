@@ -50,6 +50,7 @@
                 <th> Payable Amount </th>
                 <th> Payable Date</th>
                 <th> Status </th>
+                <th> </th>
             </tr>
             <tr ng-if="rows.length == 0" class="empty-table"> 
                 <td colspan="5" align="center"> No Data </td>
@@ -61,6 +62,11 @@
                 <td> {{row.payable_date}} </td>
                 <td>
                     <div class="error-status">Due</div>
+                </td>
+                <td>
+                    <span flex="none" layout layout-align="center center">
+                        <img flex="none" id="signout-icon"src="public/assets/images/icons/success.png" width="30" height="30" ng-click="approvePayment(row)">
+                    </span>
                 </td>
             </tr>
         </table>
