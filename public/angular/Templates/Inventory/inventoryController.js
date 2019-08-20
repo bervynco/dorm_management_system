@@ -224,7 +224,7 @@
                 }).error(function(error){
 
                 });
-                getAlLData();
+                getAllData();
                 $scope.CloseSidebar();
             }
             else {
@@ -260,7 +260,6 @@
         //     });
         // }
         // else {
-        console.log($scope.inventory);
         DataFactory.AddNewInventory($scope.inventory).success(function(response){
             if(response.status == 200){
                 $scope.log.page_action = "Add New Inventory Item";
