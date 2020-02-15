@@ -35,7 +35,16 @@ class TenantController extends CI_Controller {
         echo json_encode($this->returnArray(200, "Successful retrieiving cheque details list", $arrPaymentDetails));
     }
 
+    public function changeTimezone($dateTime) {
+        $manilaTimezone = new DateTimeZone('Asia/Manila');
+        $dateTime = new DateTime($dateTime, $manilaTimezone);
+        $offset = $manilaTimezone->getOffset($dateTime);
+        $interval=DateInterval::createFromDateString((string)$offset . 'seconds');
+        $dateTime->add($interval);
+        return $dateTime;
+    }
     public function addNewTenant(){
+        
         // $arrColumns = array('name', 'username', 'role', 'password');
         $postData = json_decode(file_get_contents('php://input'), true);
         $payment = $postData['payment'];
@@ -44,6 +53,9 @@ class TenantController extends CI_Controller {
         unset($payment['payment_id']);
         unset($payment['payment_type']);
         unset($postData['payment']);
+        $postData['birthday'] = $this->changeTimezone($postData['birthday'])->format('Y-m-d');
+        $postData['start_contract'] = $this->changeTimezone($postData['start_contract'])->format('Y-m-d');
+        $postData['end_contract'] = $this->changeTimezone($postData['end_contract'])->format('Y-m-d');
         $tenantId = $this->tenant_model->insertTenant($postData);
         
         
@@ -52,6 +64,7 @@ class TenantController extends CI_Controller {
                 $payment['tenant_id'] = $tenantId;
                 $payment['branch_id'] = $postData['branch_id'];
                 $payment['cheque_amount'] = $payment['amount'];
+                $payment['cheque_date'] = $this->changeTimezone($payment['cheque_date'])->format('Y-m-d');
                 unset($payment['amount']);
                 $chequeId = $this->payment_model->insertCheques($payment);
             }
@@ -62,6 +75,7 @@ class TenantController extends CI_Controller {
                 ($paymentName == 'Cheque') ? $depositArray['tenant_cheque_id'] = $chequeId : $depositArray['tenant_cheque_id'] = 0;
                 ($paymentName == 'Cheque') ? $depositArray['amount'] = $payment['cheque_amount'] : $depositArray['amount'] = $payment['amount'];
                 $depositArray['tenant_id'] = $tenantId;
+
                 $status = $this->tenant_model->insertDeposit($depositArray);
 
                 if($status > 0){
@@ -84,6 +98,9 @@ class TenantController extends CI_Controller {
 
     public function editTenant(){
         $postData = json_decode(file_get_contents('php://input'), true);
+        $postData['birthday'] = $this->changeTimezone($postData['birthday'])->format('Y-m-d');
+        $postData['start_contract'] = $this->changeTimezone($postData['start_contract'])->format('Y-m-d');
+        $postData['end_contract'] = $this->changeTimezone($postData['end_contract'])->format('Y-m-d');
         $status = $this->tenant_model->editTenant($postData);
         // $existing = $this->user_model->checkExisting("update", $arrUserDetail);
         if($status != 0){

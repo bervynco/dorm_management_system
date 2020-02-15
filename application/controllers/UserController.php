@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+date_default_timezone_set('Asia/Manila');
 class UserController extends CI_Controller {
 
 	public function index()
@@ -34,7 +34,6 @@ class UserController extends CI_Controller {
         unset($postData['branch_id']);
         $existing = $this->user_model->checkExisting("add", $postData);
         if($existing == 0){
-            $userId = $this->user_model->insertUser($postData);
             $branchObject['user_id'] = $userId;
             $branchObject['branch_id'] = $branchId;
             $branchObject['role_id'] = 2; // default to Staff

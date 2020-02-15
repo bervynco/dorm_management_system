@@ -218,8 +218,10 @@
         getTenantPerRoomPerBranch();
     }
 
+    // function changeTimeZone(datetime) {
+    //     return new Date(datetime.toLocaleString("en-US", {timeZone: "Asia/Singapore"}));
+    // }
     $scope.addTenant = function(ev){
-        console.log($scope.currentPayment);
         $scope.tenant.branch_id = $scope.branch.branch_id;
         $scope.paymentDetails.payment_type = $scope.currentPayment.payment_name;
         $scope.tenant.payment = $scope.paymentDetails;
@@ -231,6 +233,11 @@
         else {
             $scope.tenant.payment.status = 'upload approval';
         }
+        // console.log("Before: ", $scope.tenant);
+        // $scope.tenant.birthday = changeTimeZone($scope.tenant.birthday);
+        // $scope.tenant.start_contract = changeTimeZone($scope.tenant.start_contract);
+        // $scope.tenant.end_contract = changeTimeZone($scope.tenant.end_contract);
+        console.log("After: ", $scope.tenant);
         DataFactory.AddNewTenant($scope.tenant).success(function(response){
             if(response.status == 200){
                 $scope.log.page_action = "Add New Tenant";
@@ -238,8 +245,9 @@
                 }).error(function(error){
 
                 });
-                getAllData();
                 $scope.CloseSidebar();
+                getAllData();
+                
             }
             else {
                 $scope.errorNotification = response.message;

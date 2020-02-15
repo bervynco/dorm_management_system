@@ -64,4 +64,3 @@ class payment_model extends CI_Model {
 }
 
 ?>
-
