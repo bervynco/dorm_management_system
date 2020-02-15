@@ -6,7 +6,17 @@ class PayableController extends CI_Controller {
 	public function index()
 	{
     
-	}
+    }
+    
+    public function changeTimezone($dateTime) {
+        $manilaTimezone = new DateTimeZone('Asia/Manila');
+        $dateTime = new DateTime($dateTime, $manilaTimezone);
+        $offset = $manilaTimezone->getOffset($dateTime);
+        $interval=DateInterval::createFromDateString((string)$offset . 'seconds');
+        $dateTime->add($interval);
+        return $dateTime;
+    }
+
     public function assignDataToArray($postData, $arrColumns){
         $insertArray = array();
         foreach($arrColumns as $col){
@@ -26,9 +36,11 @@ class PayableController extends CI_Controller {
 
     public function getAllPayableDues() {
         $postData = json_decode(file_get_contents('php://input'), true);
-        $dateNow = new DateTime();
+        // $dateNow = new DateTime();
         $datePreviousWeek = new DateTime();
         $dateNextWeek = new DateTime();
+        $datePreviousWeek = $this->changeTimezone($datePreviousWeek->format('Y-m-d'));
+        $dateNextWeek = $this->changeTimezone($dateNextWeek->format('Y-m-d'));
         $datePreviousWeek = $datePreviousWeek->sub(new DateInterval('P7D'))->format('Y-m-d');
         $dateNextWeek = $dateNextWeek->add(new DateInterval('P7D'))->format('Y-m-d');
 
@@ -38,6 +50,7 @@ class PayableController extends CI_Controller {
     public function addNewPayable(){
         $postData = json_decode(file_get_contents('php://input'), true);
         $payables = $postData;
+        $payables['payable_date'] = $this->changeTimezone($payables['payable_date'])->format('Y-m-d');
         $payableStatus = $this->payable_model->insertPayableItem($payables);
 
         if($payableStatus > 0) {
@@ -52,6 +65,7 @@ class PayableController extends CI_Controller {
     public function editPayable() {
         $postData = json_decode(file_get_contents('php://input'), true);
         $payables = $postData;
+        $payables['payable_date'] = $this->changeTimezone($payables['payable_date'])->format('Y-m-d');
         $payableStatus = $this->payable_model->updatePayableItem($payables);
 
         if($payableStatus > 0) {
