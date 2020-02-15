@@ -8,6 +8,14 @@ class ServiceController extends CI_Controller {
     
 	}
 
+    public function changeTimezone($dateTime) {
+        $manilaTimezone = new DateTimeZone('Asia/Manila');
+        $dateTime = new DateTime($dateTime, $manilaTimezone);
+        $offset = $manilaTimezone->getOffset($dateTime);
+        $interval=DateInterval::createFromDateString((string)$offset . 'seconds');
+        $dateTime->add($interval);
+        return $dateTime;
+    }
     public function returnArray($status, $message, $data = null){
         return array('status' => $status, 'message' => $message, 'data' => $data);
     }
@@ -24,6 +32,7 @@ class ServiceController extends CI_Controller {
         $postData = json_decode(file_get_contents('php://input'), true);
 
         if($postData['recurrence'] == 'One Time'){
+            print_r($postData);
             $serviceId = $this->service_model->insertNewService($postData);
 
             if($serviceId != 0){
@@ -33,31 +42,22 @@ class ServiceController extends CI_Controller {
                 echo json_encode($this->returnArray(500, "Error inserting new service"));
             }
         }
-        else if($postData['recurrence'] == 'Weekly'){
+        else{
+            $postData['start_date'] = $this->changeTimezone($postData['start_date'])->format('Y-m-d H:i:s');
+            $postData['end_date'] = $this->changeTimezone($postData['end_date'])->format('Y-m-d H:i:s');
             $startDate = new DateTime($postData['start_date']);
             $endDate = new DateTime($postData['end_date']);
-            while($startDate != $endDate){
+            while($startDate <= $endDate){
                 $postData['start_date'] = $startDate->format('Y-m-d H:i:s');
-                $postData['end_date'] = $startDate->add(new DateInterval('P7D'))->format('Y-m-d H:i:s');
-                $serviceId = $this->service_model->insertNewService($postData);
-                if($serviceId == 0){
-                    $errorFlag = true;
-                    break;
+                if(($postData['recurrence'] == 'Weekly')){
+                    $startDate = $startDate->add(new DateInterval('P7D'));
                 }
-            }
-            if($errorFlag == true){
-                echo json_encode($this->returnArray(500, "Error inserting new service"));
-            }
-            else{
-                echo json_encode($this->returnArray(200, "Successfully added new service"));
-            }
-        }
-        else if($postData['recurrence'] == 'Monthly'){
-            $startDate = new DateTime($postData['start_date']);
-            $endDate = new DateTime($postData['end_date']);
-            while($startDate != $endDate){
-                $postData['start_date'] = $startDate->format('Y-m-d H:i:s');
-                $postData['end_date'] = $startDate->add(new DateInterval('P1M'))->format('Y-m-d H:i:s');
+                else {
+                    $startDate = $startDate->add(new DateInterval('P1M'));
+                }
+                $cloneStartDate = $startDate;
+                $postData['end_date'] = $startDate->format('Y-m-d H:i:s');
+                
                 $serviceId = $this->service_model->insertNewService($postData);
                 if($serviceId == 0){
                     $errorFlag = true;
@@ -82,6 +82,8 @@ class ServiceController extends CI_Controller {
         if($status > 0){
             unset($postData['service_id']);
             unset($postData['tenant_name']);
+            $postData['start_date'] = $this->changeTimezone($postData['start_date'])->format('Y-m-d H:i:s');
+            $postData['end_date'] = $this->changeTimezone($postData['end_date'])->format('Y-m-d H:i:s');
             $serviceId = $this->service_model->insertNewService($postData);
 
             if($serviceId != 0){
@@ -117,7 +119,8 @@ class ServiceController extends CI_Controller {
         $payment = $postData;
         $branchId = $payment['branch_id'];
         unset($payment['branch_id']);
-
+        
+        $payment['payment_date'] = $this->changeTimezone($payment['payment_date'])->format('Y-m-d H:i:s');
         $servicePaymentId = $this->service_model->insertServicePayment($payment);
 
         if($servicePaymentId != 0){

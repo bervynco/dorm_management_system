@@ -27,7 +27,7 @@ class Service_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
-    function deleteService($serviceID, $message){
+    function deleteService($serviceID){
         $query = $this->db->where('service_id', $serviceID)
                             ->update('service', 
                             array(
