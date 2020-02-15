@@ -6,7 +6,17 @@ class PaymentController extends CI_Controller {
 	public function index()
 	{
     
-	}
+    }
+    
+    public function changeTimezone($dateTime) {
+        $manilaTimezone = new DateTimeZone('Asia/Manila');
+        $dateTime = new DateTime($dateTime, $manilaTimezone);
+        $offset = $manilaTimezone->getOffset($dateTime);
+        $interval=DateInterval::createFromDateString((string)$offset . 'seconds');
+        $dateTime->add($interval);
+        return $dateTime;
+    }
+
     public function assignDataToArray($postData, $arrColumns){
         $insertArray = array();
         foreach($arrColumns as $col){
@@ -47,6 +57,7 @@ class PaymentController extends CI_Controller {
         $arrChequePayments = $postData;
 
         foreach($arrChequePayments as $index => $payment){
+            $payment['cheque_date'] = $this->changeTimezone($payment['cheque_date'])->format('Y-m-d');
             $paymentId = $this->payment_model->insertCheques($payment);
             if($paymentId == 0) {
                 $errorFlag = true;
@@ -78,6 +89,7 @@ class PaymentController extends CI_Controller {
 
     public function updateChequeStatus() {
         $postData = json_decode(file_get_contents('php://input'), true);
+        $postData['cheque_date'] = $this->changeTimezone($postData['cheque_date'])->format('Y-m-d');
         $paymentStatus = $this->payment_model->updateChequeStatus($postData);
 
         if($paymentStatus > 0) {
