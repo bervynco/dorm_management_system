@@ -6,7 +6,17 @@ class InventoryController extends CI_Controller {
 	public function index()
 	{
     
-	}
+    }
+    
+    public function changeTimezone($dateTime) {
+        $manilaTimezone = new DateTimeZone('Asia/Manila');
+        $dateTime = new DateTime($dateTime, $manilaTimezone);
+        $offset = $manilaTimezone->getOffset($dateTime);
+        $interval=DateInterval::createFromDateString((string)$offset . 'seconds');
+        $dateTime->add($interval);
+        return $dateTime;
+    }
+
     public function assignDataToArray($postData, $arrColumns){
         $insertArray = array();
         foreach($arrColumns as $col){
@@ -64,6 +74,8 @@ class InventoryController extends CI_Controller {
 
     public function updateInventoryTransactions() {
         $postData = json_decode(file_get_contents('php://input'), true);
+        $postData['start_date'] = $this->changeTimezone($postData['start_date'])->format('Y-m-d');
+        $postData['end_date'] = $this->changeTimezone($postData['end_date'])->format('Y-m-d');
         $inventoryTransactionStatus = $this->inventory_model->updateInventoryTransactionItem($postData);
 
         if($inventoryTransactionStatus > 0) {
@@ -80,8 +92,8 @@ class InventoryController extends CI_Controller {
         // $inventoryTransaction['branch_id'] = $data['branch_id'];
         $inventoryTransaction['room_id'] = $data['room_id'];
         $inventoryTransaction['tenant_id'] = $data['tenant_id'];
-        $inventoryTransaction['start_date'] = $data['start_date'];
-        $inventoryTransaction['end_date'] = $data['end_date'];
+        $inventoryTransaction['start_date'] = $this->changeTimezone($data['start_date'])->format('Y-m-d');
+        $inventoryTransaction['end_date'] = $this->changeTimezone($data['end_date'])->format('Y-m-d');
         $inventoryTransaction['status'] = $data['status'];
         $inventoryTransaction['rent_amount'] = $data['rent_amount'];
         $inventoryTransaction['inventory_transaction_type'] = $data['inventory_transaction_type'];
