@@ -139,6 +139,16 @@ mainFactory.factory('DataFactory', ['$http', function ($http) {
                 data:tenant
             })
         },
+        DeleteTenant: function(data) {
+            return $http({
+                method: "POST",
+                url: "index.php/TenantController/deleteTenant",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            })
+        },
         AddNewPayment: function(tenant) {
             return $http({
                 method: "POST",

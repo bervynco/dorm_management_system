@@ -114,15 +114,30 @@ class TenantController extends CI_Controller {
     public function deleteTenant() {
         $postData = json_decode(file_get_contents('php://input'), true);
         $tenant = $postData;
-        $inventoryStatus = $this->tenant_model->deleteTenant($tenant['tenant_id'], $tenant['branch_id']);
-
-        if($inventoryStatus > 0) {
-            echo json_encode($this->returnArray(200, "Successfully deleted tenant", $tenant));
+        $tenantId = $tenant['tenant_id'];
+        $branchId = $tenant['branch_id'];
+        $tenantStatus = $this->tenant_model->deleteTenant($tenantId, $tenant['branch_id']);
+        $tenantDepositStatus = $this->tenant_model->deleteTenantDeposit($tenantId, $tenant['branch_id']);
+        $tenantCheques = $this->room_model->updateRoomTenantStatus($tenantId);
+        $tenantCheques = $this->payment_model->selectAllChequePaymentPerTenant($tenantId);
+        foreach($tenantCheques as $index => $cheques){
+            $tenantChequeStatus = $this->payment_model->deletePaymentItem($cheques['tenant_cheque_id'], $cheques['branch_id'], 'inactive');
             
         }
-        else {
-            echo json_encode($this->returnArray(500, "Error deleting tenant"));
+        $inventoryRent = $this->inventory_model->selectAllInventoryPerTenant($tenantId, $branchId);
+        foreach($inventoryRent as $index => $inventory){
+            $inventoryStatus = $this->inventory_model->deleteInventoryTransaction($inventory['inventory_transaction_id'], $tenantId);
+            
         }
+        echo json_encode($this->returnArray(200, "Successfully deleted tenant", $tenant));
+        // print_r($tenantCheques);
+        // if($inventoryStatus > 0) {
+        //     echo json_encode($this->returnArray(200, "Successfully deleted tenant", $tenant));
+            
+        // }
+        // else {
+        //     echo json_encode($this->returnArray(500, "Error deleting tenant"));
+        // }
     }
 
     public function addNewPayment(){

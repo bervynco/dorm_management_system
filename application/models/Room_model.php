@@ -110,6 +110,16 @@ class room_model extends CI_Model {
         );
         return $this->db->affected_rows();
     }
+
+    function updateRoomTenantStatus($tenantId) {
+        $query = $this->db->where('tenant_id', $tenantId)
+                        ->update('tenant', 
+                            array(
+                                'status' => 'inactive'
+                            )
+        );
+        return $this->db->affected_rows();
+    }
 }
 
 ?>

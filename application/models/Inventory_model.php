@@ -109,6 +109,17 @@ class inventory_model extends CI_Model {
         );
         return $this->db->affected_rows();
     }
+
+    function deleteInventoryTransaction($inventoryTransactionId, $tenantId){
+        $query = $this->db->where('inventory_transaction_id', $inventoryTransactionId)
+                        ->where('tenant_id', $tenantId)
+                        ->update('inventory_transaction', 
+                            array(
+                                'status' => 'inactive'
+                            )
+        );
+        return $this->db->affected_rows();
+    }
 }
 
 ?>

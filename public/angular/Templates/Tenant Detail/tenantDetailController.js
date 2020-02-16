@@ -3,7 +3,7 @@
     $state.go('tenant.detail', {tenantId: $state.params.tenantId});
     $scope.userDetails = JSON.parse(localStorage.getItem("user"));
     $scope.branch = JSON.parse(sessionStorage.getItem("branch"));
-
+    $scope.disable = true;
     $scope.log = {
         user_id: $scope.userDetails.user_id,
         page_name: "Tenant",
@@ -91,15 +91,69 @@
         $scope.rows = $scope.tenantDetails;
         $scope.currentTab = $scope.tenantTab[0];
         $scope.errorNotification = null;
+        $scope.disable = true;
     }
 
     $scope.modifyTenantDetails = function(row){
         $scope.showSideNav = true;
         $scope.activeTenant = row;
+        $scope.activeTenant.start_contract = new Date($scope.activeTenant.start_contract);
+        $scope.activeTenant.end_contract = new Date($scope.activeTenant.end_contract);
+        $scope.activeTenant.birthday = new Date($scope.activeTenant.birthday);
+    }
+
+    $scope.editTenant = function(){
+        if($scope.disable == false){
+            $scope.activeTenant.start_contract = moment($scope.activeTenant.start_contract).format("YYYY-MM-DD HH:mm");
+            $scope.activeTenant.end_contract = moment($scope.activeTenant.end_contract).format("YYYY-MM-DD HH:mm");
+            
+            DataFactory.EditTenant($scope.activeTenant).success(function(response){
+                if(response.status == 200){
+                    $scope.log.page_action = "Edit Tenant";
+                    DataFactory.AddPageLog($scope.log).success(function(response){
+                    }).error(function(error){
+
+                    });
+                    getData();
+                    
+                    $scope.CloseSidebar();
+                }
+                else {
+                    $scope.errorNotification = response.message;
+                }
+            }).error(function(error){
+
+            });
+        }
+        else {
+            $scope.disable = !$scope.disable;
+        }
     }
 
     $scope.backToTenant = function() {
         $scope.ChangeState('tenant');
+    }
+
+    $scope.deleteTenant = function(tenant){
+        var params = {'branch_id': tenant.branch_id, 'tenant_id': tenant.tenant_id};
+        console.log(params);
+        DataFactory.DeleteTenant(params).success(function(response){
+            if(response.status == 200){
+                $scope.log.page_action = "Edit Tenant";
+                DataFactory.AddPageLog($scope.log).success(function(response){
+                }).error(function(error){
+
+                });
+                getData();
+                
+                $scope.CloseSidebar();
+            }
+            else {
+                $scope.errorNotification = response.message;
+            }
+        }).error(function(error){
+
+        });
     }
     getData();
 });

@@ -79,6 +79,15 @@ class tenant_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
+    function deleteTenantDeposit($tenantId, $branchId) {
+        $query = $this->db->where('tenant_id', $tenantId)
+                        ->where('status', 'active')
+                        ->update('tenant_deposit', 
+                            array(
+                                'status' => 'inactive'
+                            )
+        );
+    }
     function checkIfAssigned($tenantId){
         $query= $this->db->where('tenant_id', $tenantId)->where('status', 'active')->get('room_tenant');
         return ($query->num_rows() > 0) ? $query->result_array(): array();
